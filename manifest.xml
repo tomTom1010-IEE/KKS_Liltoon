@@ -1,0 +1,1785 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<manifest schema-ver="1">
+  <guid>tom.lilToon.KKS</guid>
+  <name>lilToon KKS Prototype</name>
+  <version>0.0.1</version>
+  <author>tomTom</author>
+  <description>lilToon-compatible shaders for Koikatsu Sunshine MaterialEditor.</description>
+  <website>https://github.com/tomTom1010-IEE/KKShadersPlus</website>
+  <MaterialEditor>
+    <Shader Name="lilToon" AssetBundle="chara/tom/liltoon/shaders/liltoon.unity3d" Asset="a_lilToon">
+      <Property Name="MainTex" Category="Main" Type="Texture" />
+      <Property Name="MainGradationTex" Category="Main" Type="Texture" />
+      <Property Name="MainColorAdjustMask" Category="Main" Type="Texture" />
+      <Property Name="Main2ndTex" Category="Main2nd" Type="Texture" />
+      <Property Name="Main2ndBlendMask" Category="Main2nd" Type="Texture" />
+      <Property Name="Main3rdTex" Category="Main3rd" Type="Texture" />
+      <Property Name="Main3rdBlendMask" Category="Main3rd" Type="Texture" />
+      <Property Name="AlphaMask" Category="Alpha Mask" Type="Texture" />
+      <Property Name="BumpMap" Category="NormalMap" Type="Texture" />
+      <Property Name="Bump2ndMap" Category="NormalMap 2nd" Type="Texture" />
+      <Property Name="Bump2ndScaleMask" Category="NormalMap 2nd" Type="Texture" />
+      <Property Name="BacklightColorTex" Category="Backlight" Type="Texture" />
+      <Property Name="ShadowStrengthMask" Category="Shadow" Type="Texture" />
+      <Property Name="ShadowBorderMask" Category="Shadow" Type="Texture" />
+      <Property Name="ShadowBlurMask" Category="Shadow" Type="Texture" />
+      <Property Name="ShadowStrengthMaskLOD" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowBorderMaskLOD" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowBlurMaskLOD" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowColorTex" Category="Shadow" Type="Texture" />
+      <Property Name="Shadow2ndColorTex" Category="Shadow" Type="Texture" />
+      <Property Name="Shadow3rdColorTex" Category="Shadow" Type="Texture" />
+      <Property Name="RimShadeMask" Category="Rim Shade" Type="Texture" />
+      <Property Name="SmoothnessTex" Category="Reflection" Type="Texture" />
+      <Property Name="MetallicGlossMap" Category="Reflection" Type="Texture" />
+      <Property Name="ReflectionColorTex" Category="Reflection" Type="Texture" />
+      <Property Name="ReflectionCubeTex" Category="Reflection" Type="Texture" />
+      <Property Name="MatCapTex" Category="MatCap" Type="Texture" />
+      <Property Name="MatCapBlendMask" Category="MatCap" Type="Texture" />
+      <Property Name="MatCapBumpMap" Category="MatCap" Type="Texture" />
+      <Property Name="MatCap2ndTex" Category="MatCap 2nd" Type="Texture" />
+      <Property Name="MatCap2ndBlendMask" Category="MatCap 2nd" Type="Texture" />
+      <Property Name="MatCap2ndBumpMap" Category="MatCap 2nd" Type="Texture" />
+      <Property Name="RimColorTex" Category="Rim" Type="Texture" />
+      <Property Name="OutlineTex" Category="Outline" Type="Texture" />
+      <Property Name="OutlineWidthMask" Category="Outline" Type="Texture" />
+      <Property Name="OutlineVectorTex" Category="Outline" Type="Texture" />
+      <Property Name="EmissionMap" Category="Emission" Type="Texture" />
+      <Property Name="EmissionBlendMask" Category="Emission" Type="Texture" />
+      <Property Name="Emission2ndMap" Category="Emission 2nd" Type="Texture" />
+      <Property Name="Emission2ndBlendMask" Category="Emission 2nd" Type="Texture" />
+      <Property Name="DitherTex" Category="Base" Type="Texture" />
+
+      <Property Name="Invisible" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="AsUnlit" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="Cutoff" Category="Base" Type="Float" Range="-0.001,1.001" />
+      <Property Name="SubpassCutoff" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="FlipNormal" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="ShiftBackfaceUV" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="BackfaceForceShadow" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="BackfaceColor" Category="Base" Type="Color" />
+      <Property Name="VertexLightStrength" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="LightMinLimit" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="LightMaxLimit" Category="Base" Type="Float" Range="0,10" />
+      <Property Name="BeforeExposureLimit" Category="Base" Type="Float" />
+      <Property Name="MonochromeLighting" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="AlphaBoostFA" Category="Base" Type="Float" Range="1,100" />
+      <Property Name="lilDirectionalLightStrength" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="LightDirectionOverride" Category="Base" Type="Color" />
+      <Property Name="AAStrength" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="UseDither" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="DitherMaxValue" Category="Base" Type="Float" />
+      <Property Name="EnvRimBorder" Category="Base" Type="Float" Range="0,3" />
+      <Property Name="EnvRimBlur" Category="Base" Type="Float" Range="0,1" />
+
+      <Property Name="Color" Category="Main" Type="Color" />
+      <Property Name="MainTex_ScrollRotate" Category="Main" Type="Color" />
+      <Property Name="MainTexHSVG" Category="Main" Type="Color" />
+      <Property Name="MainGradationStrength" Category="Main" Type="Float" Range="0,1" />
+
+      <Property Name="UseMain2ndTex" Category="Main2nd" Type="Float" Range="0,1" />
+      <Property Name="Color2nd" Category="Main2nd" Type="Color" />
+      <Property Name="Main2ndTexAngle" Category="Main2nd" Type="Float" />
+      <Property Name="Main2ndTex_ScrollRotate" Category="Main2nd" Type="Color" />
+      <Property Name="Main2ndTex_UVMode" Category="Main2nd" Type="Float" Range="0,4" />
+      <Property Name="Main2ndTex_Cull" Category="Main2nd" Type="Float" Range="0,2" />
+      <Property Name="Main2ndTexDecalAnimation" Category="Main2nd" Type="Color" />
+      <Property Name="Main2ndTexDecalSubParam" Category="Main2nd" Type="Color" />
+      <Property Name="Main2ndTexIsDecal" Category="Main2nd" Type="Float" Range="0,1" />
+      <Property Name="Main2ndTexIsLeftOnly" Category="Main2nd" Type="Float" Range="0,1" />
+      <Property Name="Main2ndTexIsRightOnly" Category="Main2nd" Type="Float" Range="0,1" />
+      <Property Name="Main2ndTexShouldCopy" Category="Main2nd" Type="Float" Range="0,1" />
+      <Property Name="Main2ndTexShouldFlipMirror" Category="Main2nd" Type="Float" Range="0,1" />
+      <Property Name="Main2ndTexShouldFlipCopy" Category="Main2nd" Type="Float" Range="0,1" />
+      <Property Name="Main2ndTexIsMSDF" Category="Main2nd" Type="Float" Range="0,1" />
+      <Property Name="Main2ndTexBlendMode" Category="Main2nd" Type="Float" Range="0,4" />
+      <Property Name="Main2ndTexAlphaMode" Category="Main2nd" Type="Float" Range="0,4" />
+      <Property Name="Main2ndEnableLighting" Category="Main2nd" Type="Float" Range="0,1" />
+      <Property Name="Main2ndDistanceFade" Category="Main2nd" Type="Color" />
+
+      <Property Name="UseMain3rdTex" Category="Main3rd" Type="Float" Range="0,1" />
+      <Property Name="Color3rd" Category="Main3rd" Type="Color" />
+      <Property Name="Main3rdTexAngle" Category="Main3rd" Type="Float" />
+      <Property Name="Main3rdTex_ScrollRotate" Category="Main3rd" Type="Color" />
+      <Property Name="Main3rdTex_UVMode" Category="Main3rd" Type="Float" Range="0,4" />
+      <Property Name="Main3rdTex_Cull" Category="Main3rd" Type="Float" Range="0,2" />
+      <Property Name="Main3rdTexDecalAnimation" Category="Main3rd" Type="Color" />
+      <Property Name="Main3rdTexDecalSubParam" Category="Main3rd" Type="Color" />
+      <Property Name="Main3rdTexIsDecal" Category="Main3rd" Type="Float" Range="0,1" />
+      <Property Name="Main3rdTexIsLeftOnly" Category="Main3rd" Type="Float" Range="0,1" />
+      <Property Name="Main3rdTexIsRightOnly" Category="Main3rd" Type="Float" Range="0,1" />
+      <Property Name="Main3rdTexShouldCopy" Category="Main3rd" Type="Float" Range="0,1" />
+      <Property Name="Main3rdTexShouldFlipMirror" Category="Main3rd" Type="Float" Range="0,1" />
+      <Property Name="Main3rdTexShouldFlipCopy" Category="Main3rd" Type="Float" Range="0,1" />
+      <Property Name="Main3rdTexIsMSDF" Category="Main3rd" Type="Float" Range="0,1" />
+      <Property Name="Main3rdTexBlendMode" Category="Main3rd" Type="Float" Range="0,4" />
+      <Property Name="Main3rdTexAlphaMode" Category="Main3rd" Type="Float" Range="0,4" />
+      <Property Name="Main3rdEnableLighting" Category="Main3rd" Type="Float" Range="0,1" />
+      <Property Name="Main3rdDistanceFade" Category="Main3rd" Type="Color" />
+
+      <Property Name="AlphaMaskMode" Category="Alpha Mask" Type="Float" Range="0,4" />
+      <Property Name="AlphaMaskScale" Category="Alpha Mask" Type="Float" />
+      <Property Name="AlphaMaskValue" Category="Alpha Mask" Type="Float" />
+
+      <Property Name="UseBumpMap" Category="NormalMap" Type="Float" Range="0,1" />
+      <Property Name="BumpScale" Category="NormalMap" Type="Float" Range="-10,10" />
+      <Property Name="UseBump2ndMap" Category="NormalMap 2nd" Type="Float" Range="0,1" />
+      <Property Name="Bump2ndMap_UVMode" Category="NormalMap 2nd" Type="Float" Range="0,3" />
+      <Property Name="Bump2ndScale" Category="NormalMap 2nd" Type="Float" Range="-10,10" />
+
+      <Property Name="UseBacklight" Category="Backlight" Type="Float" Range="0,1" />
+      <Property Name="BacklightColor" Category="Backlight" Type="Color" />
+      <Property Name="BacklightMainStrength" Category="Backlight" Type="Float" Range="0,1" />
+      <Property Name="BacklightNormalStrength" Category="Backlight" Type="Float" Range="0,1" />
+      <Property Name="BacklightBorder" Category="Backlight" Type="Float" Range="0,1" />
+      <Property Name="BacklightBlur" Category="Backlight" Type="Float" Range="0,1" />
+      <Property Name="BacklightDirectivity" Category="Backlight" Type="Float" />
+      <Property Name="BacklightViewStrength" Category="Backlight" Type="Float" Range="0,1" />
+      <Property Name="BacklightReceiveShadow" Category="Backlight" Type="Float" Range="0,1" />
+      <Property Name="BacklightBackfaceMask" Category="Backlight" Type="Float" Range="0,1" />
+
+      <Property Name="UseShadow" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowStrength" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowAOShift" Category="Shadow" Type="Color" />
+      <Property Name="ShadowAOShift2" Category="Shadow" Type="Color" />
+      <Property Name="ShadowPostAO" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowColorType" Category="Shadow" Type="Float" Range="0,2" />
+      <Property Name="ShadowColor" Category="Shadow" Type="Color" />
+      <Property Name="ShadowNormalStrength" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowBorder" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowBlur" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowReceive" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="Shadow2ndColor" Category="Shadow" Type="Color" />
+      <Property Name="Shadow2ndNormalStrength" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="Shadow2ndBorder" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="Shadow2ndBlur" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="Shadow2ndReceive" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="Shadow3rdColor" Category="Shadow" Type="Color" />
+      <Property Name="Shadow3rdNormalStrength" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="Shadow3rdBorder" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="Shadow3rdBlur" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="Shadow3rdReceive" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowBorderColor" Category="Shadow" Type="Color" />
+      <Property Name="ShadowBorderRange" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowMainStrength" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowEnvStrength" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowMaskType" Category="Shadow" Type="Float" Range="0,2" />
+      <Property Name="ShadowFlatBorder" Category="Shadow" Type="Float" Range="-2,2" />
+      <Property Name="ShadowFlatBlur" Category="Shadow" Type="Float" Range="0.001,2" />
+
+      <Property Name="UseRimShade" Category="Rim Shade" Type="Float" Range="0,1" />
+      <Property Name="RimShadeColor" Category="Rim Shade" Type="Color" />
+      <Property Name="RimShadeNormalStrength" Category="Rim Shade" Type="Float" Range="0,1" />
+      <Property Name="RimShadeBorder" Category="Rim Shade" Type="Float" Range="0,1" />
+      <Property Name="RimShadeBlur" Category="Rim Shade" Type="Float" Range="0,1" />
+      <Property Name="RimShadeFresnelPower" Category="Rim Shade" Type="Float" Range="0.01,50" />
+
+      <Property Name="UseReflection" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="Smoothness" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="Metallic" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="Reflectance" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="GSAAStrength" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="ApplySpecular" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="ApplySpecularFA" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="SpecularToon" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="SpecularNormalStrength" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="SpecularBorder" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="SpecularBlur" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="ApplyReflection" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="ReflectionNormalStrength" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="ReflectionColor" Category="Reflection" Type="Color" />
+      <Property Name="ReflectionApplyTransparency" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="ReflectionCubeColor" Category="Reflection" Type="Color" />
+      <Property Name="ReflectionCubeOverride" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="ReflectionCubeEnableLighting" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="ReflectionBlendMode" Category="Reflection" Type="Float" Range="0,4" />
+
+      <Property Name="UseMatCap" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapColor" Category="MatCap" Type="Color" />
+      <Property Name="MatCapBlend" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapBlendMode" Category="MatCap" Type="Float" Range="0,4" />
+      <Property Name="MatCapEnableLighting" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapShadowMask" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapBackfaceMask" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapLod" Category="MatCap" Type="Float" Range="0,10" />
+      <Property Name="MatCapApplyTransparency" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapNormalStrength" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapCustomNormal" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapMainStrength" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapPerspective" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapZRotCancel" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapVRParallaxStrength" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapBumpScale" Category="MatCap" Type="Float" Range="-10,10" />
+      <Property Name="MatCapBlendUV1" Category="MatCap" Type="Color" />
+
+      <Property Name="UseMatCap2nd" Category="MatCap 2nd" Type="Float" Range="0,1" />
+      <Property Name="MatCap2ndColor" Category="MatCap 2nd" Type="Color" />
+      <Property Name="MatCap2ndBlend" Category="MatCap 2nd" Type="Float" Range="0,1" />
+      <Property Name="MatCap2ndBlendMode" Category="MatCap 2nd" Type="Float" Range="0,4" />
+      <Property Name="MatCap2ndEnableLighting" Category="MatCap 2nd" Type="Float" Range="0,1" />
+      <Property Name="MatCap2ndShadowMask" Category="MatCap 2nd" Type="Float" Range="0,1" />
+      <Property Name="MatCap2ndBackfaceMask" Category="MatCap 2nd" Type="Float" Range="0,1" />
+      <Property Name="MatCap2ndLod" Category="MatCap 2nd" Type="Float" Range="0,10" />
+      <Property Name="MatCap2ndApplyTransparency" Category="MatCap 2nd" Type="Float" Range="0,1" />
+      <Property Name="MatCap2ndNormalStrength" Category="MatCap 2nd" Type="Float" Range="0,1" />
+      <Property Name="MatCap2ndCustomNormal" Category="MatCap 2nd" Type="Float" Range="0,1" />
+      <Property Name="MatCap2ndMainStrength" Category="MatCap 2nd" Type="Float" Range="0,1" />
+      <Property Name="MatCap2ndPerspective" Category="MatCap 2nd" Type="Float" Range="0,1" />
+      <Property Name="MatCap2ndZRotCancel" Category="MatCap 2nd" Type="Float" Range="0,1" />
+      <Property Name="MatCap2ndVRParallaxStrength" Category="MatCap 2nd" Type="Float" Range="0,1" />
+      <Property Name="MatCap2ndBumpScale" Category="MatCap 2nd" Type="Float" Range="-10,10" />
+      <Property Name="MatCap2ndBlendUV1" Category="MatCap 2nd" Type="Color" />
+
+      <Property Name="UseRim" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="RimColor" Category="Rim" Type="Color" />
+      <Property Name="RimIndirColor" Category="Rim" Type="Color" />
+      <Property Name="RimBorder" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="RimBlur" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="RimFresnelPower" Category="Rim" Type="Float" Range="0.01,50" />
+      <Property Name="RimShadowMask" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="RimBackfaceMask" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="RimVRParallaxStrength" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="RimApplyTransparency" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="RimEnableLighting" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="RimBlendMode" Category="Rim" Type="Float" Range="0,4" />
+      <Property Name="RimDirStrength" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="RimDirRange" Category="Rim" Type="Float" Range="-1,1" />
+      <Property Name="RimIndirRange" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="RimIndirColorStrength" Category="Rim" Type="Float" Range="0,1" />
+
+      <Property Name="OutlineColor" Category="Outline" Type="Color" />
+      <Property Name="OutlineTex_ScrollRotate" Category="Outline" Type="Color" />
+      <Property Name="OutlineTexHSVG" Category="Outline" Type="Color" />
+      <Property Name="OutlineLitColor" Category="Outline" Type="Color" />
+      <Property Name="OutlineLitApplyTex" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="OutlineLitScale" Category="Outline" Type="Float" />
+      <Property Name="OutlineLitOffset" Category="Outline" Type="Float" />
+      <Property Name="OutlineLitShadowReceive" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="OutlineWidth" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="OutlineFixWidth" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="OutlineVertexR2Width" Category="Outline" Type="Float" Range="0,2" />
+      <Property Name="OutlineDeleteMesh" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="OutlineVectorUVMode" Category="Outline" Type="Float" Range="0,3" />
+      <Property Name="OutlineVectorScale" Category="Outline" Type="Float" Range="-10,10" />
+      <Property Name="OutlineEnableLighting" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="OutlineZBias" Category="Outline" Type="Float" />
+      <Property Name="OutlineDisableInVR" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="UseOutline" Category="Outline" Type="Float" Range="0,1" />
+
+      <Property Name="OutlineCull" Category="Outline Advanced" Type="Float" Range="0,2" />
+      <Property Name="OutlineSrcBlend" Category="Outline Advanced" Type="Float" Range="0,10" />
+      <Property Name="OutlineDstBlend" Category="Outline Advanced" Type="Float" Range="0,10" />
+      <Property Name="OutlineSrcBlendAlpha" Category="Outline Advanced" Type="Float" Range="0,10" />
+      <Property Name="OutlineDstBlendAlpha" Category="Outline Advanced" Type="Float" Range="0,10" />
+      <Property Name="OutlineBlendOp" Category="Outline Advanced" Type="Float" Range="0,4" />
+      <Property Name="OutlineBlendOpAlpha" Category="Outline Advanced" Type="Float" Range="0,4" />
+      <Property Name="OutlineSrcBlendFA" Category="Outline Advanced" Type="Float" Range="0,10" />
+      <Property Name="OutlineDstBlendFA" Category="Outline Advanced" Type="Float" Range="0,10" />
+      <Property Name="OutlineSrcBlendAlphaFA" Category="Outline Advanced" Type="Float" Range="0,10" />
+      <Property Name="OutlineDstBlendAlphaFA" Category="Outline Advanced" Type="Float" Range="0,10" />
+      <Property Name="OutlineBlendOpFA" Category="Outline Advanced" Type="Float" Range="0,4" />
+      <Property Name="OutlineBlendOpAlphaFA" Category="Outline Advanced" Type="Float" Range="0,4" />
+      <Property Name="OutlineZClip" Category="Outline Advanced" Type="Float" Range="0,1" />
+      <Property Name="OutlineZWrite" Category="Outline Advanced" Type="Float" Range="0,1" />
+      <Property Name="OutlineZTest" Category="Outline Advanced" Type="Float" Range="0,8" />
+      <Property Name="OutlineStencilRef" Category="Outline Advanced" Type="Float" Range="0,255" />
+      <Property Name="OutlineStencilReadMask" Category="Outline Advanced" Type="Float" Range="0,255" />
+      <Property Name="OutlineStencilWriteMask" Category="Outline Advanced" Type="Float" Range="0,255" />
+      <Property Name="OutlineStencilComp" Category="Outline Advanced" Type="Float" Range="0,8" />
+      <Property Name="OutlineStencilPass" Category="Outline Advanced" Type="Float" Range="0,7" />
+      <Property Name="OutlineStencilFail" Category="Outline Advanced" Type="Float" Range="0,7" />
+      <Property Name="OutlineStencilZFail" Category="Outline Advanced" Type="Float" Range="0,7" />
+      <Property Name="OutlineOffsetFactor" Category="Outline Advanced" Type="Float" />
+      <Property Name="OutlineOffsetUnits" Category="Outline Advanced" Type="Float" />
+      <Property Name="OutlineColorMask" Category="Outline Advanced" Type="Float" Range="0,15" />
+      <Property Name="OutlineAlphaToMask" Category="Outline Advanced" Type="Float" Range="0,1" />
+      <Property Name="UseEmission" Category="Emission" Type="Float" Range="0,1" />
+      <Property Name="EmissionColor" Category="Emission" Type="Color" />
+      <Property Name="EmissionMap_ScrollRotate" Category="Emission" Type="Color" />
+      <Property Name="EmissionBlend" Category="Emission" Type="Float" Range="0,1" />
+      <Property Name="EmissionBlendMode" Category="Emission" Type="Float" Range="0,4" />
+      <Property Name="EmissionMap_UVMode" Category="Emission" Type="Float" Range="0,3" />
+      <Property Name="EmissionBlink" Category="Emission" Type="Color" />
+      <Property Name="UseEmission2nd" Category="Emission 2nd" Type="Float" Range="0,1" />
+      <Property Name="Emission2ndColor" Category="Emission 2nd" Type="Color" />
+      <Property Name="Emission2ndMap_ScrollRotate" Category="Emission 2nd" Type="Color" />
+      <Property Name="Emission2ndBlend" Category="Emission 2nd" Type="Float" Range="0,1" />
+      <Property Name="Emission2ndBlendMode" Category="Emission 2nd" Type="Float" Range="0,4" />
+      <Property Name="Emission2ndMap_UVMode" Category="Emission 2nd" Type="Float" Range="0,3" />
+      <Property Name="Emission2ndBlink" Category="Emission 2nd" Type="Color" />
+
+      <Property Name="DistanceFadeColor" Category="Distance Fade" Type="Color" />
+      <Property Name="DistanceFade" Category="Distance Fade" Type="Color" />
+      <Property Name="DistanceFadeMode" Category="Distance Fade" Type="Float" Range="0,2" />
+      <Property Name="DistanceFadeRimColor" Category="Distance Fade" Type="Color" />
+      <Property Name="DistanceFadeRimFresnelPower" Category="Distance Fade" Type="Float" Range="0.01,50" />
+
+      <Property Name="Cull" Category="Rendering" Type="Float" Range="0,2" />
+      <Property Name="SrcBlend" Category="Rendering" Type="Float" Range="0,10" />
+      <Property Name="DstBlend" Category="Rendering" Type="Float" Range="0,10" />
+      <Property Name="SrcBlendAlpha" Category="Rendering" Type="Float" Range="0,10" />
+      <Property Name="DstBlendAlpha" Category="Rendering" Type="Float" Range="0,10" />
+      <Property Name="BlendOp" Category="Rendering" Type="Float" Range="0,4" />
+      <Property Name="BlendOpAlpha" Category="Rendering" Type="Float" Range="0,4" />
+      <Property Name="SrcBlendFA" Category="Rendering" Type="Float" Range="0,10" />
+      <Property Name="DstBlendFA" Category="Rendering" Type="Float" Range="0,10" />
+      <Property Name="SrcBlendAlphaFA" Category="Rendering" Type="Float" Range="0,10" />
+      <Property Name="DstBlendAlphaFA" Category="Rendering" Type="Float" Range="0,10" />
+      <Property Name="BlendOpFA" Category="Rendering" Type="Float" Range="0,4" />
+      <Property Name="BlendOpAlphaFA" Category="Rendering" Type="Float" Range="0,4" />
+      <Property Name="ZClip" Category="Rendering" Type="Float" Range="0,1" />
+      <Property Name="ZWrite" Category="Rendering" Type="Float" Range="0,1" />
+      <Property Name="ZTest" Category="Rendering" Type="Float" Range="0,8" />
+      <Property Name="StencilRef" Category="Rendering" Type="Float" Range="0,255" />
+      <Property Name="StencilReadMask" Category="Rendering" Type="Float" Range="0,255" />
+      <Property Name="StencilWriteMask" Category="Rendering" Type="Float" Range="0,255" />
+      <Property Name="StencilComp" Category="Rendering" Type="Float" Range="0,8" />
+      <Property Name="StencilPass" Category="Rendering" Type="Float" Range="0,7" />
+      <Property Name="StencilFail" Category="Rendering" Type="Float" Range="0,7" />
+      <Property Name="StencilZFail" Category="Rendering" Type="Float" Range="0,7" />
+      <Property Name="OffsetFactor" Category="Rendering" Type="Float" />
+      <Property Name="OffsetUnits" Category="Rendering" Type="Float" />
+      <Property Name="ColorMask" Category="Rendering" Type="Float" Range="0,15" />
+      <Property Name="AlphaToMask" Category="Rendering" Type="Float" Range="0,1" />
+      <Property Name="lilShadowCasterBias" Category="Rendering" Type="Float" />
+    </Shader>
+    <Shader Name="lilToonCutout" AssetBundle="chara/tom/liltoon/shaders/liltoon.unity3d" Asset="a_lilToonCutout">
+      <Property Name="MainTex" Category="Main" Type="Texture" />
+      <Property Name="MainGradationTex" Category="Main" Type="Texture" />
+      <Property Name="MainColorAdjustMask" Category="Main" Type="Texture" />
+      <Property Name="Main2ndTex" Category="Main2nd" Type="Texture" />
+      <Property Name="Main2ndBlendMask" Category="Main2nd" Type="Texture" />
+      <Property Name="Main3rdTex" Category="Main3rd" Type="Texture" />
+      <Property Name="Main3rdBlendMask" Category="Main3rd" Type="Texture" />
+      <Property Name="AlphaMask" Category="Alpha Mask" Type="Texture" />
+      <Property Name="BumpMap" Category="NormalMap" Type="Texture" />
+      <Property Name="Bump2ndMap" Category="NormalMap 2nd" Type="Texture" />
+      <Property Name="Bump2ndScaleMask" Category="NormalMap 2nd" Type="Texture" />
+      <Property Name="BacklightColorTex" Category="Backlight" Type="Texture" />
+      <Property Name="ShadowStrengthMask" Category="Shadow" Type="Texture" />
+      <Property Name="ShadowBorderMask" Category="Shadow" Type="Texture" />
+      <Property Name="ShadowBlurMask" Category="Shadow" Type="Texture" />
+      <Property Name="ShadowStrengthMaskLOD" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowBorderMaskLOD" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowBlurMaskLOD" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowColorTex" Category="Shadow" Type="Texture" />
+      <Property Name="Shadow2ndColorTex" Category="Shadow" Type="Texture" />
+      <Property Name="Shadow3rdColorTex" Category="Shadow" Type="Texture" />
+      <Property Name="RimShadeMask" Category="Rim Shade" Type="Texture" />
+      <Property Name="SmoothnessTex" Category="Reflection" Type="Texture" />
+      <Property Name="MetallicGlossMap" Category="Reflection" Type="Texture" />
+      <Property Name="ReflectionColorTex" Category="Reflection" Type="Texture" />
+      <Property Name="ReflectionCubeTex" Category="Reflection" Type="Texture" />
+      <Property Name="MatCapTex" Category="MatCap" Type="Texture" />
+      <Property Name="MatCapBlendMask" Category="MatCap" Type="Texture" />
+      <Property Name="MatCapBumpMap" Category="MatCap" Type="Texture" />
+      <Property Name="MatCap2ndTex" Category="MatCap 2nd" Type="Texture" />
+      <Property Name="MatCap2ndBlendMask" Category="MatCap 2nd" Type="Texture" />
+      <Property Name="MatCap2ndBumpMap" Category="MatCap 2nd" Type="Texture" />
+      <Property Name="RimColorTex" Category="Rim" Type="Texture" />
+      <Property Name="OutlineTex" Category="Outline" Type="Texture" />
+      <Property Name="OutlineWidthMask" Category="Outline" Type="Texture" />
+      <Property Name="OutlineVectorTex" Category="Outline" Type="Texture" />
+      <Property Name="EmissionMap" Category="Emission" Type="Texture" />
+      <Property Name="EmissionBlendMask" Category="Emission" Type="Texture" />
+      <Property Name="Emission2ndMap" Category="Emission 2nd" Type="Texture" />
+      <Property Name="Emission2ndBlendMask" Category="Emission 2nd" Type="Texture" />
+      <Property Name="DitherTex" Category="Base" Type="Texture" />
+
+      <Property Name="Invisible" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="AsUnlit" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="Cutoff" Category="Base" Type="Float" Range="-0.001,1.001" />
+      <Property Name="SubpassCutoff" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="FlipNormal" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="ShiftBackfaceUV" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="BackfaceForceShadow" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="BackfaceColor" Category="Base" Type="Color" />
+      <Property Name="VertexLightStrength" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="LightMinLimit" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="LightMaxLimit" Category="Base" Type="Float" Range="0,10" />
+      <Property Name="BeforeExposureLimit" Category="Base" Type="Float" />
+      <Property Name="MonochromeLighting" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="AlphaBoostFA" Category="Base" Type="Float" Range="1,100" />
+      <Property Name="lilDirectionalLightStrength" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="LightDirectionOverride" Category="Base" Type="Color" />
+      <Property Name="AAStrength" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="UseDither" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="DitherMaxValue" Category="Base" Type="Float" />
+      <Property Name="EnvRimBorder" Category="Base" Type="Float" Range="0,3" />
+      <Property Name="EnvRimBlur" Category="Base" Type="Float" Range="0,1" />
+
+      <Property Name="Color" Category="Main" Type="Color" />
+      <Property Name="MainTex_ScrollRotate" Category="Main" Type="Color" />
+      <Property Name="MainTexHSVG" Category="Main" Type="Color" />
+      <Property Name="MainGradationStrength" Category="Main" Type="Float" Range="0,1" />
+
+      <Property Name="UseMain2ndTex" Category="Main2nd" Type="Float" Range="0,1" />
+      <Property Name="Color2nd" Category="Main2nd" Type="Color" />
+      <Property Name="Main2ndTexAngle" Category="Main2nd" Type="Float" />
+      <Property Name="Main2ndTex_ScrollRotate" Category="Main2nd" Type="Color" />
+      <Property Name="Main2ndTex_UVMode" Category="Main2nd" Type="Float" Range="0,4" />
+      <Property Name="Main2ndTex_Cull" Category="Main2nd" Type="Float" Range="0,2" />
+      <Property Name="Main2ndTexDecalAnimation" Category="Main2nd" Type="Color" />
+      <Property Name="Main2ndTexDecalSubParam" Category="Main2nd" Type="Color" />
+      <Property Name="Main2ndTexIsDecal" Category="Main2nd" Type="Float" Range="0,1" />
+      <Property Name="Main2ndTexIsLeftOnly" Category="Main2nd" Type="Float" Range="0,1" />
+      <Property Name="Main2ndTexIsRightOnly" Category="Main2nd" Type="Float" Range="0,1" />
+      <Property Name="Main2ndTexShouldCopy" Category="Main2nd" Type="Float" Range="0,1" />
+      <Property Name="Main2ndTexShouldFlipMirror" Category="Main2nd" Type="Float" Range="0,1" />
+      <Property Name="Main2ndTexShouldFlipCopy" Category="Main2nd" Type="Float" Range="0,1" />
+      <Property Name="Main2ndTexIsMSDF" Category="Main2nd" Type="Float" Range="0,1" />
+      <Property Name="Main2ndTexBlendMode" Category="Main2nd" Type="Float" Range="0,4" />
+      <Property Name="Main2ndTexAlphaMode" Category="Main2nd" Type="Float" Range="0,4" />
+      <Property Name="Main2ndEnableLighting" Category="Main2nd" Type="Float" Range="0,1" />
+      <Property Name="Main2ndDistanceFade" Category="Main2nd" Type="Color" />
+
+      <Property Name="UseMain3rdTex" Category="Main3rd" Type="Float" Range="0,1" />
+      <Property Name="Color3rd" Category="Main3rd" Type="Color" />
+      <Property Name="Main3rdTexAngle" Category="Main3rd" Type="Float" />
+      <Property Name="Main3rdTex_ScrollRotate" Category="Main3rd" Type="Color" />
+      <Property Name="Main3rdTex_UVMode" Category="Main3rd" Type="Float" Range="0,4" />
+      <Property Name="Main3rdTex_Cull" Category="Main3rd" Type="Float" Range="0,2" />
+      <Property Name="Main3rdTexDecalAnimation" Category="Main3rd" Type="Color" />
+      <Property Name="Main3rdTexDecalSubParam" Category="Main3rd" Type="Color" />
+      <Property Name="Main3rdTexIsDecal" Category="Main3rd" Type="Float" Range="0,1" />
+      <Property Name="Main3rdTexIsLeftOnly" Category="Main3rd" Type="Float" Range="0,1" />
+      <Property Name="Main3rdTexIsRightOnly" Category="Main3rd" Type="Float" Range="0,1" />
+      <Property Name="Main3rdTexShouldCopy" Category="Main3rd" Type="Float" Range="0,1" />
+      <Property Name="Main3rdTexShouldFlipMirror" Category="Main3rd" Type="Float" Range="0,1" />
+      <Property Name="Main3rdTexShouldFlipCopy" Category="Main3rd" Type="Float" Range="0,1" />
+      <Property Name="Main3rdTexIsMSDF" Category="Main3rd" Type="Float" Range="0,1" />
+      <Property Name="Main3rdTexBlendMode" Category="Main3rd" Type="Float" Range="0,4" />
+      <Property Name="Main3rdTexAlphaMode" Category="Main3rd" Type="Float" Range="0,4" />
+      <Property Name="Main3rdEnableLighting" Category="Main3rd" Type="Float" Range="0,1" />
+      <Property Name="Main3rdDistanceFade" Category="Main3rd" Type="Color" />
+
+      <Property Name="AlphaMaskMode" Category="Alpha Mask" Type="Float" Range="0,4" />
+      <Property Name="AlphaMaskScale" Category="Alpha Mask" Type="Float" />
+      <Property Name="AlphaMaskValue" Category="Alpha Mask" Type="Float" />
+
+      <Property Name="UseBumpMap" Category="NormalMap" Type="Float" Range="0,1" />
+      <Property Name="BumpScale" Category="NormalMap" Type="Float" Range="-10,10" />
+      <Property Name="UseBump2ndMap" Category="NormalMap 2nd" Type="Float" Range="0,1" />
+      <Property Name="Bump2ndMap_UVMode" Category="NormalMap 2nd" Type="Float" Range="0,3" />
+      <Property Name="Bump2ndScale" Category="NormalMap 2nd" Type="Float" Range="-10,10" />
+
+      <Property Name="UseBacklight" Category="Backlight" Type="Float" Range="0,1" />
+      <Property Name="BacklightColor" Category="Backlight" Type="Color" />
+      <Property Name="BacklightMainStrength" Category="Backlight" Type="Float" Range="0,1" />
+      <Property Name="BacklightNormalStrength" Category="Backlight" Type="Float" Range="0,1" />
+      <Property Name="BacklightBorder" Category="Backlight" Type="Float" Range="0,1" />
+      <Property Name="BacklightBlur" Category="Backlight" Type="Float" Range="0,1" />
+      <Property Name="BacklightDirectivity" Category="Backlight" Type="Float" />
+      <Property Name="BacklightViewStrength" Category="Backlight" Type="Float" Range="0,1" />
+      <Property Name="BacklightReceiveShadow" Category="Backlight" Type="Float" Range="0,1" />
+      <Property Name="BacklightBackfaceMask" Category="Backlight" Type="Float" Range="0,1" />
+
+      <Property Name="UseShadow" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowStrength" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowAOShift" Category="Shadow" Type="Color" />
+      <Property Name="ShadowAOShift2" Category="Shadow" Type="Color" />
+      <Property Name="ShadowPostAO" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowColorType" Category="Shadow" Type="Float" Range="0,2" />
+      <Property Name="ShadowColor" Category="Shadow" Type="Color" />
+      <Property Name="ShadowNormalStrength" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowBorder" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowBlur" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowReceive" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="Shadow2ndColor" Category="Shadow" Type="Color" />
+      <Property Name="Shadow2ndNormalStrength" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="Shadow2ndBorder" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="Shadow2ndBlur" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="Shadow2ndReceive" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="Shadow3rdColor" Category="Shadow" Type="Color" />
+      <Property Name="Shadow3rdNormalStrength" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="Shadow3rdBorder" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="Shadow3rdBlur" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="Shadow3rdReceive" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowBorderColor" Category="Shadow" Type="Color" />
+      <Property Name="ShadowBorderRange" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowMainStrength" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowEnvStrength" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowMaskType" Category="Shadow" Type="Float" Range="0,2" />
+      <Property Name="ShadowFlatBorder" Category="Shadow" Type="Float" Range="-2,2" />
+      <Property Name="ShadowFlatBlur" Category="Shadow" Type="Float" Range="0.001,2" />
+
+      <Property Name="UseRimShade" Category="Rim Shade" Type="Float" Range="0,1" />
+      <Property Name="RimShadeColor" Category="Rim Shade" Type="Color" />
+      <Property Name="RimShadeNormalStrength" Category="Rim Shade" Type="Float" Range="0,1" />
+      <Property Name="RimShadeBorder" Category="Rim Shade" Type="Float" Range="0,1" />
+      <Property Name="RimShadeBlur" Category="Rim Shade" Type="Float" Range="0,1" />
+      <Property Name="RimShadeFresnelPower" Category="Rim Shade" Type="Float" Range="0.01,50" />
+
+      <Property Name="UseReflection" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="Smoothness" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="Metallic" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="Reflectance" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="GSAAStrength" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="ApplySpecular" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="ApplySpecularFA" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="SpecularToon" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="SpecularNormalStrength" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="SpecularBorder" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="SpecularBlur" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="ApplyReflection" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="ReflectionNormalStrength" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="ReflectionColor" Category="Reflection" Type="Color" />
+      <Property Name="ReflectionApplyTransparency" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="ReflectionCubeColor" Category="Reflection" Type="Color" />
+      <Property Name="ReflectionCubeOverride" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="ReflectionCubeEnableLighting" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="ReflectionBlendMode" Category="Reflection" Type="Float" Range="0,4" />
+
+      <Property Name="UseMatCap" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapColor" Category="MatCap" Type="Color" />
+      <Property Name="MatCapBlend" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapBlendMode" Category="MatCap" Type="Float" Range="0,4" />
+      <Property Name="MatCapEnableLighting" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapShadowMask" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapBackfaceMask" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapLod" Category="MatCap" Type="Float" Range="0,10" />
+      <Property Name="MatCapApplyTransparency" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapNormalStrength" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapCustomNormal" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapMainStrength" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapPerspective" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapZRotCancel" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapVRParallaxStrength" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapBumpScale" Category="MatCap" Type="Float" Range="-10,10" />
+      <Property Name="MatCapBlendUV1" Category="MatCap" Type="Color" />
+
+      <Property Name="UseMatCap2nd" Category="MatCap 2nd" Type="Float" Range="0,1" />
+      <Property Name="MatCap2ndColor" Category="MatCap 2nd" Type="Color" />
+      <Property Name="MatCap2ndBlend" Category="MatCap 2nd" Type="Float" Range="0,1" />
+      <Property Name="MatCap2ndBlendMode" Category="MatCap 2nd" Type="Float" Range="0,4" />
+      <Property Name="MatCap2ndEnableLighting" Category="MatCap 2nd" Type="Float" Range="0,1" />
+      <Property Name="MatCap2ndShadowMask" Category="MatCap 2nd" Type="Float" Range="0,1" />
+      <Property Name="MatCap2ndBackfaceMask" Category="MatCap 2nd" Type="Float" Range="0,1" />
+      <Property Name="MatCap2ndLod" Category="MatCap 2nd" Type="Float" Range="0,10" />
+      <Property Name="MatCap2ndApplyTransparency" Category="MatCap 2nd" Type="Float" Range="0,1" />
+      <Property Name="MatCap2ndNormalStrength" Category="MatCap 2nd" Type="Float" Range="0,1" />
+      <Property Name="MatCap2ndCustomNormal" Category="MatCap 2nd" Type="Float" Range="0,1" />
+      <Property Name="MatCap2ndMainStrength" Category="MatCap 2nd" Type="Float" Range="0,1" />
+      <Property Name="MatCap2ndPerspective" Category="MatCap 2nd" Type="Float" Range="0,1" />
+      <Property Name="MatCap2ndZRotCancel" Category="MatCap 2nd" Type="Float" Range="0,1" />
+      <Property Name="MatCap2ndVRParallaxStrength" Category="MatCap 2nd" Type="Float" Range="0,1" />
+      <Property Name="MatCap2ndBumpScale" Category="MatCap 2nd" Type="Float" Range="-10,10" />
+      <Property Name="MatCap2ndBlendUV1" Category="MatCap 2nd" Type="Color" />
+
+      <Property Name="UseRim" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="RimColor" Category="Rim" Type="Color" />
+      <Property Name="RimIndirColor" Category="Rim" Type="Color" />
+      <Property Name="RimBorder" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="RimBlur" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="RimFresnelPower" Category="Rim" Type="Float" Range="0.01,50" />
+      <Property Name="RimShadowMask" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="RimBackfaceMask" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="RimVRParallaxStrength" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="RimApplyTransparency" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="RimEnableLighting" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="RimBlendMode" Category="Rim" Type="Float" Range="0,4" />
+      <Property Name="RimDirStrength" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="RimDirRange" Category="Rim" Type="Float" Range="-1,1" />
+      <Property Name="RimIndirRange" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="RimIndirColorStrength" Category="Rim" Type="Float" Range="0,1" />
+
+      <Property Name="OutlineColor" Category="Outline" Type="Color" />
+      <Property Name="OutlineTex_ScrollRotate" Category="Outline" Type="Color" />
+      <Property Name="OutlineTexHSVG" Category="Outline" Type="Color" />
+      <Property Name="OutlineLitColor" Category="Outline" Type="Color" />
+      <Property Name="OutlineLitApplyTex" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="OutlineLitScale" Category="Outline" Type="Float" />
+      <Property Name="OutlineLitOffset" Category="Outline" Type="Float" />
+      <Property Name="OutlineLitShadowReceive" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="OutlineWidth" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="OutlineFixWidth" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="OutlineVertexR2Width" Category="Outline" Type="Float" Range="0,2" />
+      <Property Name="OutlineDeleteMesh" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="OutlineVectorUVMode" Category="Outline" Type="Float" Range="0,3" />
+      <Property Name="OutlineVectorScale" Category="Outline" Type="Float" Range="-10,10" />
+      <Property Name="OutlineEnableLighting" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="OutlineZBias" Category="Outline" Type="Float" />
+      <Property Name="OutlineDisableInVR" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="UseOutline" Category="Outline" Type="Float" Range="0,1" />
+
+      <Property Name="OutlineCull" Category="Outline Advanced" Type="Float" Range="0,2" />
+      <Property Name="OutlineSrcBlend" Category="Outline Advanced" Type="Float" Range="0,10" />
+      <Property Name="OutlineDstBlend" Category="Outline Advanced" Type="Float" Range="0,10" />
+      <Property Name="OutlineSrcBlendAlpha" Category="Outline Advanced" Type="Float" Range="0,10" />
+      <Property Name="OutlineDstBlendAlpha" Category="Outline Advanced" Type="Float" Range="0,10" />
+      <Property Name="OutlineBlendOp" Category="Outline Advanced" Type="Float" Range="0,4" />
+      <Property Name="OutlineBlendOpAlpha" Category="Outline Advanced" Type="Float" Range="0,4" />
+      <Property Name="OutlineSrcBlendFA" Category="Outline Advanced" Type="Float" Range="0,10" />
+      <Property Name="OutlineDstBlendFA" Category="Outline Advanced" Type="Float" Range="0,10" />
+      <Property Name="OutlineSrcBlendAlphaFA" Category="Outline Advanced" Type="Float" Range="0,10" />
+      <Property Name="OutlineDstBlendAlphaFA" Category="Outline Advanced" Type="Float" Range="0,10" />
+      <Property Name="OutlineBlendOpFA" Category="Outline Advanced" Type="Float" Range="0,4" />
+      <Property Name="OutlineBlendOpAlphaFA" Category="Outline Advanced" Type="Float" Range="0,4" />
+      <Property Name="OutlineZClip" Category="Outline Advanced" Type="Float" Range="0,1" />
+      <Property Name="OutlineZWrite" Category="Outline Advanced" Type="Float" Range="0,1" />
+      <Property Name="OutlineZTest" Category="Outline Advanced" Type="Float" Range="0,8" />
+      <Property Name="OutlineStencilRef" Category="Outline Advanced" Type="Float" Range="0,255" />
+      <Property Name="OutlineStencilReadMask" Category="Outline Advanced" Type="Float" Range="0,255" />
+      <Property Name="OutlineStencilWriteMask" Category="Outline Advanced" Type="Float" Range="0,255" />
+      <Property Name="OutlineStencilComp" Category="Outline Advanced" Type="Float" Range="0,8" />
+      <Property Name="OutlineStencilPass" Category="Outline Advanced" Type="Float" Range="0,7" />
+      <Property Name="OutlineStencilFail" Category="Outline Advanced" Type="Float" Range="0,7" />
+      <Property Name="OutlineStencilZFail" Category="Outline Advanced" Type="Float" Range="0,7" />
+      <Property Name="OutlineOffsetFactor" Category="Outline Advanced" Type="Float" />
+      <Property Name="OutlineOffsetUnits" Category="Outline Advanced" Type="Float" />
+      <Property Name="OutlineColorMask" Category="Outline Advanced" Type="Float" Range="0,15" />
+      <Property Name="OutlineAlphaToMask" Category="Outline Advanced" Type="Float" Range="0,1" />
+      <Property Name="UseEmission" Category="Emission" Type="Float" Range="0,1" />
+      <Property Name="EmissionColor" Category="Emission" Type="Color" />
+      <Property Name="EmissionMap_ScrollRotate" Category="Emission" Type="Color" />
+      <Property Name="EmissionBlend" Category="Emission" Type="Float" Range="0,1" />
+      <Property Name="EmissionBlendMode" Category="Emission" Type="Float" Range="0,4" />
+      <Property Name="EmissionMap_UVMode" Category="Emission" Type="Float" Range="0,3" />
+      <Property Name="EmissionBlink" Category="Emission" Type="Color" />
+      <Property Name="UseEmission2nd" Category="Emission 2nd" Type="Float" Range="0,1" />
+      <Property Name="Emission2ndColor" Category="Emission 2nd" Type="Color" />
+      <Property Name="Emission2ndMap_ScrollRotate" Category="Emission 2nd" Type="Color" />
+      <Property Name="Emission2ndBlend" Category="Emission 2nd" Type="Float" Range="0,1" />
+      <Property Name="Emission2ndBlendMode" Category="Emission 2nd" Type="Float" Range="0,4" />
+      <Property Name="Emission2ndMap_UVMode" Category="Emission 2nd" Type="Float" Range="0,3" />
+      <Property Name="Emission2ndBlink" Category="Emission 2nd" Type="Color" />
+
+      <Property Name="DistanceFadeColor" Category="Distance Fade" Type="Color" />
+      <Property Name="DistanceFade" Category="Distance Fade" Type="Color" />
+      <Property Name="DistanceFadeMode" Category="Distance Fade" Type="Float" Range="0,2" />
+      <Property Name="DistanceFadeRimColor" Category="Distance Fade" Type="Color" />
+      <Property Name="DistanceFadeRimFresnelPower" Category="Distance Fade" Type="Float" Range="0.01,50" />
+
+      <Property Name="Cull" Category="Rendering" Type="Float" Range="0,2" />
+      <Property Name="SrcBlend" Category="Rendering" Type="Float" Range="0,10" />
+      <Property Name="DstBlend" Category="Rendering" Type="Float" Range="0,10" />
+      <Property Name="SrcBlendAlpha" Category="Rendering" Type="Float" Range="0,10" />
+      <Property Name="DstBlendAlpha" Category="Rendering" Type="Float" Range="0,10" />
+      <Property Name="BlendOp" Category="Rendering" Type="Float" Range="0,4" />
+      <Property Name="BlendOpAlpha" Category="Rendering" Type="Float" Range="0,4" />
+      <Property Name="SrcBlendFA" Category="Rendering" Type="Float" Range="0,10" />
+      <Property Name="DstBlendFA" Category="Rendering" Type="Float" Range="0,10" />
+      <Property Name="SrcBlendAlphaFA" Category="Rendering" Type="Float" Range="0,10" />
+      <Property Name="DstBlendAlphaFA" Category="Rendering" Type="Float" Range="0,10" />
+      <Property Name="BlendOpFA" Category="Rendering" Type="Float" Range="0,4" />
+      <Property Name="BlendOpAlphaFA" Category="Rendering" Type="Float" Range="0,4" />
+      <Property Name="ZClip" Category="Rendering" Type="Float" Range="0,1" />
+      <Property Name="ZWrite" Category="Rendering" Type="Float" Range="0,1" />
+      <Property Name="ZTest" Category="Rendering" Type="Float" Range="0,8" />
+      <Property Name="StencilRef" Category="Rendering" Type="Float" Range="0,255" />
+      <Property Name="StencilReadMask" Category="Rendering" Type="Float" Range="0,255" />
+      <Property Name="StencilWriteMask" Category="Rendering" Type="Float" Range="0,255" />
+      <Property Name="StencilComp" Category="Rendering" Type="Float" Range="0,8" />
+      <Property Name="StencilPass" Category="Rendering" Type="Float" Range="0,7" />
+      <Property Name="StencilFail" Category="Rendering" Type="Float" Range="0,7" />
+      <Property Name="StencilZFail" Category="Rendering" Type="Float" Range="0,7" />
+      <Property Name="OffsetFactor" Category="Rendering" Type="Float" />
+      <Property Name="OffsetUnits" Category="Rendering" Type="Float" />
+      <Property Name="ColorMask" Category="Rendering" Type="Float" Range="0,15" />
+      <Property Name="AlphaToMask" Category="Rendering" Type="Float" Range="0,1" />
+      <Property Name="lilShadowCasterBias" Category="Rendering" Type="Float" />
+    </Shader>
+    <Shader Name="lilToonTransparent" AssetBundle="chara/tom/liltoon/shaders/liltoon.unity3d" Asset="a_lilToonTransparent">
+      <Property Name="MainTex" Category="Main" Type="Texture" />
+      <Property Name="MainGradationTex" Category="Main" Type="Texture" />
+      <Property Name="MainColorAdjustMask" Category="Main" Type="Texture" />
+      <Property Name="Main2ndTex" Category="Main2nd" Type="Texture" />
+      <Property Name="Main2ndBlendMask" Category="Main2nd" Type="Texture" />
+      <Property Name="Main3rdTex" Category="Main3rd" Type="Texture" />
+      <Property Name="Main3rdBlendMask" Category="Main3rd" Type="Texture" />
+      <Property Name="AlphaMask" Category="Alpha Mask" Type="Texture" />
+      <Property Name="BumpMap" Category="NormalMap" Type="Texture" />
+      <Property Name="Bump2ndMap" Category="NormalMap 2nd" Type="Texture" />
+      <Property Name="Bump2ndScaleMask" Category="NormalMap 2nd" Type="Texture" />
+      <Property Name="BacklightColorTex" Category="Backlight" Type="Texture" />
+      <Property Name="ShadowStrengthMask" Category="Shadow" Type="Texture" />
+      <Property Name="ShadowBorderMask" Category="Shadow" Type="Texture" />
+      <Property Name="ShadowBlurMask" Category="Shadow" Type="Texture" />
+      <Property Name="ShadowStrengthMaskLOD" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowBorderMaskLOD" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowBlurMaskLOD" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowColorTex" Category="Shadow" Type="Texture" />
+      <Property Name="Shadow2ndColorTex" Category="Shadow" Type="Texture" />
+      <Property Name="Shadow3rdColorTex" Category="Shadow" Type="Texture" />
+      <Property Name="RimShadeMask" Category="Rim Shade" Type="Texture" />
+      <Property Name="SmoothnessTex" Category="Reflection" Type="Texture" />
+      <Property Name="MetallicGlossMap" Category="Reflection" Type="Texture" />
+      <Property Name="ReflectionColorTex" Category="Reflection" Type="Texture" />
+      <Property Name="ReflectionCubeTex" Category="Reflection" Type="Texture" />
+      <Property Name="MatCapTex" Category="MatCap" Type="Texture" />
+      <Property Name="MatCapBlendMask" Category="MatCap" Type="Texture" />
+      <Property Name="MatCapBumpMap" Category="MatCap" Type="Texture" />
+      <Property Name="MatCap2ndTex" Category="MatCap 2nd" Type="Texture" />
+      <Property Name="MatCap2ndBlendMask" Category="MatCap 2nd" Type="Texture" />
+      <Property Name="MatCap2ndBumpMap" Category="MatCap 2nd" Type="Texture" />
+      <Property Name="RimColorTex" Category="Rim" Type="Texture" />
+      <Property Name="OutlineTex" Category="Outline" Type="Texture" />
+      <Property Name="OutlineWidthMask" Category="Outline" Type="Texture" />
+      <Property Name="OutlineVectorTex" Category="Outline" Type="Texture" />
+      <Property Name="EmissionMap" Category="Emission" Type="Texture" />
+      <Property Name="EmissionBlendMask" Category="Emission" Type="Texture" />
+      <Property Name="Emission2ndMap" Category="Emission 2nd" Type="Texture" />
+      <Property Name="Emission2ndBlendMask" Category="Emission 2nd" Type="Texture" />
+      <Property Name="DitherTex" Category="Base" Type="Texture" />
+
+      <Property Name="Invisible" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="AsUnlit" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="Cutoff" Category="Base" Type="Float" Range="-0.001,1.001" />
+      <Property Name="SubpassCutoff" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="FlipNormal" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="ShiftBackfaceUV" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="BackfaceForceShadow" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="BackfaceColor" Category="Base" Type="Color" />
+      <Property Name="VertexLightStrength" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="LightMinLimit" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="LightMaxLimit" Category="Base" Type="Float" Range="0,10" />
+      <Property Name="BeforeExposureLimit" Category="Base" Type="Float" />
+      <Property Name="MonochromeLighting" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="AlphaBoostFA" Category="Base" Type="Float" Range="1,100" />
+      <Property Name="lilDirectionalLightStrength" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="LightDirectionOverride" Category="Base" Type="Color" />
+      <Property Name="AAStrength" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="UseDither" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="DitherMaxValue" Category="Base" Type="Float" />
+      <Property Name="EnvRimBorder" Category="Base" Type="Float" Range="0,3" />
+      <Property Name="EnvRimBlur" Category="Base" Type="Float" Range="0,1" />
+
+      <Property Name="Color" Category="Main" Type="Color" />
+      <Property Name="MainTex_ScrollRotate" Category="Main" Type="Color" />
+      <Property Name="MainTexHSVG" Category="Main" Type="Color" />
+      <Property Name="MainGradationStrength" Category="Main" Type="Float" Range="0,1" />
+
+      <Property Name="UseMain2ndTex" Category="Main2nd" Type="Float" Range="0,1" />
+      <Property Name="Color2nd" Category="Main2nd" Type="Color" />
+      <Property Name="Main2ndTexAngle" Category="Main2nd" Type="Float" />
+      <Property Name="Main2ndTex_ScrollRotate" Category="Main2nd" Type="Color" />
+      <Property Name="Main2ndTex_UVMode" Category="Main2nd" Type="Float" Range="0,4" />
+      <Property Name="Main2ndTex_Cull" Category="Main2nd" Type="Float" Range="0,2" />
+      <Property Name="Main2ndTexDecalAnimation" Category="Main2nd" Type="Color" />
+      <Property Name="Main2ndTexDecalSubParam" Category="Main2nd" Type="Color" />
+      <Property Name="Main2ndTexIsDecal" Category="Main2nd" Type="Float" Range="0,1" />
+      <Property Name="Main2ndTexIsLeftOnly" Category="Main2nd" Type="Float" Range="0,1" />
+      <Property Name="Main2ndTexIsRightOnly" Category="Main2nd" Type="Float" Range="0,1" />
+      <Property Name="Main2ndTexShouldCopy" Category="Main2nd" Type="Float" Range="0,1" />
+      <Property Name="Main2ndTexShouldFlipMirror" Category="Main2nd" Type="Float" Range="0,1" />
+      <Property Name="Main2ndTexShouldFlipCopy" Category="Main2nd" Type="Float" Range="0,1" />
+      <Property Name="Main2ndTexIsMSDF" Category="Main2nd" Type="Float" Range="0,1" />
+      <Property Name="Main2ndTexBlendMode" Category="Main2nd" Type="Float" Range="0,4" />
+      <Property Name="Main2ndTexAlphaMode" Category="Main2nd" Type="Float" Range="0,4" />
+      <Property Name="Main2ndEnableLighting" Category="Main2nd" Type="Float" Range="0,1" />
+      <Property Name="Main2ndDistanceFade" Category="Main2nd" Type="Color" />
+
+      <Property Name="UseMain3rdTex" Category="Main3rd" Type="Float" Range="0,1" />
+      <Property Name="Color3rd" Category="Main3rd" Type="Color" />
+      <Property Name="Main3rdTexAngle" Category="Main3rd" Type="Float" />
+      <Property Name="Main3rdTex_ScrollRotate" Category="Main3rd" Type="Color" />
+      <Property Name="Main3rdTex_UVMode" Category="Main3rd" Type="Float" Range="0,4" />
+      <Property Name="Main3rdTex_Cull" Category="Main3rd" Type="Float" Range="0,2" />
+      <Property Name="Main3rdTexDecalAnimation" Category="Main3rd" Type="Color" />
+      <Property Name="Main3rdTexDecalSubParam" Category="Main3rd" Type="Color" />
+      <Property Name="Main3rdTexIsDecal" Category="Main3rd" Type="Float" Range="0,1" />
+      <Property Name="Main3rdTexIsLeftOnly" Category="Main3rd" Type="Float" Range="0,1" />
+      <Property Name="Main3rdTexIsRightOnly" Category="Main3rd" Type="Float" Range="0,1" />
+      <Property Name="Main3rdTexShouldCopy" Category="Main3rd" Type="Float" Range="0,1" />
+      <Property Name="Main3rdTexShouldFlipMirror" Category="Main3rd" Type="Float" Range="0,1" />
+      <Property Name="Main3rdTexShouldFlipCopy" Category="Main3rd" Type="Float" Range="0,1" />
+      <Property Name="Main3rdTexIsMSDF" Category="Main3rd" Type="Float" Range="0,1" />
+      <Property Name="Main3rdTexBlendMode" Category="Main3rd" Type="Float" Range="0,4" />
+      <Property Name="Main3rdTexAlphaMode" Category="Main3rd" Type="Float" Range="0,4" />
+      <Property Name="Main3rdEnableLighting" Category="Main3rd" Type="Float" Range="0,1" />
+      <Property Name="Main3rdDistanceFade" Category="Main3rd" Type="Color" />
+
+      <Property Name="AlphaMaskMode" Category="Alpha Mask" Type="Float" Range="0,4" />
+      <Property Name="AlphaMaskScale" Category="Alpha Mask" Type="Float" />
+      <Property Name="AlphaMaskValue" Category="Alpha Mask" Type="Float" />
+
+      <Property Name="UseBumpMap" Category="NormalMap" Type="Float" Range="0,1" />
+      <Property Name="BumpScale" Category="NormalMap" Type="Float" Range="-10,10" />
+      <Property Name="UseBump2ndMap" Category="NormalMap 2nd" Type="Float" Range="0,1" />
+      <Property Name="Bump2ndMap_UVMode" Category="NormalMap 2nd" Type="Float" Range="0,3" />
+      <Property Name="Bump2ndScale" Category="NormalMap 2nd" Type="Float" Range="-10,10" />
+
+      <Property Name="UseBacklight" Category="Backlight" Type="Float" Range="0,1" />
+      <Property Name="BacklightColor" Category="Backlight" Type="Color" />
+      <Property Name="BacklightMainStrength" Category="Backlight" Type="Float" Range="0,1" />
+      <Property Name="BacklightNormalStrength" Category="Backlight" Type="Float" Range="0,1" />
+      <Property Name="BacklightBorder" Category="Backlight" Type="Float" Range="0,1" />
+      <Property Name="BacklightBlur" Category="Backlight" Type="Float" Range="0,1" />
+      <Property Name="BacklightDirectivity" Category="Backlight" Type="Float" />
+      <Property Name="BacklightViewStrength" Category="Backlight" Type="Float" Range="0,1" />
+      <Property Name="BacklightReceiveShadow" Category="Backlight" Type="Float" Range="0,1" />
+      <Property Name="BacklightBackfaceMask" Category="Backlight" Type="Float" Range="0,1" />
+
+      <Property Name="UseShadow" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowStrength" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowAOShift" Category="Shadow" Type="Color" />
+      <Property Name="ShadowAOShift2" Category="Shadow" Type="Color" />
+      <Property Name="ShadowPostAO" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowColorType" Category="Shadow" Type="Float" Range="0,2" />
+      <Property Name="ShadowColor" Category="Shadow" Type="Color" />
+      <Property Name="ShadowNormalStrength" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowBorder" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowBlur" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowReceive" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="Shadow2ndColor" Category="Shadow" Type="Color" />
+      <Property Name="Shadow2ndNormalStrength" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="Shadow2ndBorder" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="Shadow2ndBlur" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="Shadow2ndReceive" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="Shadow3rdColor" Category="Shadow" Type="Color" />
+      <Property Name="Shadow3rdNormalStrength" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="Shadow3rdBorder" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="Shadow3rdBlur" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="Shadow3rdReceive" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowBorderColor" Category="Shadow" Type="Color" />
+      <Property Name="ShadowBorderRange" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowMainStrength" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowEnvStrength" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowMaskType" Category="Shadow" Type="Float" Range="0,2" />
+      <Property Name="ShadowFlatBorder" Category="Shadow" Type="Float" Range="-2,2" />
+      <Property Name="ShadowFlatBlur" Category="Shadow" Type="Float" Range="0.001,2" />
+
+      <Property Name="UseRimShade" Category="Rim Shade" Type="Float" Range="0,1" />
+      <Property Name="RimShadeColor" Category="Rim Shade" Type="Color" />
+      <Property Name="RimShadeNormalStrength" Category="Rim Shade" Type="Float" Range="0,1" />
+      <Property Name="RimShadeBorder" Category="Rim Shade" Type="Float" Range="0,1" />
+      <Property Name="RimShadeBlur" Category="Rim Shade" Type="Float" Range="0,1" />
+      <Property Name="RimShadeFresnelPower" Category="Rim Shade" Type="Float" Range="0.01,50" />
+
+      <Property Name="UseReflection" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="Smoothness" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="Metallic" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="Reflectance" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="GSAAStrength" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="ApplySpecular" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="ApplySpecularFA" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="SpecularToon" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="SpecularNormalStrength" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="SpecularBorder" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="SpecularBlur" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="ApplyReflection" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="ReflectionNormalStrength" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="ReflectionColor" Category="Reflection" Type="Color" />
+      <Property Name="ReflectionApplyTransparency" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="ReflectionCubeColor" Category="Reflection" Type="Color" />
+      <Property Name="ReflectionCubeOverride" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="ReflectionCubeEnableLighting" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="ReflectionBlendMode" Category="Reflection" Type="Float" Range="0,4" />
+
+      <Property Name="UseMatCap" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapColor" Category="MatCap" Type="Color" />
+      <Property Name="MatCapBlend" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapBlendMode" Category="MatCap" Type="Float" Range="0,4" />
+      <Property Name="MatCapEnableLighting" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapShadowMask" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapBackfaceMask" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapLod" Category="MatCap" Type="Float" Range="0,10" />
+      <Property Name="MatCapApplyTransparency" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapNormalStrength" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapCustomNormal" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapMainStrength" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapPerspective" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapZRotCancel" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapVRParallaxStrength" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapBumpScale" Category="MatCap" Type="Float" Range="-10,10" />
+      <Property Name="MatCapBlendUV1" Category="MatCap" Type="Color" />
+
+      <Property Name="UseMatCap2nd" Category="MatCap 2nd" Type="Float" Range="0,1" />
+      <Property Name="MatCap2ndColor" Category="MatCap 2nd" Type="Color" />
+      <Property Name="MatCap2ndBlend" Category="MatCap 2nd" Type="Float" Range="0,1" />
+      <Property Name="MatCap2ndBlendMode" Category="MatCap 2nd" Type="Float" Range="0,4" />
+      <Property Name="MatCap2ndEnableLighting" Category="MatCap 2nd" Type="Float" Range="0,1" />
+      <Property Name="MatCap2ndShadowMask" Category="MatCap 2nd" Type="Float" Range="0,1" />
+      <Property Name="MatCap2ndBackfaceMask" Category="MatCap 2nd" Type="Float" Range="0,1" />
+      <Property Name="MatCap2ndLod" Category="MatCap 2nd" Type="Float" Range="0,10" />
+      <Property Name="MatCap2ndApplyTransparency" Category="MatCap 2nd" Type="Float" Range="0,1" />
+      <Property Name="MatCap2ndNormalStrength" Category="MatCap 2nd" Type="Float" Range="0,1" />
+      <Property Name="MatCap2ndCustomNormal" Category="MatCap 2nd" Type="Float" Range="0,1" />
+      <Property Name="MatCap2ndMainStrength" Category="MatCap 2nd" Type="Float" Range="0,1" />
+      <Property Name="MatCap2ndPerspective" Category="MatCap 2nd" Type="Float" Range="0,1" />
+      <Property Name="MatCap2ndZRotCancel" Category="MatCap 2nd" Type="Float" Range="0,1" />
+      <Property Name="MatCap2ndVRParallaxStrength" Category="MatCap 2nd" Type="Float" Range="0,1" />
+      <Property Name="MatCap2ndBumpScale" Category="MatCap 2nd" Type="Float" Range="-10,10" />
+      <Property Name="MatCap2ndBlendUV1" Category="MatCap 2nd" Type="Color" />
+
+      <Property Name="UseRim" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="RimColor" Category="Rim" Type="Color" />
+      <Property Name="RimIndirColor" Category="Rim" Type="Color" />
+      <Property Name="RimBorder" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="RimBlur" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="RimFresnelPower" Category="Rim" Type="Float" Range="0.01,50" />
+      <Property Name="RimShadowMask" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="RimBackfaceMask" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="RimVRParallaxStrength" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="RimApplyTransparency" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="RimEnableLighting" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="RimBlendMode" Category="Rim" Type="Float" Range="0,4" />
+      <Property Name="RimDirStrength" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="RimDirRange" Category="Rim" Type="Float" Range="-1,1" />
+      <Property Name="RimIndirRange" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="RimIndirColorStrength" Category="Rim" Type="Float" Range="0,1" />
+
+      <Property Name="OutlineColor" Category="Outline" Type="Color" />
+      <Property Name="OutlineTex_ScrollRotate" Category="Outline" Type="Color" />
+      <Property Name="OutlineTexHSVG" Category="Outline" Type="Color" />
+      <Property Name="OutlineLitColor" Category="Outline" Type="Color" />
+      <Property Name="OutlineLitApplyTex" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="OutlineLitScale" Category="Outline" Type="Float" />
+      <Property Name="OutlineLitOffset" Category="Outline" Type="Float" />
+      <Property Name="OutlineLitShadowReceive" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="OutlineWidth" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="OutlineFixWidth" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="OutlineVertexR2Width" Category="Outline" Type="Float" Range="0,2" />
+      <Property Name="OutlineDeleteMesh" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="OutlineVectorUVMode" Category="Outline" Type="Float" Range="0,3" />
+      <Property Name="OutlineVectorScale" Category="Outline" Type="Float" Range="-10,10" />
+      <Property Name="OutlineEnableLighting" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="OutlineZBias" Category="Outline" Type="Float" />
+      <Property Name="OutlineDisableInVR" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="UseOutline" Category="Outline" Type="Float" Range="0,1" />
+
+      <Property Name="OutlineCull" Category="Outline Advanced" Type="Float" Range="0,2" />
+      <Property Name="OutlineSrcBlend" Category="Outline Advanced" Type="Float" Range="0,10" />
+      <Property Name="OutlineDstBlend" Category="Outline Advanced" Type="Float" Range="0,10" />
+      <Property Name="OutlineSrcBlendAlpha" Category="Outline Advanced" Type="Float" Range="0,10" />
+      <Property Name="OutlineDstBlendAlpha" Category="Outline Advanced" Type="Float" Range="0,10" />
+      <Property Name="OutlineBlendOp" Category="Outline Advanced" Type="Float" Range="0,4" />
+      <Property Name="OutlineBlendOpAlpha" Category="Outline Advanced" Type="Float" Range="0,4" />
+      <Property Name="OutlineSrcBlendFA" Category="Outline Advanced" Type="Float" Range="0,10" />
+      <Property Name="OutlineDstBlendFA" Category="Outline Advanced" Type="Float" Range="0,10" />
+      <Property Name="OutlineSrcBlendAlphaFA" Category="Outline Advanced" Type="Float" Range="0,10" />
+      <Property Name="OutlineDstBlendAlphaFA" Category="Outline Advanced" Type="Float" Range="0,10" />
+      <Property Name="OutlineBlendOpFA" Category="Outline Advanced" Type="Float" Range="0,4" />
+      <Property Name="OutlineBlendOpAlphaFA" Category="Outline Advanced" Type="Float" Range="0,4" />
+      <Property Name="OutlineZClip" Category="Outline Advanced" Type="Float" Range="0,1" />
+      <Property Name="OutlineZWrite" Category="Outline Advanced" Type="Float" Range="0,1" />
+      <Property Name="OutlineZTest" Category="Outline Advanced" Type="Float" Range="0,8" />
+      <Property Name="OutlineStencilRef" Category="Outline Advanced" Type="Float" Range="0,255" />
+      <Property Name="OutlineStencilReadMask" Category="Outline Advanced" Type="Float" Range="0,255" />
+      <Property Name="OutlineStencilWriteMask" Category="Outline Advanced" Type="Float" Range="0,255" />
+      <Property Name="OutlineStencilComp" Category="Outline Advanced" Type="Float" Range="0,8" />
+      <Property Name="OutlineStencilPass" Category="Outline Advanced" Type="Float" Range="0,7" />
+      <Property Name="OutlineStencilFail" Category="Outline Advanced" Type="Float" Range="0,7" />
+      <Property Name="OutlineStencilZFail" Category="Outline Advanced" Type="Float" Range="0,7" />
+      <Property Name="OutlineOffsetFactor" Category="Outline Advanced" Type="Float" />
+      <Property Name="OutlineOffsetUnits" Category="Outline Advanced" Type="Float" />
+      <Property Name="OutlineColorMask" Category="Outline Advanced" Type="Float" Range="0,15" />
+      <Property Name="OutlineAlphaToMask" Category="Outline Advanced" Type="Float" Range="0,1" />
+      <Property Name="UseEmission" Category="Emission" Type="Float" Range="0,1" />
+      <Property Name="EmissionColor" Category="Emission" Type="Color" />
+      <Property Name="EmissionMap_ScrollRotate" Category="Emission" Type="Color" />
+      <Property Name="EmissionBlend" Category="Emission" Type="Float" Range="0,1" />
+      <Property Name="EmissionBlendMode" Category="Emission" Type="Float" Range="0,4" />
+      <Property Name="EmissionMap_UVMode" Category="Emission" Type="Float" Range="0,3" />
+      <Property Name="EmissionBlink" Category="Emission" Type="Color" />
+      <Property Name="UseEmission2nd" Category="Emission 2nd" Type="Float" Range="0,1" />
+      <Property Name="Emission2ndColor" Category="Emission 2nd" Type="Color" />
+      <Property Name="Emission2ndMap_ScrollRotate" Category="Emission 2nd" Type="Color" />
+      <Property Name="Emission2ndBlend" Category="Emission 2nd" Type="Float" Range="0,1" />
+      <Property Name="Emission2ndBlendMode" Category="Emission 2nd" Type="Float" Range="0,4" />
+      <Property Name="Emission2ndMap_UVMode" Category="Emission 2nd" Type="Float" Range="0,3" />
+      <Property Name="Emission2ndBlink" Category="Emission 2nd" Type="Color" />
+
+      <Property Name="DistanceFadeColor" Category="Distance Fade" Type="Color" />
+      <Property Name="DistanceFade" Category="Distance Fade" Type="Color" />
+      <Property Name="DistanceFadeMode" Category="Distance Fade" Type="Float" Range="0,2" />
+      <Property Name="DistanceFadeRimColor" Category="Distance Fade" Type="Color" />
+      <Property Name="DistanceFadeRimFresnelPower" Category="Distance Fade" Type="Float" Range="0.01,50" />
+
+      <Property Name="Cull" Category="Rendering" Type="Float" Range="0,2" />
+      <Property Name="SrcBlend" Category="Rendering" Type="Float" Range="0,10" />
+      <Property Name="DstBlend" Category="Rendering" Type="Float" Range="0,10" />
+      <Property Name="SrcBlendAlpha" Category="Rendering" Type="Float" Range="0,10" />
+      <Property Name="DstBlendAlpha" Category="Rendering" Type="Float" Range="0,10" />
+      <Property Name="BlendOp" Category="Rendering" Type="Float" Range="0,4" />
+      <Property Name="BlendOpAlpha" Category="Rendering" Type="Float" Range="0,4" />
+      <Property Name="SrcBlendFA" Category="Rendering" Type="Float" Range="0,10" />
+      <Property Name="DstBlendFA" Category="Rendering" Type="Float" Range="0,10" />
+      <Property Name="SrcBlendAlphaFA" Category="Rendering" Type="Float" Range="0,10" />
+      <Property Name="DstBlendAlphaFA" Category="Rendering" Type="Float" Range="0,10" />
+      <Property Name="BlendOpFA" Category="Rendering" Type="Float" Range="0,4" />
+      <Property Name="BlendOpAlphaFA" Category="Rendering" Type="Float" Range="0,4" />
+      <Property Name="ZClip" Category="Rendering" Type="Float" Range="0,1" />
+      <Property Name="ZWrite" Category="Rendering" Type="Float" Range="0,1" />
+      <Property Name="ZTest" Category="Rendering" Type="Float" Range="0,8" />
+      <Property Name="StencilRef" Category="Rendering" Type="Float" Range="0,255" />
+      <Property Name="StencilReadMask" Category="Rendering" Type="Float" Range="0,255" />
+      <Property Name="StencilWriteMask" Category="Rendering" Type="Float" Range="0,255" />
+      <Property Name="StencilComp" Category="Rendering" Type="Float" Range="0,8" />
+      <Property Name="StencilPass" Category="Rendering" Type="Float" Range="0,7" />
+      <Property Name="StencilFail" Category="Rendering" Type="Float" Range="0,7" />
+      <Property Name="StencilZFail" Category="Rendering" Type="Float" Range="0,7" />
+      <Property Name="OffsetFactor" Category="Rendering" Type="Float" />
+      <Property Name="OffsetUnits" Category="Rendering" Type="Float" />
+      <Property Name="ColorMask" Category="Rendering" Type="Float" Range="0,15" />
+      <Property Name="AlphaToMask" Category="Rendering" Type="Float" Range="0,1" />
+      <Property Name="PreColor" Category="Prepass Rendering" Type="Color" />
+      <Property Name="PreOutType" Category="Prepass Rendering" Type="Float" Range="0,2" />
+      <Property Name="PreCutoff" Category="Prepass Rendering" Type="Float" Range="-0.001,1.001" />
+      <Property Name="PreCull" Category="Prepass Rendering" Type="Float" Range="0,2" />
+      <Property Name="PreSrcBlend" Category="Prepass Rendering" Type="Float" Range="0,10" />
+      <Property Name="PreDstBlend" Category="Prepass Rendering" Type="Float" Range="0,10" />
+      <Property Name="PreSrcBlendAlpha" Category="Prepass Rendering" Type="Float" Range="0,10" />
+      <Property Name="PreDstBlendAlpha" Category="Prepass Rendering" Type="Float" Range="0,10" />
+      <Property Name="PreBlendOp" Category="Prepass Rendering" Type="Float" Range="0,4" />
+      <Property Name="PreBlendOpAlpha" Category="Prepass Rendering" Type="Float" Range="0,4" />
+      <Property Name="PreSrcBlendFA" Category="Prepass Rendering" Type="Float" Range="0,10" />
+      <Property Name="PreDstBlendFA" Category="Prepass Rendering" Type="Float" Range="0,10" />
+      <Property Name="PreSrcBlendAlphaFA" Category="Prepass Rendering" Type="Float" Range="0,10" />
+      <Property Name="PreDstBlendAlphaFA" Category="Prepass Rendering" Type="Float" Range="0,10" />
+      <Property Name="PreBlendOpFA" Category="Prepass Rendering" Type="Float" Range="0,4" />
+      <Property Name="PreBlendOpAlphaFA" Category="Prepass Rendering" Type="Float" Range="0,4" />
+      <Property Name="PreZClip" Category="Prepass Rendering" Type="Float" Range="0,1" />
+      <Property Name="PreZWrite" Category="Prepass Rendering" Type="Float" Range="0,1" />
+      <Property Name="PreZTest" Category="Prepass Rendering" Type="Float" Range="0,8" />
+      <Property Name="PreStencilRef" Category="Prepass Rendering" Type="Float" Range="0,255" />
+      <Property Name="PreStencilReadMask" Category="Prepass Rendering" Type="Float" Range="0,255" />
+      <Property Name="PreStencilWriteMask" Category="Prepass Rendering" Type="Float" Range="0,255" />
+      <Property Name="PreStencilComp" Category="Prepass Rendering" Type="Float" Range="0,8" />
+      <Property Name="PreStencilPass" Category="Prepass Rendering" Type="Float" Range="0,7" />
+      <Property Name="PreStencilFail" Category="Prepass Rendering" Type="Float" Range="0,7" />
+      <Property Name="PreStencilZFail" Category="Prepass Rendering" Type="Float" Range="0,7" />
+      <Property Name="PreOffsetFactor" Category="Prepass Rendering" Type="Float" />
+      <Property Name="PreOffsetUnits" Category="Prepass Rendering" Type="Float" />
+      <Property Name="PreColorMask" Category="Prepass Rendering" Type="Float" Range="0,15" />
+      <Property Name="PreAlphaToMask" Category="Prepass Rendering" Type="Float" Range="0,1" />
+      <Property Name="lilShadowCasterBias" Category="Rendering" Type="Float" />
+    </Shader>
+    <Shader Name="lilToonOnePassTransparent" AssetBundle="chara/tom/liltoon/shaders/liltoon.unity3d" Asset="a_lilToonOnePassTransparent">
+      <Property Name="MainTex" Category="Main" Type="Texture" />
+      <Property Name="MainGradationTex" Category="Main" Type="Texture" />
+      <Property Name="MainColorAdjustMask" Category="Main" Type="Texture" />
+      <Property Name="Main2ndTex" Category="Main2nd" Type="Texture" />
+      <Property Name="Main2ndBlendMask" Category="Main2nd" Type="Texture" />
+      <Property Name="Main3rdTex" Category="Main3rd" Type="Texture" />
+      <Property Name="Main3rdBlendMask" Category="Main3rd" Type="Texture" />
+      <Property Name="AlphaMask" Category="Alpha Mask" Type="Texture" />
+      <Property Name="BumpMap" Category="NormalMap" Type="Texture" />
+      <Property Name="Bump2ndMap" Category="NormalMap 2nd" Type="Texture" />
+      <Property Name="Bump2ndScaleMask" Category="NormalMap 2nd" Type="Texture" />
+      <Property Name="BacklightColorTex" Category="Backlight" Type="Texture" />
+      <Property Name="ShadowStrengthMask" Category="Shadow" Type="Texture" />
+      <Property Name="ShadowBorderMask" Category="Shadow" Type="Texture" />
+      <Property Name="ShadowBlurMask" Category="Shadow" Type="Texture" />
+      <Property Name="ShadowStrengthMaskLOD" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowBorderMaskLOD" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowBlurMaskLOD" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowColorTex" Category="Shadow" Type="Texture" />
+      <Property Name="Shadow2ndColorTex" Category="Shadow" Type="Texture" />
+      <Property Name="Shadow3rdColorTex" Category="Shadow" Type="Texture" />
+      <Property Name="RimShadeMask" Category="Rim Shade" Type="Texture" />
+      <Property Name="SmoothnessTex" Category="Reflection" Type="Texture" />
+      <Property Name="MetallicGlossMap" Category="Reflection" Type="Texture" />
+      <Property Name="ReflectionColorTex" Category="Reflection" Type="Texture" />
+      <Property Name="ReflectionCubeTex" Category="Reflection" Type="Texture" />
+      <Property Name="MatCapTex" Category="MatCap" Type="Texture" />
+      <Property Name="MatCapBlendMask" Category="MatCap" Type="Texture" />
+      <Property Name="MatCapBumpMap" Category="MatCap" Type="Texture" />
+      <Property Name="MatCap2ndTex" Category="MatCap 2nd" Type="Texture" />
+      <Property Name="MatCap2ndBlendMask" Category="MatCap 2nd" Type="Texture" />
+      <Property Name="MatCap2ndBumpMap" Category="MatCap 2nd" Type="Texture" />
+      <Property Name="RimColorTex" Category="Rim" Type="Texture" />
+      <Property Name="OutlineTex" Category="Outline" Type="Texture" />
+      <Property Name="OutlineWidthMask" Category="Outline" Type="Texture" />
+      <Property Name="OutlineVectorTex" Category="Outline" Type="Texture" />
+      <Property Name="EmissionMap" Category="Emission" Type="Texture" />
+      <Property Name="EmissionBlendMask" Category="Emission" Type="Texture" />
+      <Property Name="Emission2ndMap" Category="Emission 2nd" Type="Texture" />
+      <Property Name="Emission2ndBlendMask" Category="Emission 2nd" Type="Texture" />
+      <Property Name="DitherTex" Category="Base" Type="Texture" />
+
+      <Property Name="Invisible" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="AsUnlit" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="Cutoff" Category="Base" Type="Float" Range="-0.001,1.001" />
+      <Property Name="SubpassCutoff" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="FlipNormal" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="ShiftBackfaceUV" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="BackfaceForceShadow" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="BackfaceColor" Category="Base" Type="Color" />
+      <Property Name="VertexLightStrength" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="LightMinLimit" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="LightMaxLimit" Category="Base" Type="Float" Range="0,10" />
+      <Property Name="BeforeExposureLimit" Category="Base" Type="Float" />
+      <Property Name="MonochromeLighting" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="AlphaBoostFA" Category="Base" Type="Float" Range="1,100" />
+      <Property Name="lilDirectionalLightStrength" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="LightDirectionOverride" Category="Base" Type="Color" />
+      <Property Name="AAStrength" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="UseDither" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="DitherMaxValue" Category="Base" Type="Float" />
+      <Property Name="EnvRimBorder" Category="Base" Type="Float" Range="0,3" />
+      <Property Name="EnvRimBlur" Category="Base" Type="Float" Range="0,1" />
+
+      <Property Name="Color" Category="Main" Type="Color" />
+      <Property Name="MainTex_ScrollRotate" Category="Main" Type="Color" />
+      <Property Name="MainTexHSVG" Category="Main" Type="Color" />
+      <Property Name="MainGradationStrength" Category="Main" Type="Float" Range="0,1" />
+
+      <Property Name="UseMain2ndTex" Category="Main2nd" Type="Float" Range="0,1" />
+      <Property Name="Color2nd" Category="Main2nd" Type="Color" />
+      <Property Name="Main2ndTexAngle" Category="Main2nd" Type="Float" />
+      <Property Name="Main2ndTex_ScrollRotate" Category="Main2nd" Type="Color" />
+      <Property Name="Main2ndTex_UVMode" Category="Main2nd" Type="Float" Range="0,4" />
+      <Property Name="Main2ndTex_Cull" Category="Main2nd" Type="Float" Range="0,2" />
+      <Property Name="Main2ndTexDecalAnimation" Category="Main2nd" Type="Color" />
+      <Property Name="Main2ndTexDecalSubParam" Category="Main2nd" Type="Color" />
+      <Property Name="Main2ndTexIsDecal" Category="Main2nd" Type="Float" Range="0,1" />
+      <Property Name="Main2ndTexIsLeftOnly" Category="Main2nd" Type="Float" Range="0,1" />
+      <Property Name="Main2ndTexIsRightOnly" Category="Main2nd" Type="Float" Range="0,1" />
+      <Property Name="Main2ndTexShouldCopy" Category="Main2nd" Type="Float" Range="0,1" />
+      <Property Name="Main2ndTexShouldFlipMirror" Category="Main2nd" Type="Float" Range="0,1" />
+      <Property Name="Main2ndTexShouldFlipCopy" Category="Main2nd" Type="Float" Range="0,1" />
+      <Property Name="Main2ndTexIsMSDF" Category="Main2nd" Type="Float" Range="0,1" />
+      <Property Name="Main2ndTexBlendMode" Category="Main2nd" Type="Float" Range="0,4" />
+      <Property Name="Main2ndTexAlphaMode" Category="Main2nd" Type="Float" Range="0,4" />
+      <Property Name="Main2ndEnableLighting" Category="Main2nd" Type="Float" Range="0,1" />
+      <Property Name="Main2ndDistanceFade" Category="Main2nd" Type="Color" />
+
+      <Property Name="UseMain3rdTex" Category="Main3rd" Type="Float" Range="0,1" />
+      <Property Name="Color3rd" Category="Main3rd" Type="Color" />
+      <Property Name="Main3rdTexAngle" Category="Main3rd" Type="Float" />
+      <Property Name="Main3rdTex_ScrollRotate" Category="Main3rd" Type="Color" />
+      <Property Name="Main3rdTex_UVMode" Category="Main3rd" Type="Float" Range="0,4" />
+      <Property Name="Main3rdTex_Cull" Category="Main3rd" Type="Float" Range="0,2" />
+      <Property Name="Main3rdTexDecalAnimation" Category="Main3rd" Type="Color" />
+      <Property Name="Main3rdTexDecalSubParam" Category="Main3rd" Type="Color" />
+      <Property Name="Main3rdTexIsDecal" Category="Main3rd" Type="Float" Range="0,1" />
+      <Property Name="Main3rdTexIsLeftOnly" Category="Main3rd" Type="Float" Range="0,1" />
+      <Property Name="Main3rdTexIsRightOnly" Category="Main3rd" Type="Float" Range="0,1" />
+      <Property Name="Main3rdTexShouldCopy" Category="Main3rd" Type="Float" Range="0,1" />
+      <Property Name="Main3rdTexShouldFlipMirror" Category="Main3rd" Type="Float" Range="0,1" />
+      <Property Name="Main3rdTexShouldFlipCopy" Category="Main3rd" Type="Float" Range="0,1" />
+      <Property Name="Main3rdTexIsMSDF" Category="Main3rd" Type="Float" Range="0,1" />
+      <Property Name="Main3rdTexBlendMode" Category="Main3rd" Type="Float" Range="0,4" />
+      <Property Name="Main3rdTexAlphaMode" Category="Main3rd" Type="Float" Range="0,4" />
+      <Property Name="Main3rdEnableLighting" Category="Main3rd" Type="Float" Range="0,1" />
+      <Property Name="Main3rdDistanceFade" Category="Main3rd" Type="Color" />
+
+      <Property Name="AlphaMaskMode" Category="Alpha Mask" Type="Float" Range="0,4" />
+      <Property Name="AlphaMaskScale" Category="Alpha Mask" Type="Float" />
+      <Property Name="AlphaMaskValue" Category="Alpha Mask" Type="Float" />
+
+      <Property Name="UseBumpMap" Category="NormalMap" Type="Float" Range="0,1" />
+      <Property Name="BumpScale" Category="NormalMap" Type="Float" Range="-10,10" />
+      <Property Name="UseBump2ndMap" Category="NormalMap 2nd" Type="Float" Range="0,1" />
+      <Property Name="Bump2ndMap_UVMode" Category="NormalMap 2nd" Type="Float" Range="0,3" />
+      <Property Name="Bump2ndScale" Category="NormalMap 2nd" Type="Float" Range="-10,10" />
+
+      <Property Name="UseBacklight" Category="Backlight" Type="Float" Range="0,1" />
+      <Property Name="BacklightColor" Category="Backlight" Type="Color" />
+      <Property Name="BacklightMainStrength" Category="Backlight" Type="Float" Range="0,1" />
+      <Property Name="BacklightNormalStrength" Category="Backlight" Type="Float" Range="0,1" />
+      <Property Name="BacklightBorder" Category="Backlight" Type="Float" Range="0,1" />
+      <Property Name="BacklightBlur" Category="Backlight" Type="Float" Range="0,1" />
+      <Property Name="BacklightDirectivity" Category="Backlight" Type="Float" />
+      <Property Name="BacklightViewStrength" Category="Backlight" Type="Float" Range="0,1" />
+      <Property Name="BacklightReceiveShadow" Category="Backlight" Type="Float" Range="0,1" />
+      <Property Name="BacklightBackfaceMask" Category="Backlight" Type="Float" Range="0,1" />
+
+      <Property Name="UseShadow" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowStrength" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowAOShift" Category="Shadow" Type="Color" />
+      <Property Name="ShadowAOShift2" Category="Shadow" Type="Color" />
+      <Property Name="ShadowPostAO" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowColorType" Category="Shadow" Type="Float" Range="0,2" />
+      <Property Name="ShadowColor" Category="Shadow" Type="Color" />
+      <Property Name="ShadowNormalStrength" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowBorder" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowBlur" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowReceive" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="Shadow2ndColor" Category="Shadow" Type="Color" />
+      <Property Name="Shadow2ndNormalStrength" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="Shadow2ndBorder" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="Shadow2ndBlur" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="Shadow2ndReceive" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="Shadow3rdColor" Category="Shadow" Type="Color" />
+      <Property Name="Shadow3rdNormalStrength" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="Shadow3rdBorder" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="Shadow3rdBlur" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="Shadow3rdReceive" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowBorderColor" Category="Shadow" Type="Color" />
+      <Property Name="ShadowBorderRange" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowMainStrength" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowEnvStrength" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowMaskType" Category="Shadow" Type="Float" Range="0,2" />
+      <Property Name="ShadowFlatBorder" Category="Shadow" Type="Float" Range="-2,2" />
+      <Property Name="ShadowFlatBlur" Category="Shadow" Type="Float" Range="0.001,2" />
+
+      <Property Name="UseRimShade" Category="Rim Shade" Type="Float" Range="0,1" />
+      <Property Name="RimShadeColor" Category="Rim Shade" Type="Color" />
+      <Property Name="RimShadeNormalStrength" Category="Rim Shade" Type="Float" Range="0,1" />
+      <Property Name="RimShadeBorder" Category="Rim Shade" Type="Float" Range="0,1" />
+      <Property Name="RimShadeBlur" Category="Rim Shade" Type="Float" Range="0,1" />
+      <Property Name="RimShadeFresnelPower" Category="Rim Shade" Type="Float" Range="0.01,50" />
+
+      <Property Name="UseReflection" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="Smoothness" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="Metallic" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="Reflectance" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="GSAAStrength" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="ApplySpecular" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="ApplySpecularFA" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="SpecularToon" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="SpecularNormalStrength" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="SpecularBorder" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="SpecularBlur" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="ApplyReflection" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="ReflectionNormalStrength" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="ReflectionColor" Category="Reflection" Type="Color" />
+      <Property Name="ReflectionApplyTransparency" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="ReflectionCubeColor" Category="Reflection" Type="Color" />
+      <Property Name="ReflectionCubeOverride" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="ReflectionCubeEnableLighting" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="ReflectionBlendMode" Category="Reflection" Type="Float" Range="0,4" />
+
+      <Property Name="UseMatCap" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapColor" Category="MatCap" Type="Color" />
+      <Property Name="MatCapBlend" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapBlendMode" Category="MatCap" Type="Float" Range="0,4" />
+      <Property Name="MatCapEnableLighting" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapShadowMask" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapBackfaceMask" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapLod" Category="MatCap" Type="Float" Range="0,10" />
+      <Property Name="MatCapApplyTransparency" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapNormalStrength" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapCustomNormal" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapMainStrength" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapPerspective" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapZRotCancel" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapVRParallaxStrength" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapBumpScale" Category="MatCap" Type="Float" Range="-10,10" />
+      <Property Name="MatCapBlendUV1" Category="MatCap" Type="Color" />
+
+      <Property Name="UseMatCap2nd" Category="MatCap 2nd" Type="Float" Range="0,1" />
+      <Property Name="MatCap2ndColor" Category="MatCap 2nd" Type="Color" />
+      <Property Name="MatCap2ndBlend" Category="MatCap 2nd" Type="Float" Range="0,1" />
+      <Property Name="MatCap2ndBlendMode" Category="MatCap 2nd" Type="Float" Range="0,4" />
+      <Property Name="MatCap2ndEnableLighting" Category="MatCap 2nd" Type="Float" Range="0,1" />
+      <Property Name="MatCap2ndShadowMask" Category="MatCap 2nd" Type="Float" Range="0,1" />
+      <Property Name="MatCap2ndBackfaceMask" Category="MatCap 2nd" Type="Float" Range="0,1" />
+      <Property Name="MatCap2ndLod" Category="MatCap 2nd" Type="Float" Range="0,10" />
+      <Property Name="MatCap2ndApplyTransparency" Category="MatCap 2nd" Type="Float" Range="0,1" />
+      <Property Name="MatCap2ndNormalStrength" Category="MatCap 2nd" Type="Float" Range="0,1" />
+      <Property Name="MatCap2ndCustomNormal" Category="MatCap 2nd" Type="Float" Range="0,1" />
+      <Property Name="MatCap2ndMainStrength" Category="MatCap 2nd" Type="Float" Range="0,1" />
+      <Property Name="MatCap2ndPerspective" Category="MatCap 2nd" Type="Float" Range="0,1" />
+      <Property Name="MatCap2ndZRotCancel" Category="MatCap 2nd" Type="Float" Range="0,1" />
+      <Property Name="MatCap2ndVRParallaxStrength" Category="MatCap 2nd" Type="Float" Range="0,1" />
+      <Property Name="MatCap2ndBumpScale" Category="MatCap 2nd" Type="Float" Range="-10,10" />
+      <Property Name="MatCap2ndBlendUV1" Category="MatCap 2nd" Type="Color" />
+
+      <Property Name="UseRim" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="RimColor" Category="Rim" Type="Color" />
+      <Property Name="RimIndirColor" Category="Rim" Type="Color" />
+      <Property Name="RimBorder" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="RimBlur" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="RimFresnelPower" Category="Rim" Type="Float" Range="0.01,50" />
+      <Property Name="RimShadowMask" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="RimBackfaceMask" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="RimVRParallaxStrength" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="RimApplyTransparency" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="RimEnableLighting" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="RimBlendMode" Category="Rim" Type="Float" Range="0,4" />
+      <Property Name="RimDirStrength" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="RimDirRange" Category="Rim" Type="Float" Range="-1,1" />
+      <Property Name="RimIndirRange" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="RimIndirColorStrength" Category="Rim" Type="Float" Range="0,1" />
+
+      <Property Name="OutlineColor" Category="Outline" Type="Color" />
+      <Property Name="OutlineTex_ScrollRotate" Category="Outline" Type="Color" />
+      <Property Name="OutlineTexHSVG" Category="Outline" Type="Color" />
+      <Property Name="OutlineLitColor" Category="Outline" Type="Color" />
+      <Property Name="OutlineLitApplyTex" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="OutlineLitScale" Category="Outline" Type="Float" />
+      <Property Name="OutlineLitOffset" Category="Outline" Type="Float" />
+      <Property Name="OutlineLitShadowReceive" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="OutlineWidth" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="OutlineFixWidth" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="OutlineVertexR2Width" Category="Outline" Type="Float" Range="0,2" />
+      <Property Name="OutlineDeleteMesh" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="OutlineVectorUVMode" Category="Outline" Type="Float" Range="0,3" />
+      <Property Name="OutlineVectorScale" Category="Outline" Type="Float" Range="-10,10" />
+      <Property Name="OutlineEnableLighting" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="OutlineZBias" Category="Outline" Type="Float" />
+      <Property Name="OutlineDisableInVR" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="UseOutline" Category="Outline" Type="Float" Range="0,1" />
+
+      <Property Name="OutlineCull" Category="Outline Advanced" Type="Float" Range="0,2" />
+      <Property Name="OutlineSrcBlend" Category="Outline Advanced" Type="Float" Range="0,10" />
+      <Property Name="OutlineDstBlend" Category="Outline Advanced" Type="Float" Range="0,10" />
+      <Property Name="OutlineSrcBlendAlpha" Category="Outline Advanced" Type="Float" Range="0,10" />
+      <Property Name="OutlineDstBlendAlpha" Category="Outline Advanced" Type="Float" Range="0,10" />
+      <Property Name="OutlineBlendOp" Category="Outline Advanced" Type="Float" Range="0,4" />
+      <Property Name="OutlineBlendOpAlpha" Category="Outline Advanced" Type="Float" Range="0,4" />
+      <Property Name="OutlineSrcBlendFA" Category="Outline Advanced" Type="Float" Range="0,10" />
+      <Property Name="OutlineDstBlendFA" Category="Outline Advanced" Type="Float" Range="0,10" />
+      <Property Name="OutlineSrcBlendAlphaFA" Category="Outline Advanced" Type="Float" Range="0,10" />
+      <Property Name="OutlineDstBlendAlphaFA" Category="Outline Advanced" Type="Float" Range="0,10" />
+      <Property Name="OutlineBlendOpFA" Category="Outline Advanced" Type="Float" Range="0,4" />
+      <Property Name="OutlineBlendOpAlphaFA" Category="Outline Advanced" Type="Float" Range="0,4" />
+      <Property Name="OutlineZClip" Category="Outline Advanced" Type="Float" Range="0,1" />
+      <Property Name="OutlineZWrite" Category="Outline Advanced" Type="Float" Range="0,1" />
+      <Property Name="OutlineZTest" Category="Outline Advanced" Type="Float" Range="0,8" />
+      <Property Name="OutlineStencilRef" Category="Outline Advanced" Type="Float" Range="0,255" />
+      <Property Name="OutlineStencilReadMask" Category="Outline Advanced" Type="Float" Range="0,255" />
+      <Property Name="OutlineStencilWriteMask" Category="Outline Advanced" Type="Float" Range="0,255" />
+      <Property Name="OutlineStencilComp" Category="Outline Advanced" Type="Float" Range="0,8" />
+      <Property Name="OutlineStencilPass" Category="Outline Advanced" Type="Float" Range="0,7" />
+      <Property Name="OutlineStencilFail" Category="Outline Advanced" Type="Float" Range="0,7" />
+      <Property Name="OutlineStencilZFail" Category="Outline Advanced" Type="Float" Range="0,7" />
+      <Property Name="OutlineOffsetFactor" Category="Outline Advanced" Type="Float" />
+      <Property Name="OutlineOffsetUnits" Category="Outline Advanced" Type="Float" />
+      <Property Name="OutlineColorMask" Category="Outline Advanced" Type="Float" Range="0,15" />
+      <Property Name="OutlineAlphaToMask" Category="Outline Advanced" Type="Float" Range="0,1" />
+      <Property Name="UseEmission" Category="Emission" Type="Float" Range="0,1" />
+      <Property Name="EmissionColor" Category="Emission" Type="Color" />
+      <Property Name="EmissionMap_ScrollRotate" Category="Emission" Type="Color" />
+      <Property Name="EmissionBlend" Category="Emission" Type="Float" Range="0,1" />
+      <Property Name="EmissionBlendMode" Category="Emission" Type="Float" Range="0,4" />
+      <Property Name="EmissionMap_UVMode" Category="Emission" Type="Float" Range="0,3" />
+      <Property Name="EmissionBlink" Category="Emission" Type="Color" />
+      <Property Name="UseEmission2nd" Category="Emission 2nd" Type="Float" Range="0,1" />
+      <Property Name="Emission2ndColor" Category="Emission 2nd" Type="Color" />
+      <Property Name="Emission2ndMap_ScrollRotate" Category="Emission 2nd" Type="Color" />
+      <Property Name="Emission2ndBlend" Category="Emission 2nd" Type="Float" Range="0,1" />
+      <Property Name="Emission2ndBlendMode" Category="Emission 2nd" Type="Float" Range="0,4" />
+      <Property Name="Emission2ndMap_UVMode" Category="Emission 2nd" Type="Float" Range="0,3" />
+      <Property Name="Emission2ndBlink" Category="Emission 2nd" Type="Color" />
+
+      <Property Name="DistanceFadeColor" Category="Distance Fade" Type="Color" />
+      <Property Name="DistanceFade" Category="Distance Fade" Type="Color" />
+      <Property Name="DistanceFadeMode" Category="Distance Fade" Type="Float" Range="0,2" />
+      <Property Name="DistanceFadeRimColor" Category="Distance Fade" Type="Color" />
+      <Property Name="DistanceFadeRimFresnelPower" Category="Distance Fade" Type="Float" Range="0.01,50" />
+
+      <Property Name="Cull" Category="Rendering" Type="Float" Range="0,2" />
+      <Property Name="SrcBlend" Category="Rendering" Type="Float" Range="0,10" />
+      <Property Name="DstBlend" Category="Rendering" Type="Float" Range="0,10" />
+      <Property Name="SrcBlendAlpha" Category="Rendering" Type="Float" Range="0,10" />
+      <Property Name="DstBlendAlpha" Category="Rendering" Type="Float" Range="0,10" />
+      <Property Name="BlendOp" Category="Rendering" Type="Float" Range="0,4" />
+      <Property Name="BlendOpAlpha" Category="Rendering" Type="Float" Range="0,4" />
+      <Property Name="SrcBlendFA" Category="Rendering" Type="Float" Range="0,10" />
+      <Property Name="DstBlendFA" Category="Rendering" Type="Float" Range="0,10" />
+      <Property Name="SrcBlendAlphaFA" Category="Rendering" Type="Float" Range="0,10" />
+      <Property Name="DstBlendAlphaFA" Category="Rendering" Type="Float" Range="0,10" />
+      <Property Name="BlendOpFA" Category="Rendering" Type="Float" Range="0,4" />
+      <Property Name="BlendOpAlphaFA" Category="Rendering" Type="Float" Range="0,4" />
+      <Property Name="ZClip" Category="Rendering" Type="Float" Range="0,1" />
+      <Property Name="ZWrite" Category="Rendering" Type="Float" Range="0,1" />
+      <Property Name="ZTest" Category="Rendering" Type="Float" Range="0,8" />
+      <Property Name="StencilRef" Category="Rendering" Type="Float" Range="0,255" />
+      <Property Name="StencilReadMask" Category="Rendering" Type="Float" Range="0,255" />
+      <Property Name="StencilWriteMask" Category="Rendering" Type="Float" Range="0,255" />
+      <Property Name="StencilComp" Category="Rendering" Type="Float" Range="0,8" />
+      <Property Name="StencilPass" Category="Rendering" Type="Float" Range="0,7" />
+      <Property Name="StencilFail" Category="Rendering" Type="Float" Range="0,7" />
+      <Property Name="StencilZFail" Category="Rendering" Type="Float" Range="0,7" />
+      <Property Name="OffsetFactor" Category="Rendering" Type="Float" />
+      <Property Name="OffsetUnits" Category="Rendering" Type="Float" />
+      <Property Name="ColorMask" Category="Rendering" Type="Float" Range="0,15" />
+      <Property Name="AlphaToMask" Category="Rendering" Type="Float" Range="0,1" />
+      <Property Name="PreColor" Category="Prepass Rendering" Type="Color" />
+      <Property Name="PreOutType" Category="Prepass Rendering" Type="Float" Range="0,2" />
+      <Property Name="PreCutoff" Category="Prepass Rendering" Type="Float" Range="-0.001,1.001" />
+      <Property Name="PreCull" Category="Prepass Rendering" Type="Float" Range="0,2" />
+      <Property Name="PreSrcBlend" Category="Prepass Rendering" Type="Float" Range="0,10" />
+      <Property Name="PreDstBlend" Category="Prepass Rendering" Type="Float" Range="0,10" />
+      <Property Name="PreSrcBlendAlpha" Category="Prepass Rendering" Type="Float" Range="0,10" />
+      <Property Name="PreDstBlendAlpha" Category="Prepass Rendering" Type="Float" Range="0,10" />
+      <Property Name="PreBlendOp" Category="Prepass Rendering" Type="Float" Range="0,4" />
+      <Property Name="PreBlendOpAlpha" Category="Prepass Rendering" Type="Float" Range="0,4" />
+      <Property Name="PreSrcBlendFA" Category="Prepass Rendering" Type="Float" Range="0,10" />
+      <Property Name="PreDstBlendFA" Category="Prepass Rendering" Type="Float" Range="0,10" />
+      <Property Name="PreSrcBlendAlphaFA" Category="Prepass Rendering" Type="Float" Range="0,10" />
+      <Property Name="PreDstBlendAlphaFA" Category="Prepass Rendering" Type="Float" Range="0,10" />
+      <Property Name="PreBlendOpFA" Category="Prepass Rendering" Type="Float" Range="0,4" />
+      <Property Name="PreBlendOpAlphaFA" Category="Prepass Rendering" Type="Float" Range="0,4" />
+      <Property Name="PreZClip" Category="Prepass Rendering" Type="Float" Range="0,1" />
+      <Property Name="PreZWrite" Category="Prepass Rendering" Type="Float" Range="0,1" />
+      <Property Name="PreZTest" Category="Prepass Rendering" Type="Float" Range="0,8" />
+      <Property Name="PreStencilRef" Category="Prepass Rendering" Type="Float" Range="0,255" />
+      <Property Name="PreStencilReadMask" Category="Prepass Rendering" Type="Float" Range="0,255" />
+      <Property Name="PreStencilWriteMask" Category="Prepass Rendering" Type="Float" Range="0,255" />
+      <Property Name="PreStencilComp" Category="Prepass Rendering" Type="Float" Range="0,8" />
+      <Property Name="PreStencilPass" Category="Prepass Rendering" Type="Float" Range="0,7" />
+      <Property Name="PreStencilFail" Category="Prepass Rendering" Type="Float" Range="0,7" />
+      <Property Name="PreStencilZFail" Category="Prepass Rendering" Type="Float" Range="0,7" />
+      <Property Name="PreOffsetFactor" Category="Prepass Rendering" Type="Float" />
+      <Property Name="PreOffsetUnits" Category="Prepass Rendering" Type="Float" />
+      <Property Name="PreColorMask" Category="Prepass Rendering" Type="Float" Range="0,15" />
+      <Property Name="PreAlphaToMask" Category="Prepass Rendering" Type="Float" Range="0,1" />
+      <Property Name="lilShadowCasterBias" Category="Rendering" Type="Float" />
+    </Shader>
+    <Shader Name="lilToonTwoPassTransparent" AssetBundle="chara/tom/liltoon/shaders/liltoon.unity3d" Asset="a_lilToonTwoPassTransparent">
+      <Property Name="MainTex" Category="Main" Type="Texture" />
+      <Property Name="MainGradationTex" Category="Main" Type="Texture" />
+      <Property Name="MainColorAdjustMask" Category="Main" Type="Texture" />
+      <Property Name="Main2ndTex" Category="Main2nd" Type="Texture" />
+      <Property Name="Main2ndBlendMask" Category="Main2nd" Type="Texture" />
+      <Property Name="Main3rdTex" Category="Main3rd" Type="Texture" />
+      <Property Name="Main3rdBlendMask" Category="Main3rd" Type="Texture" />
+      <Property Name="AlphaMask" Category="Alpha Mask" Type="Texture" />
+      <Property Name="BumpMap" Category="NormalMap" Type="Texture" />
+      <Property Name="Bump2ndMap" Category="NormalMap 2nd" Type="Texture" />
+      <Property Name="Bump2ndScaleMask" Category="NormalMap 2nd" Type="Texture" />
+      <Property Name="BacklightColorTex" Category="Backlight" Type="Texture" />
+      <Property Name="ShadowStrengthMask" Category="Shadow" Type="Texture" />
+      <Property Name="ShadowBorderMask" Category="Shadow" Type="Texture" />
+      <Property Name="ShadowBlurMask" Category="Shadow" Type="Texture" />
+      <Property Name="ShadowStrengthMaskLOD" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowBorderMaskLOD" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowBlurMaskLOD" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowColorTex" Category="Shadow" Type="Texture" />
+      <Property Name="Shadow2ndColorTex" Category="Shadow" Type="Texture" />
+      <Property Name="Shadow3rdColorTex" Category="Shadow" Type="Texture" />
+      <Property Name="RimShadeMask" Category="Rim Shade" Type="Texture" />
+      <Property Name="SmoothnessTex" Category="Reflection" Type="Texture" />
+      <Property Name="MetallicGlossMap" Category="Reflection" Type="Texture" />
+      <Property Name="ReflectionColorTex" Category="Reflection" Type="Texture" />
+      <Property Name="ReflectionCubeTex" Category="Reflection" Type="Texture" />
+      <Property Name="MatCapTex" Category="MatCap" Type="Texture" />
+      <Property Name="MatCapBlendMask" Category="MatCap" Type="Texture" />
+      <Property Name="MatCapBumpMap" Category="MatCap" Type="Texture" />
+      <Property Name="MatCap2ndTex" Category="MatCap 2nd" Type="Texture" />
+      <Property Name="MatCap2ndBlendMask" Category="MatCap 2nd" Type="Texture" />
+      <Property Name="MatCap2ndBumpMap" Category="MatCap 2nd" Type="Texture" />
+      <Property Name="RimColorTex" Category="Rim" Type="Texture" />
+      <Property Name="OutlineTex" Category="Outline" Type="Texture" />
+      <Property Name="OutlineWidthMask" Category="Outline" Type="Texture" />
+      <Property Name="OutlineVectorTex" Category="Outline" Type="Texture" />
+      <Property Name="EmissionMap" Category="Emission" Type="Texture" />
+      <Property Name="EmissionBlendMask" Category="Emission" Type="Texture" />
+      <Property Name="Emission2ndMap" Category="Emission 2nd" Type="Texture" />
+      <Property Name="Emission2ndBlendMask" Category="Emission 2nd" Type="Texture" />
+      <Property Name="DitherTex" Category="Base" Type="Texture" />
+
+      <Property Name="Invisible" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="AsUnlit" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="Cutoff" Category="Base" Type="Float" Range="-0.001,1.001" />
+      <Property Name="SubpassCutoff" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="FlipNormal" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="ShiftBackfaceUV" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="BackfaceForceShadow" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="BackfaceColor" Category="Base" Type="Color" />
+      <Property Name="VertexLightStrength" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="LightMinLimit" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="LightMaxLimit" Category="Base" Type="Float" Range="0,10" />
+      <Property Name="BeforeExposureLimit" Category="Base" Type="Float" />
+      <Property Name="MonochromeLighting" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="AlphaBoostFA" Category="Base" Type="Float" Range="1,100" />
+      <Property Name="lilDirectionalLightStrength" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="LightDirectionOverride" Category="Base" Type="Color" />
+      <Property Name="AAStrength" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="UseDither" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="DitherMaxValue" Category="Base" Type="Float" />
+      <Property Name="EnvRimBorder" Category="Base" Type="Float" Range="0,3" />
+      <Property Name="EnvRimBlur" Category="Base" Type="Float" Range="0,1" />
+
+      <Property Name="Color" Category="Main" Type="Color" />
+      <Property Name="MainTex_ScrollRotate" Category="Main" Type="Color" />
+      <Property Name="MainTexHSVG" Category="Main" Type="Color" />
+      <Property Name="MainGradationStrength" Category="Main" Type="Float" Range="0,1" />
+
+      <Property Name="UseMain2ndTex" Category="Main2nd" Type="Float" Range="0,1" />
+      <Property Name="Color2nd" Category="Main2nd" Type="Color" />
+      <Property Name="Main2ndTexAngle" Category="Main2nd" Type="Float" />
+      <Property Name="Main2ndTex_ScrollRotate" Category="Main2nd" Type="Color" />
+      <Property Name="Main2ndTex_UVMode" Category="Main2nd" Type="Float" Range="0,4" />
+      <Property Name="Main2ndTex_Cull" Category="Main2nd" Type="Float" Range="0,2" />
+      <Property Name="Main2ndTexDecalAnimation" Category="Main2nd" Type="Color" />
+      <Property Name="Main2ndTexDecalSubParam" Category="Main2nd" Type="Color" />
+      <Property Name="Main2ndTexIsDecal" Category="Main2nd" Type="Float" Range="0,1" />
+      <Property Name="Main2ndTexIsLeftOnly" Category="Main2nd" Type="Float" Range="0,1" />
+      <Property Name="Main2ndTexIsRightOnly" Category="Main2nd" Type="Float" Range="0,1" />
+      <Property Name="Main2ndTexShouldCopy" Category="Main2nd" Type="Float" Range="0,1" />
+      <Property Name="Main2ndTexShouldFlipMirror" Category="Main2nd" Type="Float" Range="0,1" />
+      <Property Name="Main2ndTexShouldFlipCopy" Category="Main2nd" Type="Float" Range="0,1" />
+      <Property Name="Main2ndTexIsMSDF" Category="Main2nd" Type="Float" Range="0,1" />
+      <Property Name="Main2ndTexBlendMode" Category="Main2nd" Type="Float" Range="0,4" />
+      <Property Name="Main2ndTexAlphaMode" Category="Main2nd" Type="Float" Range="0,4" />
+      <Property Name="Main2ndEnableLighting" Category="Main2nd" Type="Float" Range="0,1" />
+      <Property Name="Main2ndDistanceFade" Category="Main2nd" Type="Color" />
+
+      <Property Name="UseMain3rdTex" Category="Main3rd" Type="Float" Range="0,1" />
+      <Property Name="Color3rd" Category="Main3rd" Type="Color" />
+      <Property Name="Main3rdTexAngle" Category="Main3rd" Type="Float" />
+      <Property Name="Main3rdTex_ScrollRotate" Category="Main3rd" Type="Color" />
+      <Property Name="Main3rdTex_UVMode" Category="Main3rd" Type="Float" Range="0,4" />
+      <Property Name="Main3rdTex_Cull" Category="Main3rd" Type="Float" Range="0,2" />
+      <Property Name="Main3rdTexDecalAnimation" Category="Main3rd" Type="Color" />
+      <Property Name="Main3rdTexDecalSubParam" Category="Main3rd" Type="Color" />
+      <Property Name="Main3rdTexIsDecal" Category="Main3rd" Type="Float" Range="0,1" />
+      <Property Name="Main3rdTexIsLeftOnly" Category="Main3rd" Type="Float" Range="0,1" />
+      <Property Name="Main3rdTexIsRightOnly" Category="Main3rd" Type="Float" Range="0,1" />
+      <Property Name="Main3rdTexShouldCopy" Category="Main3rd" Type="Float" Range="0,1" />
+      <Property Name="Main3rdTexShouldFlipMirror" Category="Main3rd" Type="Float" Range="0,1" />
+      <Property Name="Main3rdTexShouldFlipCopy" Category="Main3rd" Type="Float" Range="0,1" />
+      <Property Name="Main3rdTexIsMSDF" Category="Main3rd" Type="Float" Range="0,1" />
+      <Property Name="Main3rdTexBlendMode" Category="Main3rd" Type="Float" Range="0,4" />
+      <Property Name="Main3rdTexAlphaMode" Category="Main3rd" Type="Float" Range="0,4" />
+      <Property Name="Main3rdEnableLighting" Category="Main3rd" Type="Float" Range="0,1" />
+      <Property Name="Main3rdDistanceFade" Category="Main3rd" Type="Color" />
+
+      <Property Name="AlphaMaskMode" Category="Alpha Mask" Type="Float" Range="0,4" />
+      <Property Name="AlphaMaskScale" Category="Alpha Mask" Type="Float" />
+      <Property Name="AlphaMaskValue" Category="Alpha Mask" Type="Float" />
+
+      <Property Name="UseBumpMap" Category="NormalMap" Type="Float" Range="0,1" />
+      <Property Name="BumpScale" Category="NormalMap" Type="Float" Range="-10,10" />
+      <Property Name="UseBump2ndMap" Category="NormalMap 2nd" Type="Float" Range="0,1" />
+      <Property Name="Bump2ndMap_UVMode" Category="NormalMap 2nd" Type="Float" Range="0,3" />
+      <Property Name="Bump2ndScale" Category="NormalMap 2nd" Type="Float" Range="-10,10" />
+
+      <Property Name="UseBacklight" Category="Backlight" Type="Float" Range="0,1" />
+      <Property Name="BacklightColor" Category="Backlight" Type="Color" />
+      <Property Name="BacklightMainStrength" Category="Backlight" Type="Float" Range="0,1" />
+      <Property Name="BacklightNormalStrength" Category="Backlight" Type="Float" Range="0,1" />
+      <Property Name="BacklightBorder" Category="Backlight" Type="Float" Range="0,1" />
+      <Property Name="BacklightBlur" Category="Backlight" Type="Float" Range="0,1" />
+      <Property Name="BacklightDirectivity" Category="Backlight" Type="Float" />
+      <Property Name="BacklightViewStrength" Category="Backlight" Type="Float" Range="0,1" />
+      <Property Name="BacklightReceiveShadow" Category="Backlight" Type="Float" Range="0,1" />
+      <Property Name="BacklightBackfaceMask" Category="Backlight" Type="Float" Range="0,1" />
+
+      <Property Name="UseShadow" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowStrength" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowAOShift" Category="Shadow" Type="Color" />
+      <Property Name="ShadowAOShift2" Category="Shadow" Type="Color" />
+      <Property Name="ShadowPostAO" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowColorType" Category="Shadow" Type="Float" Range="0,2" />
+      <Property Name="ShadowColor" Category="Shadow" Type="Color" />
+      <Property Name="ShadowNormalStrength" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowBorder" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowBlur" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowReceive" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="Shadow2ndColor" Category="Shadow" Type="Color" />
+      <Property Name="Shadow2ndNormalStrength" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="Shadow2ndBorder" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="Shadow2ndBlur" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="Shadow2ndReceive" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="Shadow3rdColor" Category="Shadow" Type="Color" />
+      <Property Name="Shadow3rdNormalStrength" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="Shadow3rdBorder" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="Shadow3rdBlur" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="Shadow3rdReceive" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowBorderColor" Category="Shadow" Type="Color" />
+      <Property Name="ShadowBorderRange" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowMainStrength" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowEnvStrength" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowMaskType" Category="Shadow" Type="Float" Range="0,2" />
+      <Property Name="ShadowFlatBorder" Category="Shadow" Type="Float" Range="-2,2" />
+      <Property Name="ShadowFlatBlur" Category="Shadow" Type="Float" Range="0.001,2" />
+
+      <Property Name="UseRimShade" Category="Rim Shade" Type="Float" Range="0,1" />
+      <Property Name="RimShadeColor" Category="Rim Shade" Type="Color" />
+      <Property Name="RimShadeNormalStrength" Category="Rim Shade" Type="Float" Range="0,1" />
+      <Property Name="RimShadeBorder" Category="Rim Shade" Type="Float" Range="0,1" />
+      <Property Name="RimShadeBlur" Category="Rim Shade" Type="Float" Range="0,1" />
+      <Property Name="RimShadeFresnelPower" Category="Rim Shade" Type="Float" Range="0.01,50" />
+
+      <Property Name="UseReflection" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="Smoothness" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="Metallic" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="Reflectance" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="GSAAStrength" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="ApplySpecular" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="ApplySpecularFA" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="SpecularToon" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="SpecularNormalStrength" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="SpecularBorder" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="SpecularBlur" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="ApplyReflection" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="ReflectionNormalStrength" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="ReflectionColor" Category="Reflection" Type="Color" />
+      <Property Name="ReflectionApplyTransparency" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="ReflectionCubeColor" Category="Reflection" Type="Color" />
+      <Property Name="ReflectionCubeOverride" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="ReflectionCubeEnableLighting" Category="Reflection" Type="Float" Range="0,1" />
+      <Property Name="ReflectionBlendMode" Category="Reflection" Type="Float" Range="0,4" />
+
+      <Property Name="UseMatCap" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapColor" Category="MatCap" Type="Color" />
+      <Property Name="MatCapBlend" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapBlendMode" Category="MatCap" Type="Float" Range="0,4" />
+      <Property Name="MatCapEnableLighting" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapShadowMask" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapBackfaceMask" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapLod" Category="MatCap" Type="Float" Range="0,10" />
+      <Property Name="MatCapApplyTransparency" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapNormalStrength" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapCustomNormal" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapMainStrength" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapPerspective" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapZRotCancel" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapVRParallaxStrength" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapBumpScale" Category="MatCap" Type="Float" Range="-10,10" />
+      <Property Name="MatCapBlendUV1" Category="MatCap" Type="Color" />
+
+      <Property Name="UseMatCap2nd" Category="MatCap 2nd" Type="Float" Range="0,1" />
+      <Property Name="MatCap2ndColor" Category="MatCap 2nd" Type="Color" />
+      <Property Name="MatCap2ndBlend" Category="MatCap 2nd" Type="Float" Range="0,1" />
+      <Property Name="MatCap2ndBlendMode" Category="MatCap 2nd" Type="Float" Range="0,4" />
+      <Property Name="MatCap2ndEnableLighting" Category="MatCap 2nd" Type="Float" Range="0,1" />
+      <Property Name="MatCap2ndShadowMask" Category="MatCap 2nd" Type="Float" Range="0,1" />
+      <Property Name="MatCap2ndBackfaceMask" Category="MatCap 2nd" Type="Float" Range="0,1" />
+      <Property Name="MatCap2ndLod" Category="MatCap 2nd" Type="Float" Range="0,10" />
+      <Property Name="MatCap2ndApplyTransparency" Category="MatCap 2nd" Type="Float" Range="0,1" />
+      <Property Name="MatCap2ndNormalStrength" Category="MatCap 2nd" Type="Float" Range="0,1" />
+      <Property Name="MatCap2ndCustomNormal" Category="MatCap 2nd" Type="Float" Range="0,1" />
+      <Property Name="MatCap2ndMainStrength" Category="MatCap 2nd" Type="Float" Range="0,1" />
+      <Property Name="MatCap2ndPerspective" Category="MatCap 2nd" Type="Float" Range="0,1" />
+      <Property Name="MatCap2ndZRotCancel" Category="MatCap 2nd" Type="Float" Range="0,1" />
+      <Property Name="MatCap2ndVRParallaxStrength" Category="MatCap 2nd" Type="Float" Range="0,1" />
+      <Property Name="MatCap2ndBumpScale" Category="MatCap 2nd" Type="Float" Range="-10,10" />
+      <Property Name="MatCap2ndBlendUV1" Category="MatCap 2nd" Type="Color" />
+
+      <Property Name="UseRim" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="RimColor" Category="Rim" Type="Color" />
+      <Property Name="RimIndirColor" Category="Rim" Type="Color" />
+      <Property Name="RimBorder" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="RimBlur" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="RimFresnelPower" Category="Rim" Type="Float" Range="0.01,50" />
+      <Property Name="RimShadowMask" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="RimBackfaceMask" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="RimVRParallaxStrength" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="RimApplyTransparency" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="RimEnableLighting" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="RimBlendMode" Category="Rim" Type="Float" Range="0,4" />
+      <Property Name="RimDirStrength" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="RimDirRange" Category="Rim" Type="Float" Range="-1,1" />
+      <Property Name="RimIndirRange" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="RimIndirColorStrength" Category="Rim" Type="Float" Range="0,1" />
+
+      <Property Name="OutlineColor" Category="Outline" Type="Color" />
+      <Property Name="OutlineTex_ScrollRotate" Category="Outline" Type="Color" />
+      <Property Name="OutlineTexHSVG" Category="Outline" Type="Color" />
+      <Property Name="OutlineLitColor" Category="Outline" Type="Color" />
+      <Property Name="OutlineLitApplyTex" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="OutlineLitScale" Category="Outline" Type="Float" />
+      <Property Name="OutlineLitOffset" Category="Outline" Type="Float" />
+      <Property Name="OutlineLitShadowReceive" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="OutlineWidth" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="OutlineFixWidth" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="OutlineVertexR2Width" Category="Outline" Type="Float" Range="0,2" />
+      <Property Name="OutlineDeleteMesh" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="OutlineVectorUVMode" Category="Outline" Type="Float" Range="0,3" />
+      <Property Name="OutlineVectorScale" Category="Outline" Type="Float" Range="-10,10" />
+      <Property Name="OutlineEnableLighting" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="OutlineZBias" Category="Outline" Type="Float" />
+      <Property Name="OutlineDisableInVR" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="UseOutline" Category="Outline" Type="Float" Range="0,1" />
+
+      <Property Name="OutlineCull" Category="Outline Advanced" Type="Float" Range="0,2" />
+      <Property Name="OutlineSrcBlend" Category="Outline Advanced" Type="Float" Range="0,10" />
+      <Property Name="OutlineDstBlend" Category="Outline Advanced" Type="Float" Range="0,10" />
+      <Property Name="OutlineSrcBlendAlpha" Category="Outline Advanced" Type="Float" Range="0,10" />
+      <Property Name="OutlineDstBlendAlpha" Category="Outline Advanced" Type="Float" Range="0,10" />
+      <Property Name="OutlineBlendOp" Category="Outline Advanced" Type="Float" Range="0,4" />
+      <Property Name="OutlineBlendOpAlpha" Category="Outline Advanced" Type="Float" Range="0,4" />
+      <Property Name="OutlineSrcBlendFA" Category="Outline Advanced" Type="Float" Range="0,10" />
+      <Property Name="OutlineDstBlendFA" Category="Outline Advanced" Type="Float" Range="0,10" />
+      <Property Name="OutlineSrcBlendAlphaFA" Category="Outline Advanced" Type="Float" Range="0,10" />
+      <Property Name="OutlineDstBlendAlphaFA" Category="Outline Advanced" Type="Float" Range="0,10" />
+      <Property Name="OutlineBlendOpFA" Category="Outline Advanced" Type="Float" Range="0,4" />
+      <Property Name="OutlineBlendOpAlphaFA" Category="Outline Advanced" Type="Float" Range="0,4" />
+      <Property Name="OutlineZClip" Category="Outline Advanced" Type="Float" Range="0,1" />
+      <Property Name="OutlineZWrite" Category="Outline Advanced" Type="Float" Range="0,1" />
+      <Property Name="OutlineZTest" Category="Outline Advanced" Type="Float" Range="0,8" />
+      <Property Name="OutlineStencilRef" Category="Outline Advanced" Type="Float" Range="0,255" />
+      <Property Name="OutlineStencilReadMask" Category="Outline Advanced" Type="Float" Range="0,255" />
+      <Property Name="OutlineStencilWriteMask" Category="Outline Advanced" Type="Float" Range="0,255" />
+      <Property Name="OutlineStencilComp" Category="Outline Advanced" Type="Float" Range="0,8" />
+      <Property Name="OutlineStencilPass" Category="Outline Advanced" Type="Float" Range="0,7" />
+      <Property Name="OutlineStencilFail" Category="Outline Advanced" Type="Float" Range="0,7" />
+      <Property Name="OutlineStencilZFail" Category="Outline Advanced" Type="Float" Range="0,7" />
+      <Property Name="OutlineOffsetFactor" Category="Outline Advanced" Type="Float" />
+      <Property Name="OutlineOffsetUnits" Category="Outline Advanced" Type="Float" />
+      <Property Name="OutlineColorMask" Category="Outline Advanced" Type="Float" Range="0,15" />
+      <Property Name="OutlineAlphaToMask" Category="Outline Advanced" Type="Float" Range="0,1" />
+      <Property Name="UseEmission" Category="Emission" Type="Float" Range="0,1" />
+      <Property Name="EmissionColor" Category="Emission" Type="Color" />
+      <Property Name="EmissionMap_ScrollRotate" Category="Emission" Type="Color" />
+      <Property Name="EmissionBlend" Category="Emission" Type="Float" Range="0,1" />
+      <Property Name="EmissionBlendMode" Category="Emission" Type="Float" Range="0,4" />
+      <Property Name="EmissionMap_UVMode" Category="Emission" Type="Float" Range="0,3" />
+      <Property Name="EmissionBlink" Category="Emission" Type="Color" />
+      <Property Name="UseEmission2nd" Category="Emission 2nd" Type="Float" Range="0,1" />
+      <Property Name="Emission2ndColor" Category="Emission 2nd" Type="Color" />
+      <Property Name="Emission2ndMap_ScrollRotate" Category="Emission 2nd" Type="Color" />
+      <Property Name="Emission2ndBlend" Category="Emission 2nd" Type="Float" Range="0,1" />
+      <Property Name="Emission2ndBlendMode" Category="Emission 2nd" Type="Float" Range="0,4" />
+      <Property Name="Emission2ndMap_UVMode" Category="Emission 2nd" Type="Float" Range="0,3" />
+      <Property Name="Emission2ndBlink" Category="Emission 2nd" Type="Color" />
+
+      <Property Name="DistanceFadeColor" Category="Distance Fade" Type="Color" />
+      <Property Name="DistanceFade" Category="Distance Fade" Type="Color" />
+      <Property Name="DistanceFadeMode" Category="Distance Fade" Type="Float" Range="0,2" />
+      <Property Name="DistanceFadeRimColor" Category="Distance Fade" Type="Color" />
+      <Property Name="DistanceFadeRimFresnelPower" Category="Distance Fade" Type="Float" Range="0.01,50" />
+
+      <Property Name="Cull" Category="Rendering" Type="Float" Range="0,2" />
+      <Property Name="SrcBlend" Category="Rendering" Type="Float" Range="0,10" />
+      <Property Name="DstBlend" Category="Rendering" Type="Float" Range="0,10" />
+      <Property Name="SrcBlendAlpha" Category="Rendering" Type="Float" Range="0,10" />
+      <Property Name="DstBlendAlpha" Category="Rendering" Type="Float" Range="0,10" />
+      <Property Name="BlendOp" Category="Rendering" Type="Float" Range="0,4" />
+      <Property Name="BlendOpAlpha" Category="Rendering" Type="Float" Range="0,4" />
+      <Property Name="SrcBlendFA" Category="Rendering" Type="Float" Range="0,10" />
+      <Property Name="DstBlendFA" Category="Rendering" Type="Float" Range="0,10" />
+      <Property Name="SrcBlendAlphaFA" Category="Rendering" Type="Float" Range="0,10" />
+      <Property Name="DstBlendAlphaFA" Category="Rendering" Type="Float" Range="0,10" />
+      <Property Name="BlendOpFA" Category="Rendering" Type="Float" Range="0,4" />
+      <Property Name="BlendOpAlphaFA" Category="Rendering" Type="Float" Range="0,4" />
+      <Property Name="ZClip" Category="Rendering" Type="Float" Range="0,1" />
+      <Property Name="ZWrite" Category="Rendering" Type="Float" Range="0,1" />
+      <Property Name="ZTest" Category="Rendering" Type="Float" Range="0,8" />
+      <Property Name="StencilRef" Category="Rendering" Type="Float" Range="0,255" />
+      <Property Name="StencilReadMask" Category="Rendering" Type="Float" Range="0,255" />
+      <Property Name="StencilWriteMask" Category="Rendering" Type="Float" Range="0,255" />
+      <Property Name="StencilComp" Category="Rendering" Type="Float" Range="0,8" />
+      <Property Name="StencilPass" Category="Rendering" Type="Float" Range="0,7" />
+      <Property Name="StencilFail" Category="Rendering" Type="Float" Range="0,7" />
+      <Property Name="StencilZFail" Category="Rendering" Type="Float" Range="0,7" />
+      <Property Name="OffsetFactor" Category="Rendering" Type="Float" />
+      <Property Name="OffsetUnits" Category="Rendering" Type="Float" />
+      <Property Name="ColorMask" Category="Rendering" Type="Float" Range="0,15" />
+      <Property Name="AlphaToMask" Category="Rendering" Type="Float" Range="0,1" />
+      <Property Name="PreColor" Category="Prepass Rendering" Type="Color" />
+      <Property Name="PreOutType" Category="Prepass Rendering" Type="Float" Range="0,2" />
+      <Property Name="PreCutoff" Category="Prepass Rendering" Type="Float" Range="-0.001,1.001" />
+      <Property Name="PreCull" Category="Prepass Rendering" Type="Float" Range="0,2" />
+      <Property Name="PreSrcBlend" Category="Prepass Rendering" Type="Float" Range="0,10" />
+      <Property Name="PreDstBlend" Category="Prepass Rendering" Type="Float" Range="0,10" />
+      <Property Name="PreSrcBlendAlpha" Category="Prepass Rendering" Type="Float" Range="0,10" />
+      <Property Name="PreDstBlendAlpha" Category="Prepass Rendering" Type="Float" Range="0,10" />
+      <Property Name="PreBlendOp" Category="Prepass Rendering" Type="Float" Range="0,4" />
+      <Property Name="PreBlendOpAlpha" Category="Prepass Rendering" Type="Float" Range="0,4" />
+      <Property Name="PreSrcBlendFA" Category="Prepass Rendering" Type="Float" Range="0,10" />
+      <Property Name="PreDstBlendFA" Category="Prepass Rendering" Type="Float" Range="0,10" />
+      <Property Name="PreSrcBlendAlphaFA" Category="Prepass Rendering" Type="Float" Range="0,10" />
+      <Property Name="PreDstBlendAlphaFA" Category="Prepass Rendering" Type="Float" Range="0,10" />
+      <Property Name="PreBlendOpFA" Category="Prepass Rendering" Type="Float" Range="0,4" />
+      <Property Name="PreBlendOpAlphaFA" Category="Prepass Rendering" Type="Float" Range="0,4" />
+      <Property Name="PreZClip" Category="Prepass Rendering" Type="Float" Range="0,1" />
+      <Property Name="PreZWrite" Category="Prepass Rendering" Type="Float" Range="0,1" />
+      <Property Name="PreZTest" Category="Prepass Rendering" Type="Float" Range="0,8" />
+      <Property Name="PreStencilRef" Category="Prepass Rendering" Type="Float" Range="0,255" />
+      <Property Name="PreStencilReadMask" Category="Prepass Rendering" Type="Float" Range="0,255" />
+      <Property Name="PreStencilWriteMask" Category="Prepass Rendering" Type="Float" Range="0,255" />
+      <Property Name="PreStencilComp" Category="Prepass Rendering" Type="Float" Range="0,8" />
+      <Property Name="PreStencilPass" Category="Prepass Rendering" Type="Float" Range="0,7" />
+      <Property Name="PreStencilFail" Category="Prepass Rendering" Type="Float" Range="0,7" />
+      <Property Name="PreStencilZFail" Category="Prepass Rendering" Type="Float" Range="0,7" />
+      <Property Name="PreOffsetFactor" Category="Prepass Rendering" Type="Float" />
+      <Property Name="PreOffsetUnits" Category="Prepass Rendering" Type="Float" />
+      <Property Name="PreColorMask" Category="Prepass Rendering" Type="Float" Range="0,15" />
+      <Property Name="PreAlphaToMask" Category="Prepass Rendering" Type="Float" Range="0,1" />
+      <Property Name="lilShadowCasterBias" Category="Rendering" Type="Float" />
+    </Shader>
+  </MaterialEditor>
+  <game>Koikatsu Sunshine</game>
+</manifest>
+
+
+

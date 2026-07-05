@@ -1,0 +1,27 @@
+# Unity/editor local state
+Library/
+Temp/
+Obj/
+Logs/
+UserSettings/
+.vs/
+.idea/
+
+# Build/export outputs
+Build/
+Dist/
+*.zip
+*.zipmod
+*.unity3d
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+*.tmp
+*.bak
+*.swp
+
+# Keep Unity assets and metadata tracked:
+# *.meta
+# *.mat
+# *.prefab
