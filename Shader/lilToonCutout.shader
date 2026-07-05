@@ -1,4 +1,4 @@
-Shader "Hidden/lilToonCutout"
+Shader "lilToonCutout"
 {
     Properties
     {

@@ -1,4 +1,4 @@
-Shader "Hidden/lilToonOnePassTransparent"
+Shader "lilToonOnePassTransparent"
 {
     Properties
     {
