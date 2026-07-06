@@ -24,6 +24,7 @@ struct LTSKKSV2F
     float4 tangentWS : TEXCOORD4;
     float3 bitangentWS : TEXCOORD5;
     float4 color : COLOR;
+    float3 vertexLightColor : TEXCOORD8;
     SHADOW_COORDS(6)
     UNITY_FOG_COORDS(7)
     UNITY_VERTEX_INPUT_INSTANCE_ID

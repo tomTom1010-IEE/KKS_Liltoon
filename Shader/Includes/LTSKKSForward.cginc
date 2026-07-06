@@ -35,6 +35,7 @@ LTSKKSV2F vert(LTSKKSAppData v)
     o.uv01 = float4(v.texcoord.xy, v.texcoord1.xy);
     o.uv23 = float4(v.texcoord2.xy, v.texcoord3.xy);
     o.color = v.color;
+    o.vertexLightColor = LTSKKS_GetVertexLightColor(o.posWS);
     TRANSFER_SHADOW(o);
     UNITY_TRANSFER_FOG(o, o.pos);
     return o;
