@@ -1,30 +1,44 @@
 ﻿#ifndef LTSKKS_SHADOW_INCLUDED
 #define LTSKKS_SHADOW_INCLUDED
 
+#ifndef UNITY_SAMPLE_TEX2D_SAMPLER_LOD
+#define UNITY_SAMPLE_TEX2D_SAMPLER_LOD(texName, samplerName, coord, lod) texName.SampleLevel(sampler##samplerName, coord, lod)
+#endif
+
+#ifndef UNITY_SAMPLE_TEX2D_SAMPLER_GRAD
+#define UNITY_SAMPLE_TEX2D_SAMPLER_GRAD(texName, samplerName, coord, dx, dy) texName.SampleGrad(sampler##samplerName, coord, dx, dy)
+#endif
+
 float LTSKKS_TooningNoSaturateAAScale(float value, float border, float blur)
 {
-    float aa = fwidth(value) * saturate(_AAStrength);
-    return LTSKKS_TooningNoSaturate(value, border, max(blur, aa));
+    float borderMin = saturate(border - blur * 0.5);
+    float borderMax = saturate(border + blur * 0.5);
+    float denom = max(saturate(borderMax - borderMin + fwidth(value) * saturate(_AAStrength)), 0.0001);
+    return (value - borderMin) / denom;
 }
 
 float LTSKKS_TooningNoSaturateAAScaleCustomAA(float value, float border, float blur, float aaStrength)
 {
-    float aa = fwidth(value) * saturate(aaStrength);
-    return LTSKKS_TooningNoSaturate(value, border, max(blur, aa));
+    float borderMin = saturate(border - blur * 0.5);
+    float borderMax = saturate(border + blur * 0.5);
+    float denom = max(saturate(borderMax - borderMin + fwidth(value) * saturate(aaStrength)), 0.0001);
+    return (value - borderMin) / denom;
 }
 
 float LTSKKS_TooningNoSaturateAAScale(float value, float border, float blur, float borderRange)
 {
-    float borderMix = LTSKKS_TooningNoSaturateAAScale(value, border, blur);
-    float edge = saturate(abs(value - border) / max(borderRange, 0.0001));
-    return borderMix * edge;
+    float borderMin = saturate(border - blur * 0.5 - borderRange);
+    float borderMax = saturate(border + blur * 0.5);
+    float denom = max(saturate(borderMax - borderMin + fwidth(value) * saturate(_AAStrength)), 0.0001);
+    return (value - borderMin) / denom;
 }
 
 float LTSKKS_TooningNoSaturateAAScaleCustomAA(float value, float border, float blur, float borderRange, float aaStrength)
 {
-    float borderMix = LTSKKS_TooningNoSaturateAAScaleCustomAA(value, border, blur, aaStrength);
-    float edge = saturate(abs(value - border) / max(borderRange, 0.0001));
-    return borderMix * edge;
+    float borderMin = saturate(border - blur * 0.5 - borderRange);
+    float borderMax = saturate(border + blur * 0.5);
+    float denom = max(saturate(borderMax - borderMin + fwidth(value) * saturate(aaStrength)), 0.0001);
+    return (value - borderMin) / denom;
 }
 
 float LTSKKS_TooningAAScale(float value, float border, float blur)
@@ -40,6 +54,27 @@ float LTSKKS_TooningAAScale(float value, float border, float blur, float borderR
 float3 LTSKKS_GetShadowColor(float3 albedo, float4 colorTex, float4 shadowColor)
 {
     return lerp(albedo, colorTex.rgb, colorTex.a) * shadowColor.rgb;
+}
+
+float4 LTSKKS_SampleShadowStrengthMask(LTSKKSFragData fd)
+{
+    float lod = saturate(_ShadowStrengthMaskLOD);
+    float2 lodGrad = float2(lod, lod);
+    return (lod > 0.0001) ? UNITY_SAMPLE_TEX2D_SAMPLER_GRAD(_ShadowStrengthMask, _MainTex, fd.uvMain, max(fd.ddxMain, lodGrad), max(fd.ddyMain, lodGrad)) : LTSKKS_SAMPLE_TEX(_ShadowStrengthMask, fd.uvMain);
+}
+
+float4 LTSKKS_SampleShadowBorderMask(LTSKKSFragData fd)
+{
+    float lod = saturate(_ShadowBorderMaskLOD);
+    float2 lodGrad = float2(lod, lod);
+    return (lod > 0.0001) ? UNITY_SAMPLE_TEX2D_SAMPLER_GRAD(_ShadowBorderMask, _MainTex, fd.uvMain, max(fd.ddxMain, lodGrad), max(fd.ddyMain, lodGrad)) : LTSKKS_SAMPLE_TEX(_ShadowBorderMask, fd.uvMain);
+}
+
+float4 LTSKKS_SampleShadowBlurMask(LTSKKSFragData fd)
+{
+    float lod = saturate(_ShadowBlurMaskLOD);
+    float2 lodGrad = float2(lod, lod);
+    return (lod > 0.0001) ? UNITY_SAMPLE_TEX2D_SAMPLER_GRAD(_ShadowBlurMask, _MainTex, fd.uvMain, max(fd.ddxMain, lodGrad), max(fd.ddyMain, lodGrad)) : LTSKKS_SAMPLE_TEX(_ShadowBlurMask, fd.uvMain);
 }
 
 void LTSKKS_GetShadowLUTUV(float3 albedo, out float4 uv, out float factor)
@@ -62,7 +97,7 @@ float4 LTSKKS_SampleShadowColorTex1st(float3 albedo, float2 uvMain)
     float factor = 0.0;
     LTSKKS_GetShadowLUTUV(albedo, lutUV, factor);
     float4 normalColor = LTSKKS_SAMPLE_TEX(_ShadowColorTex, uvMain);
-    float4 lutColor = lerp(LTSKKS_SAMPLE_TEX(_ShadowColorTex, lutUV.xy), LTSKKS_SAMPLE_TEX(_ShadowColorTex, lutUV.zw), factor);
+    float4 lutColor = lerp(UNITY_SAMPLE_TEX2D_SAMPLER_LOD(_ShadowColorTex, _MainTex, lutUV.xy, 0.0), UNITY_SAMPLE_TEX2D_SAMPLER_LOD(_ShadowColorTex, _MainTex, lutUV.zw, 0.0), factor);
     return lerp(normalColor, lutColor, step(0.5, _ShadowColorType) * step(_ShadowColorType, 1.5));
 }
 
@@ -72,7 +107,7 @@ float4 LTSKKS_SampleShadowColorTex2nd(float3 albedo, float2 uvMain)
     float factor = 0.0;
     LTSKKS_GetShadowLUTUV(albedo, lutUV, factor);
     float4 normalColor = LTSKKS_SAMPLE_TEX(_Shadow2ndColorTex, uvMain);
-    float4 lutColor = lerp(LTSKKS_SAMPLE_TEX(_Shadow2ndColorTex, lutUV.xy), LTSKKS_SAMPLE_TEX(_Shadow2ndColorTex, lutUV.zw), factor);
+    float4 lutColor = lerp(UNITY_SAMPLE_TEX2D_SAMPLER_LOD(_Shadow2ndColorTex, _MainTex, lutUV.xy, 0.0), UNITY_SAMPLE_TEX2D_SAMPLER_LOD(_Shadow2ndColorTex, _MainTex, lutUV.zw, 0.0), factor);
     return lerp(normalColor, lutColor, step(0.5, _ShadowColorType) * step(_ShadowColorType, 1.5));
 }
 
@@ -82,7 +117,7 @@ float4 LTSKKS_SampleShadowColorTex3rd(float3 albedo, float2 uvMain)
     float factor = 0.0;
     LTSKKS_GetShadowLUTUV(albedo, lutUV, factor);
     float4 normalColor = LTSKKS_SAMPLE_TEX(_Shadow3rdColorTex, uvMain);
-    float4 lutColor = lerp(LTSKKS_SAMPLE_TEX(_Shadow3rdColorTex, lutUV.xy), LTSKKS_SAMPLE_TEX(_Shadow3rdColorTex, lutUV.zw), factor);
+    float4 lutColor = lerp(UNITY_SAMPLE_TEX2D_SAMPLER_LOD(_Shadow3rdColorTex, _MainTex, lutUV.xy, 0.0), UNITY_SAMPLE_TEX2D_SAMPLER_LOD(_Shadow3rdColorTex, _MainTex, lutUV.zw, 0.0), factor);
     return lerp(normalColor, lutColor, step(0.5, _ShadowColorType) * step(_ShadowColorType, 1.5));
 }
 
@@ -99,9 +134,9 @@ void LTSKKS_ApplyShadow(inout LTSKKSFragData fd)
     float3 n2 = normalize(lerp(fd.origN, fd.N, saturate(_Shadow2ndNormalStrength)));
     float3 n3 = normalize(lerp(fd.origN, fd.N, saturate(_Shadow3rdNormalStrength)));
 
-    float4 strengthMask = LTSKKS_SAMPLE_TEX(_ShadowStrengthMask, fd.uvMain);
-    float4 borderMask = LTSKKS_SAMPLE_TEX(_ShadowBorderMask, fd.uvMain);
-    float4 blurMask = LTSKKS_SAMPLE_TEX(_ShadowBlurMask, fd.uvMain);
+    float4 strengthMask = LTSKKS_SampleShadowStrengthMask(fd);
+    float4 borderMask = LTSKKS_SampleShadowBorderMask(fd);
+    float4 blurMask = LTSKKS_SampleShadowBlurMask(fd);
     float shadowAAStrength = saturate(_AAStrength);
 
     float4 lns = 1.0;
@@ -128,7 +163,7 @@ void LTSKKS_ApplyShadow(inout LTSKKSFragData fd)
         strengthMask.r = strengthMask.a;
     }
 
-    float calculatedShadow = saturate(fd.attenuation);
+    float calculatedShadow = saturate(fd.attenuation + distance(fd.L, fd.origL));
     lns.x *= lerp(1.0, calculatedShadow, saturate(_ShadowReceive));
     lns.y *= lerp(1.0, calculatedShadow, saturate(_Shadow2ndReceive));
     lns.z *= lerp(1.0, calculatedShadow, saturate(_Shadow3rdReceive));
@@ -143,9 +178,9 @@ void LTSKKS_ApplyShadow(inout LTSKKSFragData fd)
         lns.xyz *= aoMask.rgb;
     }
 
-    float shadowBlur = max(_ShadowBlur * blurMask.r, 0.0001);
-    float shadow2ndBlur = max(_Shadow2ndBlur * blurMask.g, 0.0001);
-    float shadow3rdBlur = max(_Shadow3rdBlur * blurMask.b, 0.0001);
+    float shadowBlur = _ShadowBlur * blurMask.r;
+    float shadow2ndBlur = _Shadow2ndBlur * blurMask.g;
+    float shadow3rdBlur = _Shadow3rdBlur * blurMask.b;
 
     lns.w = lns.x;
     lns.x = LTSKKS_TooningNoSaturateAAScaleCustomAA(lns.x, _ShadowBorder, shadowBlur, shadowAAStrength);

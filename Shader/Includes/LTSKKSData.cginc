@@ -43,6 +43,8 @@ struct LTSKKSFragData
     float2 uv3;
     float2 uvMain;
     float2 uvMat;
+    float2 ddxMain;
+    float2 ddyMain;
     float3 posWS;
     float3 N;
     float3 origN;
@@ -50,6 +52,7 @@ struct LTSKKSFragData
     float3 B;
     float3 V;
     float3 L;
+    float3 origL;
     float3 H;
     float ln;
     float nv;
@@ -75,11 +78,12 @@ LTSKKSFragData LTSKKS_InitFragData()
     fd.albedo = 1.0;
     fd.emissionColor = 0.0;
     fd.uv0 = fd.uv1 = fd.uv2 = fd.uv3 = fd.uvMain = fd.uvMat = 0.0;
+    fd.ddxMain = fd.ddyMain = 0.0;
     fd.posWS = 0.0;
     fd.N = fd.origN = float3(0,0,1);
     fd.T = float3(1,0,0);
     fd.B = float3(0,1,0);
-    fd.V = fd.L = fd.H = float3(0,0,1);
+    fd.V = fd.L = fd.origL = fd.H = float3(0,0,1);
     fd.ln = fd.nv = fd.nvabs = 1.0;
     fd.attenuation = 1.0;
     fd.smoothness = 0.0;

@@ -31,6 +31,8 @@ float2 LTSKKS_GetMain3rdUV(LTSKKSFragData fd)
 void LTSKKS_ApplyMain(inout LTSKKSFragData fd)
 {
     fd.uvMain = LTSKKS_CalcUV(fd.uv0, _MainTex_ST, _MainTex_ScrollRotate);
+    fd.ddxMain = abs(ddx(fd.uvMain));
+    fd.ddyMain = abs(ddy(fd.uvMain));
     float4 mainTex = LTSKKS_SAMPLE_MAIN_TEX(fd.uvMain);
     float3 beforeToneCorrection = mainTex.rgb;
     float colorAdjustMask = LTSKKS_SAMPLE_TEX(_MainColorAdjustMask, fd.uvMain).r;

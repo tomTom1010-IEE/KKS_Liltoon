@@ -26,6 +26,7 @@ void LTSKKS_PrepareLighting(inout LTSKKSFragData fd, LTSKKSV2F i)
 {
     fd.V = normalize(_WorldSpaceCameraPos.xyz - fd.posWS);
     fd.L = LTSKKS_GetLightDirection(fd.posWS);
+    fd.origL = fd.L;
     fd.H = normalize(fd.L + fd.V);
     fd.ln = dot(fd.N, fd.L);
     fd.nv = saturate(dot(fd.N, fd.V));
