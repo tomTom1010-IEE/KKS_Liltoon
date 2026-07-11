@@ -53,19 +53,43 @@ void LTSKKS_POM(inout float2 uvMain, inout float2 uv, float useParallax, float4 
     uvMain = rayPos.xy;
 }
 
-void LTSKKS_ApplyMainParallax(inout LTSKKSFragData fd)
+float3 LTSKKS_GetParallaxViewDirection(float3 posWS, float3 normalWS, float4 tangentWS)
+{
+    float3 n = normalize(normalWS);
+    float3 t = normalize(tangentWS.xyz);
+    float3 b = normalize(cross(n, t) * tangentWS.w);
+    float3 v = normalize(_WorldSpaceCameraPos.xyz - posWS);
+    return float3(dot(t, v), dot(b, v), dot(n, v));
+}
+
+void LTSKKS_ApplyMainParallaxUV(inout float2 uvMain, inout float2 uv0, float3 parallaxViewDirection)
 {
     if(_UseParallax <= 0.5) return;
 
     if(_UsePOM > 0.5)
     {
-        LTSKKS_POM(fd.uvMain, fd.uv0, _UseParallax, _MainTex_ST, fd.parallaxViewDirection, _Parallax, _ParallaxOffset);
+        LTSKKS_POM(uvMain, uv0, _UseParallax, _MainTex_ST, parallaxViewDirection, _Parallax, _ParallaxOffset);
     }
     else
     {
-        LTSKKS_Parallax(fd.uvMain, fd.uv0, _UseParallax, fd.parallaxOffset, _Parallax, _ParallaxOffset);
+        float2 parallaxOffset = parallaxViewDirection.xy / max(parallaxViewDirection.z + 0.5, 0.0001);
+        LTSKKS_Parallax(uvMain, uv0, _UseParallax, parallaxOffset, _Parallax, _ParallaxOffset);
     }
 }
+
+void LTSKKS_ApplyAuxiliaryMainParallax(inout float2 uvMain, inout float2 uv0, float3 posWS, float3 normalWS, float4 tangentWS)
+{
+    if(_UseParallax <= 0.5) return;
+    float3 parallaxViewDirection = LTSKKS_GetParallaxViewDirection(posWS, normalWS, tangentWS);
+    LTSKKS_ApplyMainParallaxUV(uvMain, uv0, parallaxViewDirection);
+}
+
+#if defined(LTSKKS_PARALLAX_WITH_FRAGDATA)
+    void LTSKKS_ApplyMainParallax(inout LTSKKSFragData fd)
+    {
+        LTSKKS_ApplyMainParallaxUV(fd.uvMain, fd.uv0, fd.parallaxViewDirection);
+    }
+#endif
 
 float4 LTSKKS_SampleMainTexAfterParallax(float2 uv, float2 ddxMain, float2 ddyMain)
 {

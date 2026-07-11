@@ -96,12 +96,17 @@ float LTSKKS_ApplyMain3rdAlpha(float alpha, float2 uv0, float2 uv1, float2 uv2, 
     return LTSKKS_BlendAlphaForMode(alpha, layerAlpha, _Main3rdTexAlphaMode);
 }
 
-float LTSKKS_GetLayeredProcessedAlpha(float2 uv0, float2 uv1, float2 uv2, float2 uv3, float2 uvMat, float2 uvMain, float facing, float depth)
+float LTSKKS_GetLayeredProcessedAlphaGrad(float2 uv0, float2 uv1, float2 uv2, float2 uv3, float2 uvMat, float2 uvMain, float2 ddxMain, float2 ddyMain, float facing, float depth)
 {
-    float alpha = LTSKKS_SAMPLE_MAIN_TEX(uvMain).a * _Color.a;
+    float alpha = LTSKKS_SampleMainTexAfterParallax(uvMain, ddxMain, ddyMain).a * _Color.a;
     alpha = LTSKKS_ApplyMain2ndAlpha(alpha, uv0, uv1, uv2, uv3, uvMat, uvMain, facing, depth);
     alpha = LTSKKS_ApplyMain3rdAlpha(alpha, uv0, uv1, uv2, uv3, uvMat, uvMain, facing, depth);
     return LTSKKS_ApplyAlphaMaskValue(alpha, uv0);
+}
+
+float LTSKKS_GetLayeredProcessedAlpha(float2 uv0, float2 uv1, float2 uv2, float2 uv3, float2 uvMat, float2 uvMain, float facing, float depth)
+{
+    return LTSKKS_GetLayeredProcessedAlphaGrad(uv0, uv1, uv2, uv3, uvMat, uvMain, abs(ddx(uvMain)), abs(ddy(uvMain)), facing, depth);
 }
 
 void LTSKKS_ClipAlpha(float alpha, float cutoff)

@@ -8,6 +8,7 @@
 #include "LTSKKSInput.cginc"
 #include "LTSKKSData.cginc"
 #include "LTSKKSPipeline.cginc"
+#define LTSKKS_PARALLAX_WITH_FRAGDATA 1
 #include "LTSKKSParallax.cginc"
 #include "LTSKKSMain.cginc"
 #define LTSKKS_ALPHA_WITH_FRAGDATA 1
@@ -305,9 +306,10 @@ float4 frag(LTSKKSV2F i, fixed facing : VFACE) : SV_Target
 
     if(_Invisible > 0.5) discard;
 
+    LTSKKS_PrepareSurfaceBasis(fd, i);
+    LTSKKS_ApplyMain(fd);
     LTSKKS_ApplyNormal(fd, i);
     LTSKKS_PrepareLighting(fd, i);
-    LTSKKS_ApplyMain(fd);
     LTSKKS_ApplyMainLayers(fd);
     LTSKKS_ApplyAlphaMask(fd);
     LTSKKS_ApplyFurAlpha(fd, i);
