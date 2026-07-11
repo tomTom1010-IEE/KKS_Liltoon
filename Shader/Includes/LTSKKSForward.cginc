@@ -9,14 +9,17 @@
 #include "LTSKKSInput.cginc"
 #include "LTSKKSData.cginc"
 #include "LTSKKSPipeline.cginc"
+#include "LTSKKSParallax.cginc"
 #include "LTSKKSMain.cginc"
 #define LTSKKS_ALPHA_WITH_FRAGDATA 1
 #include "LTSKKSAlpha.cginc"
 #include "LTSKKSNormal.cginc"
+#include "LTSKKSAnisotropy.cginc"
 #include "LTSKKSShadow.cginc"
 #include "LTSKKSReflection.cginc"
 #include "LTSKKSMatCap.cginc"
 #include "LTSKKSRim.cginc"
+#include "LTSKKSGlitter.cginc"
 #include "LTSKKSEmission.cginc"
 
 LTSKKSV2F vert(LTSKKSAppData v)
@@ -35,6 +38,7 @@ LTSKKSV2F vert(LTSKKSAppData v)
     o.uv01 = float4(v.texcoord.xy, v.texcoord1.xy);
     o.uv23 = float4(v.texcoord2.xy, v.texcoord3.xy);
     o.color = v.color;
+    o.furLayer = -2.0;
     o.vertexLightColor = LTSKKS_GetVertexLightColor(o.posWS);
     TRANSFER_SHADOW(o);
     UNITY_TRANSFER_FOG(o, o.pos);
@@ -57,9 +61,10 @@ float4 frag(LTSKKSV2F i, fixed facing : VFACE) : SV_Target
 
     if(_Invisible > 0.5) discard;
 
-    LTSKKS_ApplyMain(fd);
     LTSKKS_ApplyNormal(fd, i);
     LTSKKS_PrepareLighting(fd, i);
+    LTSKKS_ApplyMain(fd);
+    LTSKKS_ApplyAnisotropy(fd);
     LTSKKS_ApplyMainLayers(fd);
     LTSKKS_ApplyRenderAlpha(fd, i.pos);
 
@@ -80,6 +85,7 @@ float4 frag(LTSKKSV2F i, fixed facing : VFACE) : SV_Target
     LTSKKS_ApplyReflection(fd);
     LTSKKS_ApplyMatCap(fd);
     LTSKKS_ApplyRim(fd);
+    LTSKKS_ApplyGlitter(fd);
     #if !defined(LTSKKS_PASS_FORWARDADD)
         LTSKKS_ApplyEmission(fd);
     #endif
@@ -92,4 +98,3 @@ float4 frag(LTSKKSV2F i, fixed facing : VFACE) : SV_Target
 }
 
 #endif
-

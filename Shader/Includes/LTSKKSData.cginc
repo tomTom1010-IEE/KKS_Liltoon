@@ -1,4 +1,4 @@
-﻿#ifndef LTSKKS_DATA_INCLUDED
+#ifndef LTSKKS_DATA_INCLUDED
 #define LTSKKS_DATA_INCLUDED
 
 struct LTSKKSAppData
@@ -24,6 +24,7 @@ struct LTSKKSV2F
     float4 tangentWS : TEXCOORD4;
     float3 bitangentWS : TEXCOORD5;
     float4 color : COLOR;
+    float furLayer : TEXCOORD9;
     float3 vertexLightColor : TEXCOORD8;
     SHADOW_COORDS(6)
     UNITY_FOG_COORDS(7)
@@ -46,9 +47,14 @@ struct LTSKKSFragData
     float2 uvMat;
     float2 ddxMain;
     float2 ddyMain;
+    float2 parallaxOffset;
+    float3 parallaxViewDirection;
     float3 posWS;
     float3 N;
     float3 origN;
+    float3 reflectionN;
+    float3 matcapN;
+    float3 matcap2ndN;
     float3 T;
     float3 B;
     float3 V;
@@ -62,6 +68,7 @@ struct LTSKKSFragData
     float smoothness;
     float perceptualRoughness;
     float roughness;
+    float anisotropy;
     float depth;
     float3 lightColor;
     float3 indLightColor;
@@ -79,9 +86,10 @@ LTSKKSFragData LTSKKS_InitFragData()
     fd.albedo = 1.0;
     fd.emissionColor = 0.0;
     fd.uv0 = fd.uv1 = fd.uv2 = fd.uv3 = fd.uvMain = fd.uvMat = 0.0;
-    fd.ddxMain = fd.ddyMain = 0.0;
+    fd.ddxMain = fd.ddyMain = fd.parallaxOffset = 0.0;
+    fd.parallaxViewDirection = 0.0;
     fd.posWS = 0.0;
-    fd.N = fd.origN = float3(0,0,1);
+    fd.N = fd.origN = fd.reflectionN = fd.matcapN = fd.matcap2ndN = float3(0,0,1);
     fd.T = float3(1,0,0);
     fd.B = float3(0,1,0);
     fd.V = fd.L = fd.origL = fd.H = float3(0,0,1);
@@ -90,6 +98,7 @@ LTSKKSFragData LTSKKS_InitFragData()
     fd.smoothness = 0.0;
     fd.perceptualRoughness = 1.0;
     fd.roughness = 1.0;
+    fd.anisotropy = 0.0;
     fd.depth = 0.0;
     fd.lightColor = 1.0;
     fd.indLightColor = fd.addLightColor = 0.0;

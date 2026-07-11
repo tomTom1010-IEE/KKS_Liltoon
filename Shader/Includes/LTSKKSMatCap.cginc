@@ -1,9 +1,9 @@
 #ifndef LTSKKS_MATCAP_INCLUDED
 #define LTSKKS_MATCAP_INCLUDED
 
-float3 LTSKKS_GetMatCapNormal(LTSKKSFragData fd, float normalStrength, float customNormal, float bumpScale, float4 bumpMapST, int secondMap)
+float3 LTSKKS_GetMatCapNormal(LTSKKSFragData fd, float3 matcapBaseNormal, float normalStrength, float customNormal, float bumpScale, float4 bumpMapST, int secondMap)
 {
-    float3 n = normalize(lerp(fd.origN, fd.N, saturate(normalStrength)));
+    float3 n = normalize(lerp(fd.origN, matcapBaseNormal, saturate(normalStrength)));
     if(customNormal > 0.5)
     {
         float2 uv = LTSKKS_CalcUV(fd.uvMain, bumpMapST);
@@ -20,7 +20,7 @@ void LTSKKS_ApplyMatCapLayer(inout LTSKKSFragData fd, int secondLayer)
 {
     if(secondLayer == 0)
     {
-        float3 n = LTSKKS_GetMatCapNormal(fd, _MatCapNormalStrength, _MatCapCustomNormal, _MatCapBumpScale, _MatCapBumpMap_ST, 0);
+        float3 n = LTSKKS_GetMatCapNormal(fd, fd.matcapN, _MatCapNormalStrength, _MatCapCustomNormal, _MatCapBumpScale, _MatCapBumpMap_ST, 0);
         float2 uv = LTSKKS_CalcMatCapUV(fd.uv1, n, fd.V, _MatCapTex_ST, _MatCapBlendUV1.xy, _MatCapZRotCancel, _MatCapPerspective, _MatCapVRParallaxStrength);
         float4 matCapColor = _MatCapColor * tex2Dlod(_MatCapTex, float4(uv, 0.0, max(_MatCapLod, 0.0)));
 
@@ -42,7 +42,7 @@ void LTSKKS_ApplyMatCapLayer(inout LTSKKSFragData fd, int secondLayer)
     }
     else
     {
-        float3 n = LTSKKS_GetMatCapNormal(fd, _MatCap2ndNormalStrength, _MatCap2ndCustomNormal, _MatCap2ndBumpScale, _MatCap2ndBumpMap_ST, 1);
+        float3 n = LTSKKS_GetMatCapNormal(fd, fd.matcap2ndN, _MatCap2ndNormalStrength, _MatCap2ndCustomNormal, _MatCap2ndBumpScale, _MatCap2ndBumpMap_ST, 1);
         float2 uv = LTSKKS_CalcMatCapUV(fd.uv1, n, fd.V, _MatCap2ndTex_ST, _MatCap2ndBlendUV1.xy, _MatCap2ndZRotCancel, _MatCap2ndPerspective, _MatCap2ndVRParallaxStrength);
         float4 matCapColor = _MatCap2ndColor * tex2Dlod(_MatCap2ndTex, float4(uv, 0.0, max(_MatCap2ndLod, 0.0)));
 

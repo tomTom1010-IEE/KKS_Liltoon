@@ -53,6 +53,8 @@ void LTSKKS_PrepareLighting(inout LTSKKSFragData fd, LTSKKSV2F i)
     fd.L = LTSKKS_GetLightDirection(fd.posWS);
     fd.origL = fd.L;
     fd.H = normalize(fd.L + fd.V);
+    fd.parallaxViewDirection = float3(dot(fd.T, fd.V), dot(fd.B, fd.V), dot(fd.origN, fd.V));
+    fd.parallaxOffset = fd.parallaxViewDirection.xy / max(fd.parallaxViewDirection.z + 0.5, 0.0001);
     fd.ln = dot(fd.N, fd.L);
     fd.nv = saturate(dot(fd.N, fd.V));
     fd.nvabs = abs(dot(fd.N, fd.V));

@@ -35,6 +35,13 @@ Shader "lilToonTwoPassTransparent"
         [NoScaleOffset] _MainGradationTex ("Gradation Map", 2D) = "white" {}
         [NoScaleOffset] _MainColorAdjustMask ("Adjust Mask", 2D) = "white" {}
 
+        // Parallax
+        _UseParallax ("sParallax", Int) = 0
+        _UsePOM ("sPOM", Int) = 0
+        [NoScaleOffset] _ParallaxMap ("Parallax Map", 2D) = "gray" {}
+        _Parallax ("Parallax Scale", Float) = 0.02
+        _ParallaxOffset ("sParallaxOffset", Float) = 0.5
+
         // Main2nd
         _UseMain2ndTex ("sMainColor2nd", Int) = 0
         [HDR] _Color2nd ("sColor", Color) = (1,1,1,1)
@@ -96,6 +103,26 @@ Shader "lilToonTwoPassTransparent"
         _Bump2ndMap_UVMode ("UV Mode", Int) = 0
         _Bump2ndScale ("Scale", Range(-10, 10)) = 1
         [NoScaleOffset] _Bump2ndScaleMask ("Mask", 2D) = "white" {}
+
+        // Anisotropy
+        _UseAnisotropy ("sAnisotropy", Int) = 0
+        [Normal] _AnisotropyTangentMap ("Tangent Map", 2D) = "bump" {}
+        _AnisotropyScale ("Scale", Range(-1, 1)) = 1
+        [NoScaleOffset] _AnisotropyScaleMask ("Scale Mask", 2D) = "white" {}
+        _AnisotropyTangentWidth ("sTangentWidth", Range(0, 10)) = 1
+        _AnisotropyBitangentWidth ("sBitangentWidth", Range(0, 10)) = 1
+        _AnisotropyShift ("sOffset", Range(-10, 10)) = 0
+        _AnisotropyShiftNoiseScale ("sNoiseStrength", Range(-1, 1)) = 0
+        _AnisotropySpecularStrength ("sStrength", Range(0, 10)) = 1
+        _Anisotropy2ndTangentWidth ("sTangentWidth", Range(0, 10)) = 1
+        _Anisotropy2ndBitangentWidth ("sBitangentWidth", Range(0, 10)) = 1
+        _Anisotropy2ndShift ("sOffset", Range(-10, 10)) = 0
+        _Anisotropy2ndShiftNoiseScale ("sNoiseStrength", Range(-1, 1)) = 0
+        _Anisotropy2ndSpecularStrength ("sStrength", Range(0, 10)) = 0
+        _AnisotropyShiftNoiseMask ("sNoise", 2D) = "white" {}
+        _Anisotropy2Reflection ("sReflection", Int) = 0
+        _Anisotropy2MatCap ("sMatCap", Int) = 0
+        _Anisotropy2MatCap2nd ("sMatCap2nd", Int) = 0
 
         // Backlight
         _UseBacklight ("sBacklight", Int) = 0
@@ -231,7 +258,9 @@ Shader "lilToonTwoPassTransparent"
         _UseRim ("sRimLight", Int) = 0
         [HDR] _RimColor ("sColor", Color) = (1,1,1,1)
         [NoScaleOffset] _RimColorTex ("Texture", 2D) = "white" {}
-        [HDR] _RimIndirColor ("sColor", Color) = (0,0,0,1)
+        _RimMainStrength ("sMainColorPower", Range(0, 1)) = 0
+        _RimNormalStrength ("sNormalStrength", Range(0, 1)) = 1
+        [HDR] _RimIndirColor ("sColor", Color) = (1,1,1,1)
         _RimBorder ("sBorder", Range(0, 1)) = 0.5
         _RimBlur ("sBlur", Range(0, 1)) = 0.65
         _RimFresnelPower ("sFresnelPower", Range(0.01, 50)) = 3
@@ -243,28 +272,67 @@ Shader "lilToonTwoPassTransparent"
         _RimBlendMode ("sBlendModes", Int) = 1
         _RimDirStrength ("sDirectionStrength", Range(0, 1)) = 0
         _RimDirRange ("sDirectionRange", Range(-1, 1)) = 0
-        _RimIndirRange ("sIndirectionRange", Range(0, 1)) = 0
+        _RimIndirRange ("sIndirectionRange", Range(-1, 1)) = 0
+        _RimIndirBorder ("sBorder", Range(0, 1)) = 0.5
+        _RimIndirBlur ("sBlur", Range(0, 1)) = 0.1
         _RimIndirColorStrength ("sIndirectionColorStrength", Range(0, 1)) = 0
+
+        // Glitter
+        _UseGlitter ("sGlitter", Int) = 0
+        _GlitterUVMode ("UV Mode", Int) = 0
+        [HDR] _GlitterColor ("sColor", Color) = (1,1,1,1)
+        _GlitterColorTex ("Texture", 2D) = "white" {}
+        _GlitterColorTex_UVMode ("UV Mode", Int) = 0
+        _GlitterMainStrength ("sMainColorPower", Range(0, 1)) = 0
+        _GlitterNormalStrength ("sNormalStrength", Range(0, 1)) = 1
+        _GlitterScaleRandomize ("sRandomize+ (Size)", Range(0, 1)) = 0
+        _GlitterApplyShape ("Shape", Int) = 0
+        _GlitterShapeTex ("Texture", 2D) = "white" {}
+        _GlitterAtras ("Atras", Vector) = (1,1,0,0)
+        _GlitterAngleRandomize ("sRandomize+ (+sAngle+)", Int) = 0
+        _GlitterParams1 ("Tiling|Particle Size|Contrast", Vector) = (256,256,0.16,50)
+        _GlitterParams2 ("sGlitterParams2", Vector) = (0.25,0,0,0)
+        _GlitterPostContrast ("sPostContrast", Float) = 1
+        _GlitterSensitivity ("Sensitivity", Float) = 0.25
+        _GlitterEnableLighting ("sEnableLighting", Range(0, 1)) = 1
+        _GlitterShadowMask ("sShadowMask", Range(0, 1)) = 0
+        _GlitterBackfaceMask ("sBackfaceMask", Int) = 0
+        _GlitterApplyTransparency ("sApplyTransparency", Int) = 1
+        _GlitterVRParallaxStrength ("sVRParallaxStrength", Range(0, 1)) = 0
 
         // Emission
         _UseEmission ("sEmission", Int) = 0
         [HDR] _EmissionColor ("sColor", Color) = (1,1,1,1)
         _EmissionMap ("Texture", 2D) = "white" {}
         _EmissionMap_ScrollRotate ("sScrollRotates", Vector) = (0,0,0,0)
+        _EmissionMainStrength ("sMainColorPower", Range(0, 1)) = 0
         [NoScaleOffset] _EmissionBlendMask ("Mask", 2D) = "white" {}
+        _EmissionBlendMask_ScrollRotate ("sScrollRotates", Vector) = (0,0,0,0)
         _EmissionBlend ("Blend", Range(0, 1)) = 1
         _EmissionBlendMode ("sBlendModes", Int) = 1
         _EmissionMap_UVMode ("UV Mode", Int) = 0
         _EmissionBlink ("sBlinkSettings", Vector) = (0,0,3.141593,0)
+        _EmissionUseGrad ("sGradation", Int) = 0
+        [NoScaleOffset] _EmissionGradTex ("Gradation Texture", 2D) = "white" {}
+        _EmissionGradSpeed ("Gradation Speed", Float) = 1
+        _EmissionParallaxDepth ("sParallaxDepth", Float) = 0
+        _EmissionFluorescence ("sFluorescence", Range(0, 1)) = 0
         _UseEmission2nd ("sEmission2nd", Int) = 0
         [HDR] _Emission2ndColor ("sColor", Color) = (1,1,1,1)
         _Emission2ndMap ("Texture", 2D) = "white" {}
         _Emission2ndMap_ScrollRotate ("sScrollRotates", Vector) = (0,0,0,0)
+        _Emission2ndMainStrength ("sMainColorPower", Range(0, 1)) = 0
         [NoScaleOffset] _Emission2ndBlendMask ("Mask", 2D) = "white" {}
+        _Emission2ndBlendMask_ScrollRotate ("sScrollRotates", Vector) = (0,0,0,0)
         _Emission2ndBlend ("Blend", Range(0, 1)) = 1
         _Emission2ndBlendMode ("sBlendModes", Int) = 1
         _Emission2ndMap_UVMode ("UV Mode", Int) = 0
         _Emission2ndBlink ("sBlinkSettings", Vector) = (0,0,3.141593,0)
+        _Emission2ndUseGrad ("sGradation", Int) = 0
+        [NoScaleOffset] _Emission2ndGradTex ("Gradation Texture", 2D) = "white" {}
+        _Emission2ndGradSpeed ("Gradation Speed", Float) = 1
+        _Emission2ndParallaxDepth ("sParallaxDepth", Float) = 0
+        _Emission2ndFluorescence ("sFluorescence", Range(0, 1)) = 0
 
         // Outline
         [HDR] _OutlineColor ("sColor", Color) = (0.6,0.56,0.73,1)
@@ -673,6 +741,3 @@ Shader "lilToonTwoPassTransparent"
 
     Fallback "Diffuse"
 }
-
-
-

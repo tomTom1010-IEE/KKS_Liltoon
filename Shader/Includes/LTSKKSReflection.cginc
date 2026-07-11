@@ -1,4 +1,4 @@
-﻿#ifndef LTSKKS_REFLECTION_INCLUDED
+#ifndef LTSKKS_REFLECTION_INCLUDED
 #define LTSKKS_REFLECTION_INCLUDED
 
 void LTSKKS_GSAAForSmoothness(inout float smoothness, float3 normalWS, float strength)
@@ -24,32 +24,80 @@ float3 LTSKKS_FresnelLerp(float3 specularColor, float grazingTerm, float nv)
 
 float3 LTSKKS_CalcSpecular(inout LTSKKSFragData fd, float3 lightDir, float3 specularColor, float attenuation)
 {
-    float3 n = normalize(lerp(fd.origN, fd.N, saturate(_SpecularNormalStrength)));
+    float3 n = normalize(lerp(fd.origN, fd.reflectionN, saturate(_SpecularNormalStrength)));
     float3 h = normalize(fd.V + lightDir);
     float nh = saturate(dot(n, h));
+    bool isAnisotropy = _UseAnisotropy > 0.5 && _Anisotropy2Reflection > 0.5;
 
-    if(_SpecularToon > 0.5)
+    if(_SpecularToon > 0.5 && !isAnisotropy)
     {
         float toonSpec = pow(nh, 1.0 / max(fd.roughness, 0.002));
-        float toonMask = LTSKKS_TooningAAScale(toonSpec, _SpecularBorder, _SpecularBlur);
-        return toonMask * attenuation;
+        return LTSKKS_TooningAAScale(toonSpec, _SpecularBorder, _SpecularBlur);
     }
 
     float nv = saturate(dot(n, fd.V));
     float nl = saturate(dot(n, lightDir));
     float lh = saturate(dot(lightDir, h));
     float roughness = max(fd.roughness, 0.002);
-    float lambdaV = nl * (nv * (1.0 - roughness) + roughness);
-    float lambdaL = nv * (nl * (1.0 - roughness) + roughness);
+    float lambdaV = 0.0;
+    float lambdaL = 0.0;
+    float ggx = 0.0;
+
+    if(isAnisotropy)
+    {
+        float roughnessT = max(roughness * (1.0 + fd.anisotropy), 0.002);
+        float roughnessB = max(roughness * (1.0 - fd.anisotropy), 0.002);
+
+        float tv = dot(fd.T, fd.V);
+        float bv = dot(fd.B, fd.V);
+        float tl = dot(fd.T, lightDir);
+        float bl = dot(fd.B, lightDir);
+        lambdaV = nl * length(float3(roughnessT * tv, roughnessB * bv, nv));
+        lambdaL = nv * length(float3(roughnessT * tl, roughnessB * bl, nl));
+
+        float roughnessT1 = roughnessT * _AnisotropyTangentWidth;
+        float roughnessB1 = roughnessB * _AnisotropyBitangentWidth;
+        float roughnessT2 = roughnessT * _Anisotropy2ndTangentWidth;
+        float roughnessB2 = roughnessB * _Anisotropy2ndBitangentWidth;
+
+        float anisotropyShiftNoise = LTSKKS_SAMPLE_TEX(_AnisotropyShiftNoiseMask, LTSKKS_CalcUV(fd.uvMain, _AnisotropyShiftNoiseMask_ST)).r - 0.5;
+        float anisotropyShift = anisotropyShiftNoise * _AnisotropyShiftNoiseScale + _AnisotropyShift;
+        float anisotropy2ndShift = anisotropyShiftNoise * _Anisotropy2ndShiftNoiseScale + _Anisotropy2ndShift;
+        float3 t1 = normalize(fd.T - n * anisotropyShift);
+        float3 b1 = normalize(fd.B - n * anisotropyShift);
+        float3 t2 = normalize(fd.T - n * anisotropy2ndShift);
+        float3 b2 = normalize(fd.B - n * anisotropy2ndShift);
+
+        float th1 = dot(t1, h);
+        float bh1 = dot(b1, h);
+        float th2 = dot(t2, h);
+        float bh2 = dot(b2, h);
+
+        float r1 = roughnessT1 * roughnessB1;
+        float r2 = roughnessT2 * roughnessB2;
+        float3 v1 = float3(th1 * roughnessB1, bh1 * roughnessT1, nh * r1);
+        float3 v2 = float3(th2 * roughnessB2, bh2 * roughnessT2, nh * r2);
+        float w1 = r1 / max(dot(v1, v1), 1e-7);
+        float w2 = r2 / max(dot(v2, v2), 1e-7);
+        ggx = r1 * w1 * w1 * _AnisotropySpecularStrength + r2 * w2 * w2 * _Anisotropy2ndSpecularStrength;
+    }
+    else
+    {
+        lambdaV = nl * (nv * (1.0 - roughness) + roughness);
+        lambdaL = nv * (nl * (1.0 - roughness) + roughness);
+        float r2 = roughness * roughness;
+        float d = (nh * r2 - nh) * nh + 1.0;
+        ggx = r2 / (d * d + 1e-7);
+    }
+
     float sjggx = 0.5 / (lambdaV + lambdaL + 1e-5);
-    float r2 = roughness * roughness;
-    float d = (nh * r2 - nh) * nh + 1.0;
-    float ggx = r2 / (d * d + 1e-7);
     float specularTerm = sjggx * ggx;
     #if defined(UNITY_COLORSPACE_GAMMA)
         specularTerm = sqrt(max(1e-4, specularTerm));
     #endif
     specularTerm *= nl * attenuation;
+
+    if(_SpecularToon > 0.5) return LTSKKS_TooningAAScale(specularTerm, 0.5, 0.0);
     return specularTerm * LTSKKS_FresnelTerm(specularColor, lh);
 }
 
@@ -78,7 +126,7 @@ void LTSKKS_ApplyReflection(inout LTSKKSFragData fd)
 
     fd.smoothness = saturate(_Smoothness * LTSKKS_SAMPLE_TEX(_SmoothnessTex, fd.uvMain).r);
     LTSKKS_GSAAForSmoothness(fd.smoothness, fd.N, _GSAAStrength);
-    fd.perceptualRoughness = saturate(1.0 - fd.smoothness);
+    fd.perceptualRoughness = saturate(fd.perceptualRoughness - fd.smoothness * fd.perceptualRoughness);
     fd.roughness = max(fd.perceptualRoughness * fd.perceptualRoughness, 0.002);
 
     float metallic = saturate(_Metallic * LTSKKS_SAMPLE_TEX(_MetallicGlossMap, fd.uvMain).r);
@@ -92,7 +140,7 @@ void LTSKKS_ApplyReflection(inout LTSKKSFragData fd)
     {
         float attenuation = 1.0;
         #if defined(LTSKKS_PASS_FORWARDADD)
-            attenuation = fd.shadowmix * fd.attenuation;
+            attenuation = fd.shadowmix;
         #elif defined(SHADOWS_SCREEN)
             attenuation = fd.shadowmix;
         #else
@@ -106,7 +154,7 @@ void LTSKKS_ApplyReflection(inout LTSKKSFragData fd)
     #if !defined(LTSKKS_PASS_FORWARDADD)
         if(_ApplyReflection > 0.5)
         {
-            float3 n = normalize(lerp(fd.origN, fd.N, saturate(_ReflectionNormalStrength)));
+            float3 n = normalize(lerp(fd.origN, fd.reflectionN, saturate(_ReflectionNormalStrength)));
             float3 reflDir = reflect(-fd.V, n);
             float3 env = LTSKKS_SampleUnityReflection(reflDir, fd.perceptualRoughness);
             float3 fallbackEnv = LTSKKS_SampleFallbackReflection(reflDir, fd.perceptualRoughness);

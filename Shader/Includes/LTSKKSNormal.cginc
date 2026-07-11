@@ -1,4 +1,4 @@
-﻿#ifndef LTSKKS_NORMAL_INCLUDED
+#ifndef LTSKKS_NORMAL_INCLUDED
 #define LTSKKS_NORMAL_INCLUDED
 
 void LTSKKS_ApplyNormal(inout LTSKKSFragData fd, LTSKKSV2F i)
@@ -25,6 +25,9 @@ void LTSKKS_ApplyNormal(inout LTSKKSFragData fd, LTSKKSV2F i)
 
     fd.N = normalize(mul(normalTS, tbn));
     fd.N = (fd.facing < (_FlipNormal - 1.0)) ? -fd.N : fd.N;
+    fd.reflectionN = fd.N;
+    fd.matcapN = fd.N;
+    fd.matcap2ndN = fd.N;
     fd.uvMat = LTSKKS_MatCapUV(fd.N).xy;
 }
 

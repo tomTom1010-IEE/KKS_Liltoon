@@ -256,11 +256,19 @@ void LTSKKS_ApplyBacklight(inout LTSKKSFragData fd)
 {
     if(_UseBacklight < 0.5) return;
     float3 backN = normalize(lerp(fd.origN, fd.N, saturate(_BacklightNormalStrength)));
-    float back = saturate(dot(-fd.L, backN) * 0.5 + 0.5);
-    back = LTSKKS_TooningAAScale(back, _BacklightBorder, _BacklightBlur);
-    float3 color = _BacklightColor.rgb * LTSKKS_SAMPLE_TEX(_BacklightColorTex, fd.uvMain).rgb;
-    float receive = lerp(1.0, fd.shadowmix, _BacklightReceiveShadow);
-    fd.col.rgb += back * _BacklightColor.a * color * fd.lightColor * receive;
+    float hl = dot(fd.V, fd.L);
+    float backlightFactor = pow(saturate(-hl * 0.5 + 0.5), max(_BacklightDirectivity, 0.0001));
+    float3 backlightDir = normalize(-fd.V * _BacklightViewStrength + fd.L);
+    float backlightLN = saturate(dot(backlightDir, backN) * 0.5 + 0.5);
+    float calculatedShadow = saturate(fd.attenuation + distance(fd.L, fd.origL));
+    backlightLN *= lerp(1.0, calculatedShadow, saturate(_BacklightReceiveShadow));
+    backlightLN = LTSKKS_TooningAAScale(backlightLN, _BacklightBorder, _BacklightBlur);
+    float backlight = saturate(backlightFactor * backlightLN);
+    backlight = (fd.facing < (_BacklightBackfaceMask - 1.0)) ? 0.0 : backlight;
+
+    float4 backlightColor = _BacklightColor * LTSKKS_SAMPLE_TEX(_BacklightColorTex, fd.uvMain);
+    backlightColor.rgb = lerp(backlightColor.rgb, backlightColor.rgb * fd.albedo, saturate(_BacklightMainStrength));
+    fd.col.rgb += backlight * backlightColor.a * backlightColor.rgb * fd.lightColor;
 }
 
 #endif
