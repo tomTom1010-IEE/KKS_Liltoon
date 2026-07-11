@@ -5,7 +5,7 @@
   <version>0.0.1</version>
   <author>tomTom</author>
   <description>lilToon-compatible shaders for Koikatsu Sunshine MaterialEditor.</description>
-  <website>https://github.com/tomTom1010-IEE/KKShadersPlus</website>
+  <website>https://github.com/tomTom1010-IEE/KKS_Liltoon</website>
   <MaterialEditor>
     <Shader Name="lilToon" AssetBundle="chara/tom/liltoon/shaders/liltoon.unity3d" Asset="a_lilToon">
       <Property Name="MainTex" Category="Main" Type="Texture" />
