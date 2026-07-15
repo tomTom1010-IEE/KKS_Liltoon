@@ -27,6 +27,14 @@
 - `lilToonOnePassTransparent`
 - `lilToonTwoPassTransparent`
 
+### Lite 系列
+
+- `lilToonLite`
+- `lilToonLiteCutout`
+- `lilToonLiteTransparent`
+- `lilToonLiteOnePassTransparent`
+- `lilToonLiteTwoPassTransparent`
+
 ### Tessellation 系列
 
 - `lilToonTessellation`
@@ -62,6 +70,7 @@
 | Emission | 高 | 双层 emission、blink、gradation、parallax depth、fluorescence 已实现 |
 | Glitter | 较高 | Voronoi 闪粉主路径、shape、randomize、lighting、shadow 与透明度影响已实现 |
 | Main Parallax / POM | 较高 | 主贴图、法线、UV0 图层、AlphaMask、Depth、ShadowCaster 与 Outline 使用一致视差 UV |
+| Lite | 较高 | 5 个轻量变体覆盖常用主贴图、阴影、法线、发光、MatCap、Rim、Outline 与透明渲染路径 |
 | Tessellation | 较高 | 5 个变体使用 hull/domain shader，Forward、Outline、Depth 与 Shadow 路径保持一致 |
 | Fur | 中高 | Geometry 多层毛、方向/长度/noise/mask/AO/rim、稳定随机与 TwoPass 已实现 |
 
@@ -74,7 +83,7 @@
 - Dissolve、ID Mask、Distance Fade 的完整路径。
 - 面部 SDF shadow 专项。
 - 完整的 reflection probe / box projection 高级适配。
-- Lite、Overlay、Outline Only、FakeShadow、Multi 系列。
+- Overlay、Outline Only、FakeShadow、Multi 系列。
 - Gem、Refraction、Refraction Blur。
 - Fur touch / collision、MultiFur、Tessellation + Fur 组合变体。
 - 原版 lilToon Inspector、自动 keyword 管理与渐变贴图生成器。
@@ -123,7 +132,7 @@ Assets/Mods/liltoon
 - Windows / Direct3D 11
 - MaterialEditor 与 Sideloader
 
-最近一次 Unity `AssetDatabase.Refresh` 和强制 AssetBundle 构建已通过，16 个 shader 变体没有 lilToon/LTSKKS 编译错误。
+最近一次 Unity `AssetDatabase.Refresh` 和强制 AssetBundle 构建已通过，21 个 shader 变体没有 lilToon/LTSKKS 编译错误。
 
 仓库本身主要保存开发源码和 Unity 入口资产。面向普通玩家的安装包应使用构建完成的 zipmod，而不是直接把仓库放入游戏目录。
 

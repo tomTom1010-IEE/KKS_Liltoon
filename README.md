@@ -27,6 +27,14 @@ The goal is not to reproduce the entire VRChat runtime inside KKS. Instead, this
 - `lilToonOnePassTransparent`
 - `lilToonTwoPassTransparent`
 
+### Lite Series
+
+- `lilToonLite`
+- `lilToonLiteCutout`
+- `lilToonLiteTransparent`
+- `lilToonLiteOnePassTransparent`
+- `lilToonLiteTwoPassTransparent`
+
 ### Tessellation Series
 
 - `lilToonTessellation`
@@ -62,6 +70,7 @@ All shaders are exposed directly through `manifest.xml` without `Hidden/...` nam
 | Emission | High | Two emission layers, blink, gradation, parallax depth, and fluorescence are implemented |
 | Glitter | Medium-high | Voronoi glitter, shape texture, randomization, lighting, shadow, and transparency influence are implemented |
 | Main Parallax / POM | Medium-high | Main texture, normal maps, UV0 layers, AlphaMask, Depth, ShadowCaster, and Outline use consistent parallax UVs |
+| Lite | Medium-high | Five lightweight variants provide the common main, shadow, normal, emission, MatCap, rim, outline, and transparent render paths |
 | Tessellation | Medium-high | Five hull/domain shader variants keep Forward, Outline, Depth, and Shadow geometry consistent |
 | Fur | Medium-high | Geometry-layer fur, direction/length/noise/masks/AO/rim, stable randomization, and TwoPass rendering are implemented |
 
@@ -74,7 +83,7 @@ The common lilToon feature set used by KKS clothing materials is already broadly
 - Complete Dissolve, ID Mask, and Distance Fade paths.
 - Dedicated face SDF shadows.
 - Advanced reflection probe and box-projection compatibility.
-- Lite, Overlay, Outline Only, FakeShadow, and Multi series.
+- Overlay, Outline Only, FakeShadow, and Multi series.
 - Gem, Refraction, and Refraction Blur.
 - Fur touch/collision, MultiFur, and Tessellation + Fur combinations.
 - The original lilToon Inspector, automatic keyword management, and gradient texture generation tools.
@@ -123,7 +132,7 @@ Development environment:
 - Windows / Direct3D 11
 - MaterialEditor and Sideloader
 
-The latest Unity `AssetDatabase.Refresh` and forced AssetBundle build completed successfully with no lilToon/LTSKKS shader compilation errors across the 16 variants.
+The latest Unity `AssetDatabase.Refresh` and forced AssetBundle build completed successfully with no lilToon/LTSKKS shader compilation errors across the 21 variants.
 
 This repository contains development sources and Unity entry assets. End users should install a built zipmod release rather than copying the repository directly into the game directory.
 
