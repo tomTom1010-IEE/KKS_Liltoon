@@ -7021,6 +7021,346 @@
       <Property Name="PreAlphaToMask" Category="Prepass Rendering" Type="Float" Range="0,1" />
       <Property Name="lilShadowCasterBias" Category="Rendering" Type="Float" />
     </Shader>
+    <Shader Name="lilToonLite" AssetBundle="chara/tom/liltoon/shaders/liltoon.unity3d" Asset="a_lilToonLite">
+      <Property Name="MainTex" Category="Main" Type="Texture" />
+      <Property Name="TriMask" Category="Effects Mask" Type="Texture" />
+      <Property Name="ShadowColorTex" Category="Shadow" Type="Texture" />
+      <Property Name="Shadow2ndColorTex" Category="Shadow" Type="Texture" />
+      <Property Name="MatCapTex" Category="MatCap" Type="Texture" />
+      <Property Name="EmissionMap" Category="Emission" Type="Texture" />
+      <Property Name="OutlineTex" Category="Outline" Type="Texture" />
+      <Property Name="OutlineWidthMask" Category="Outline" Type="Texture" />
+      <Property Name="Invisible" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="AsUnlit" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="Cutoff" Category="Base" Type="Float" Range="-0.001,1.001" />
+      <Property Name="SubpassCutoff" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="FlipNormal" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="BackfaceForceShadow" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="VertexLightStrength" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="LightMinLimit" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="LightMaxLimit" Category="Base" Type="Float" Range="0,10" />
+      <Property Name="BeforeExposureLimit" Category="Base" Type="Float" />
+      <Property Name="MonochromeLighting" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="AlphaBoostFA" Category="Base" Type="Float" Range="1,100" />
+      <Property Name="lilDirectionalLightStrength" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="AAStrength" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="Color" Category="Main" Type="Color" />
+      <Property Name="MainTex_ScrollRotate" Category="Main" Type="Color" />
+      <Property Name="UseShadow" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowBorder" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowBlur" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="Shadow2ndBorder" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="Shadow2ndBlur" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowEnvStrength" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowBorderColor" Category="Shadow" Type="Color" />
+      <Property Name="ShadowBorderRange" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="UseMatCap" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapBlendUV1" Category="MatCap" Type="Color" />
+      <Property Name="MatCapZRotCancel" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapPerspective" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapVRParallaxStrength" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapMul" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="UseRim" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="RimColor" Category="Rim" Type="Color" />
+      <Property Name="RimBorder" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="RimBlur" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="RimFresnelPower" Category="Rim" Type="Float" Range="0.01,50" />
+      <Property Name="RimShadowMask" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="UseEmission" Category="Emission" Type="Float" Range="0,1" />
+      <Property Name="EmissionColor" Category="Emission" Type="Color" />
+      <Property Name="EmissionMap_ScrollRotate" Category="Emission" Type="Color" />
+      <Property Name="EmissionMap_UVMode" Category="Emission" Type="Float" Range="0,4" />
+      <Property Name="EmissionBlink" Category="Emission" Type="Color" />
+      <Property Name="UseOutline" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="OutlineColor" Category="Outline" Type="Color" />
+      <Property Name="OutlineTex_ScrollRotate" Category="Outline" Type="Color" />
+      <Property Name="OutlineWidth" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="OutlineFixWidth" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="OutlineVertexR2Width" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="OutlineDeleteMesh" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="OutlineEnableLighting" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="OutlineZBias" Category="Outline" Type="Float" />
+      <Property Name="OutlineCull" Category="Outline" Type="Float" Range="0,2" />
+      <Property Name="OutlineZWrite" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="OutlineZTest" Category="Outline" Type="Float" Range="0,8" />
+      <Property Name="Cull" Category="Rendering" Type="Float" Range="0,2" />
+      <Property Name="ZWrite" Category="Rendering" Type="Float" Range="0,1" />
+      <Property Name="ZTest" Category="Rendering" Type="Float" Range="0,8" />
+      <Property Name="PreCull" Category="Rendering" Type="Float" Range="0,2" />
+      <Property Name="PreZWrite" Category="Rendering" Type="Float" Range="0,1" />
+    </Shader>
+    <Shader Name="lilToonLiteCutout" AssetBundle="chara/tom/liltoon/shaders/liltoon.unity3d" Asset="a_lilToonLiteCutout">
+      <Property Name="MainTex" Category="Main" Type="Texture" />
+      <Property Name="TriMask" Category="Effects Mask" Type="Texture" />
+      <Property Name="ShadowColorTex" Category="Shadow" Type="Texture" />
+      <Property Name="Shadow2ndColorTex" Category="Shadow" Type="Texture" />
+      <Property Name="MatCapTex" Category="MatCap" Type="Texture" />
+      <Property Name="EmissionMap" Category="Emission" Type="Texture" />
+      <Property Name="OutlineTex" Category="Outline" Type="Texture" />
+      <Property Name="OutlineWidthMask" Category="Outline" Type="Texture" />
+      <Property Name="Invisible" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="AsUnlit" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="Cutoff" Category="Base" Type="Float" Range="-0.001,1.001" />
+      <Property Name="SubpassCutoff" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="FlipNormal" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="BackfaceForceShadow" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="VertexLightStrength" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="LightMinLimit" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="LightMaxLimit" Category="Base" Type="Float" Range="0,10" />
+      <Property Name="BeforeExposureLimit" Category="Base" Type="Float" />
+      <Property Name="MonochromeLighting" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="AlphaBoostFA" Category="Base" Type="Float" Range="1,100" />
+      <Property Name="lilDirectionalLightStrength" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="AAStrength" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="Color" Category="Main" Type="Color" />
+      <Property Name="MainTex_ScrollRotate" Category="Main" Type="Color" />
+      <Property Name="UseShadow" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowBorder" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowBlur" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="Shadow2ndBorder" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="Shadow2ndBlur" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowEnvStrength" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowBorderColor" Category="Shadow" Type="Color" />
+      <Property Name="ShadowBorderRange" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="UseMatCap" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapBlendUV1" Category="MatCap" Type="Color" />
+      <Property Name="MatCapZRotCancel" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapPerspective" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapVRParallaxStrength" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapMul" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="UseRim" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="RimColor" Category="Rim" Type="Color" />
+      <Property Name="RimBorder" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="RimBlur" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="RimFresnelPower" Category="Rim" Type="Float" Range="0.01,50" />
+      <Property Name="RimShadowMask" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="UseEmission" Category="Emission" Type="Float" Range="0,1" />
+      <Property Name="EmissionColor" Category="Emission" Type="Color" />
+      <Property Name="EmissionMap_ScrollRotate" Category="Emission" Type="Color" />
+      <Property Name="EmissionMap_UVMode" Category="Emission" Type="Float" Range="0,4" />
+      <Property Name="EmissionBlink" Category="Emission" Type="Color" />
+      <Property Name="UseOutline" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="OutlineColor" Category="Outline" Type="Color" />
+      <Property Name="OutlineTex_ScrollRotate" Category="Outline" Type="Color" />
+      <Property Name="OutlineWidth" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="OutlineFixWidth" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="OutlineVertexR2Width" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="OutlineDeleteMesh" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="OutlineEnableLighting" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="OutlineZBias" Category="Outline" Type="Float" />
+      <Property Name="OutlineCull" Category="Outline" Type="Float" Range="0,2" />
+      <Property Name="OutlineZWrite" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="OutlineZTest" Category="Outline" Type="Float" Range="0,8" />
+      <Property Name="Cull" Category="Rendering" Type="Float" Range="0,2" />
+      <Property Name="ZWrite" Category="Rendering" Type="Float" Range="0,1" />
+      <Property Name="ZTest" Category="Rendering" Type="Float" Range="0,8" />
+      <Property Name="PreCull" Category="Rendering" Type="Float" Range="0,2" />
+      <Property Name="PreZWrite" Category="Rendering" Type="Float" Range="0,1" />
+    </Shader>
+    <Shader Name="lilToonLiteTransparent" AssetBundle="chara/tom/liltoon/shaders/liltoon.unity3d" Asset="a_lilToonLiteTransparent">
+      <Property Name="MainTex" Category="Main" Type="Texture" />
+      <Property Name="TriMask" Category="Effects Mask" Type="Texture" />
+      <Property Name="ShadowColorTex" Category="Shadow" Type="Texture" />
+      <Property Name="Shadow2ndColorTex" Category="Shadow" Type="Texture" />
+      <Property Name="MatCapTex" Category="MatCap" Type="Texture" />
+      <Property Name="EmissionMap" Category="Emission" Type="Texture" />
+      <Property Name="OutlineTex" Category="Outline" Type="Texture" />
+      <Property Name="OutlineWidthMask" Category="Outline" Type="Texture" />
+      <Property Name="Invisible" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="AsUnlit" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="Cutoff" Category="Base" Type="Float" Range="-0.001,1.001" />
+      <Property Name="SubpassCutoff" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="FlipNormal" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="BackfaceForceShadow" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="VertexLightStrength" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="LightMinLimit" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="LightMaxLimit" Category="Base" Type="Float" Range="0,10" />
+      <Property Name="BeforeExposureLimit" Category="Base" Type="Float" />
+      <Property Name="MonochromeLighting" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="AlphaBoostFA" Category="Base" Type="Float" Range="1,100" />
+      <Property Name="lilDirectionalLightStrength" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="AAStrength" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="Color" Category="Main" Type="Color" />
+      <Property Name="MainTex_ScrollRotate" Category="Main" Type="Color" />
+      <Property Name="UseShadow" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowBorder" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowBlur" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="Shadow2ndBorder" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="Shadow2ndBlur" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowEnvStrength" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowBorderColor" Category="Shadow" Type="Color" />
+      <Property Name="ShadowBorderRange" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="UseMatCap" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapBlendUV1" Category="MatCap" Type="Color" />
+      <Property Name="MatCapZRotCancel" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapPerspective" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapVRParallaxStrength" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapMul" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="UseRim" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="RimColor" Category="Rim" Type="Color" />
+      <Property Name="RimBorder" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="RimBlur" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="RimFresnelPower" Category="Rim" Type="Float" Range="0.01,50" />
+      <Property Name="RimShadowMask" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="UseEmission" Category="Emission" Type="Float" Range="0,1" />
+      <Property Name="EmissionColor" Category="Emission" Type="Color" />
+      <Property Name="EmissionMap_ScrollRotate" Category="Emission" Type="Color" />
+      <Property Name="EmissionMap_UVMode" Category="Emission" Type="Float" Range="0,4" />
+      <Property Name="EmissionBlink" Category="Emission" Type="Color" />
+      <Property Name="UseOutline" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="OutlineColor" Category="Outline" Type="Color" />
+      <Property Name="OutlineTex_ScrollRotate" Category="Outline" Type="Color" />
+      <Property Name="OutlineWidth" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="OutlineFixWidth" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="OutlineVertexR2Width" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="OutlineDeleteMesh" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="OutlineEnableLighting" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="OutlineZBias" Category="Outline" Type="Float" />
+      <Property Name="OutlineCull" Category="Outline" Type="Float" Range="0,2" />
+      <Property Name="OutlineZWrite" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="OutlineZTest" Category="Outline" Type="Float" Range="0,8" />
+      <Property Name="Cull" Category="Rendering" Type="Float" Range="0,2" />
+      <Property Name="ZWrite" Category="Rendering" Type="Float" Range="0,1" />
+      <Property Name="ZTest" Category="Rendering" Type="Float" Range="0,8" />
+      <Property Name="PreCull" Category="Rendering" Type="Float" Range="0,2" />
+      <Property Name="PreZWrite" Category="Rendering" Type="Float" Range="0,1" />
+    </Shader>
+    <Shader Name="lilToonLiteOnePassTransparent" AssetBundle="chara/tom/liltoon/shaders/liltoon.unity3d" Asset="a_lilToonLiteOnePassTransparent">
+      <Property Name="MainTex" Category="Main" Type="Texture" />
+      <Property Name="TriMask" Category="Effects Mask" Type="Texture" />
+      <Property Name="ShadowColorTex" Category="Shadow" Type="Texture" />
+      <Property Name="Shadow2ndColorTex" Category="Shadow" Type="Texture" />
+      <Property Name="MatCapTex" Category="MatCap" Type="Texture" />
+      <Property Name="EmissionMap" Category="Emission" Type="Texture" />
+      <Property Name="OutlineTex" Category="Outline" Type="Texture" />
+      <Property Name="OutlineWidthMask" Category="Outline" Type="Texture" />
+      <Property Name="Invisible" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="AsUnlit" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="Cutoff" Category="Base" Type="Float" Range="-0.001,1.001" />
+      <Property Name="SubpassCutoff" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="FlipNormal" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="BackfaceForceShadow" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="VertexLightStrength" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="LightMinLimit" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="LightMaxLimit" Category="Base" Type="Float" Range="0,10" />
+      <Property Name="BeforeExposureLimit" Category="Base" Type="Float" />
+      <Property Name="MonochromeLighting" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="AlphaBoostFA" Category="Base" Type="Float" Range="1,100" />
+      <Property Name="lilDirectionalLightStrength" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="AAStrength" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="Color" Category="Main" Type="Color" />
+      <Property Name="MainTex_ScrollRotate" Category="Main" Type="Color" />
+      <Property Name="UseShadow" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowBorder" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowBlur" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="Shadow2ndBorder" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="Shadow2ndBlur" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowEnvStrength" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowBorderColor" Category="Shadow" Type="Color" />
+      <Property Name="ShadowBorderRange" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="UseMatCap" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapBlendUV1" Category="MatCap" Type="Color" />
+      <Property Name="MatCapZRotCancel" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapPerspective" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapVRParallaxStrength" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapMul" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="UseRim" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="RimColor" Category="Rim" Type="Color" />
+      <Property Name="RimBorder" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="RimBlur" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="RimFresnelPower" Category="Rim" Type="Float" Range="0.01,50" />
+      <Property Name="RimShadowMask" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="UseEmission" Category="Emission" Type="Float" Range="0,1" />
+      <Property Name="EmissionColor" Category="Emission" Type="Color" />
+      <Property Name="EmissionMap_ScrollRotate" Category="Emission" Type="Color" />
+      <Property Name="EmissionMap_UVMode" Category="Emission" Type="Float" Range="0,4" />
+      <Property Name="EmissionBlink" Category="Emission" Type="Color" />
+      <Property Name="UseOutline" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="OutlineColor" Category="Outline" Type="Color" />
+      <Property Name="OutlineTex_ScrollRotate" Category="Outline" Type="Color" />
+      <Property Name="OutlineWidth" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="OutlineFixWidth" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="OutlineVertexR2Width" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="OutlineDeleteMesh" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="OutlineEnableLighting" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="OutlineZBias" Category="Outline" Type="Float" />
+      <Property Name="OutlineCull" Category="Outline" Type="Float" Range="0,2" />
+      <Property Name="OutlineZWrite" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="OutlineZTest" Category="Outline" Type="Float" Range="0,8" />
+      <Property Name="Cull" Category="Rendering" Type="Float" Range="0,2" />
+      <Property Name="ZWrite" Category="Rendering" Type="Float" Range="0,1" />
+      <Property Name="ZTest" Category="Rendering" Type="Float" Range="0,8" />
+      <Property Name="PreCull" Category="Rendering" Type="Float" Range="0,2" />
+      <Property Name="PreZWrite" Category="Rendering" Type="Float" Range="0,1" />
+    </Shader>
+    <Shader Name="lilToonLiteTwoPassTransparent" AssetBundle="chara/tom/liltoon/shaders/liltoon.unity3d" Asset="a_lilToonLiteTwoPassTransparent">
+      <Property Name="MainTex" Category="Main" Type="Texture" />
+      <Property Name="TriMask" Category="Effects Mask" Type="Texture" />
+      <Property Name="ShadowColorTex" Category="Shadow" Type="Texture" />
+      <Property Name="Shadow2ndColorTex" Category="Shadow" Type="Texture" />
+      <Property Name="MatCapTex" Category="MatCap" Type="Texture" />
+      <Property Name="EmissionMap" Category="Emission" Type="Texture" />
+      <Property Name="OutlineTex" Category="Outline" Type="Texture" />
+      <Property Name="OutlineWidthMask" Category="Outline" Type="Texture" />
+      <Property Name="Invisible" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="AsUnlit" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="Cutoff" Category="Base" Type="Float" Range="-0.001,1.001" />
+      <Property Name="SubpassCutoff" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="FlipNormal" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="BackfaceForceShadow" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="VertexLightStrength" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="LightMinLimit" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="LightMaxLimit" Category="Base" Type="Float" Range="0,10" />
+      <Property Name="BeforeExposureLimit" Category="Base" Type="Float" />
+      <Property Name="MonochromeLighting" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="AlphaBoostFA" Category="Base" Type="Float" Range="1,100" />
+      <Property Name="lilDirectionalLightStrength" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="AAStrength" Category="Base" Type="Float" Range="0,1" />
+      <Property Name="Color" Category="Main" Type="Color" />
+      <Property Name="MainTex_ScrollRotate" Category="Main" Type="Color" />
+      <Property Name="UseShadow" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowBorder" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowBlur" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="Shadow2ndBorder" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="Shadow2ndBlur" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowEnvStrength" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="ShadowBorderColor" Category="Shadow" Type="Color" />
+      <Property Name="ShadowBorderRange" Category="Shadow" Type="Float" Range="0,1" />
+      <Property Name="UseMatCap" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapBlendUV1" Category="MatCap" Type="Color" />
+      <Property Name="MatCapZRotCancel" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapPerspective" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapVRParallaxStrength" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="MatCapMul" Category="MatCap" Type="Float" Range="0,1" />
+      <Property Name="UseRim" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="RimColor" Category="Rim" Type="Color" />
+      <Property Name="RimBorder" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="RimBlur" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="RimFresnelPower" Category="Rim" Type="Float" Range="0.01,50" />
+      <Property Name="RimShadowMask" Category="Rim" Type="Float" Range="0,1" />
+      <Property Name="UseEmission" Category="Emission" Type="Float" Range="0,1" />
+      <Property Name="EmissionColor" Category="Emission" Type="Color" />
+      <Property Name="EmissionMap_ScrollRotate" Category="Emission" Type="Color" />
+      <Property Name="EmissionMap_UVMode" Category="Emission" Type="Float" Range="0,4" />
+      <Property Name="EmissionBlink" Category="Emission" Type="Color" />
+      <Property Name="UseOutline" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="OutlineColor" Category="Outline" Type="Color" />
+      <Property Name="OutlineTex_ScrollRotate" Category="Outline" Type="Color" />
+      <Property Name="OutlineWidth" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="OutlineFixWidth" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="OutlineVertexR2Width" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="OutlineDeleteMesh" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="OutlineEnableLighting" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="OutlineZBias" Category="Outline" Type="Float" />
+      <Property Name="OutlineCull" Category="Outline" Type="Float" Range="0,2" />
+      <Property Name="OutlineZWrite" Category="Outline" Type="Float" Range="0,1" />
+      <Property Name="OutlineZTest" Category="Outline" Type="Float" Range="0,8" />
+      <Property Name="Cull" Category="Rendering" Type="Float" Range="0,2" />
+      <Property Name="ZWrite" Category="Rendering" Type="Float" Range="0,1" />
+      <Property Name="ZTest" Category="Rendering" Type="Float" Range="0,8" />
+      <Property Name="PreCull" Category="Rendering" Type="Float" Range="0,2" />
+      <Property Name="PreZWrite" Category="Rendering" Type="Float" Range="0,1" />
+    </Shader>
   </MaterialEditor>
   <game>Koikatsu Sunshine</game>
 </manifest>

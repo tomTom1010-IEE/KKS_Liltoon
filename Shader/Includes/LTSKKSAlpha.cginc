@@ -147,10 +147,23 @@ void LTSKKS_ClipSubpassAlpha(float alpha, float4 screenPos)
     #endif
 }
 
+void LTSKKS_ClipTransparentPrepassAlpha(float alpha, float4 screenPos)
+{
+    #if defined(LTSKKS_RENDER_TRANSPARENT) || defined(LTSKKS_RENDER_ONEPASS_TRANSPARENT) || defined(LTSKKS_RENDER_TWOPASS_TRANSPARENT)
+        float prepassAlpha = alpha * _PreColor.a;
+        LTSKKS_ClipAlpha(prepassAlpha, _PreCutoff);
+        LTSKKS_ClipSubpassAlpha(prepassAlpha, screenPos);
+    #endif
+}
+
 float4 LTSKKS_PremultiplyTransparentColor(float4 color)
 {
     #if defined(LTSKKS_RENDER_TRANSPARENT) || defined(LTSKKS_RENDER_ONEPASS_TRANSPARENT) || defined(LTSKKS_RENDER_TWOPASS_TRANSPARENT)
-        color.rgb *= saturate(color.a);
+        #if defined(LTSKKS_PASS_FORWARDADD)
+            color.rgb *= saturate(color.a * _AlphaBoostFA);
+        #else
+            color.rgb *= saturate(color.a);
+        #endif
     #endif
     return color;
 }
@@ -177,13 +190,11 @@ void LTSKKS_ApplyCutoutAlpha(inout LTSKKSFragData fd, float4 screenPos)
 void LTSKKS_ApplyTransparentAlpha(inout LTSKKSFragData fd, float4 screenPos)
 {
     LTSKKS_ApplyAlphaMask(fd);
-    LTSKKS_ClipAlpha(fd.col.a, _Cutoff);
     #if defined(LTSKKS_TRANSPARENT_PRE)
-        LTSKKS_ClipSubpassAlpha(fd.col.a, screenPos);
         fd.col *= _PreColor;
         LTSKKS_ClipAlpha(fd.col.a, _PreCutoff);
-    #elif defined(LTSKKS_PASS_FORWARDADD)
-        fd.col.a = saturate(fd.col.a * _AlphaBoostFA);
+    #else
+        LTSKKS_ClipAlpha(fd.col.a, _Cutoff);
     #endif
 }
 

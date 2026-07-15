@@ -50,8 +50,11 @@ float4 frag(LTSKKSDepthV2F i, fixed facing : VFACE) : SV_Target
     float2 ddyMain = abs(ddy(uvMain));
     LTSKKS_ApplyAuxiliaryMainParallax(uvMain, uv0, i.posWS, i.normalWS, i.tangentWS);
     float alpha = LTSKKS_GetLayeredProcessedAlphaGrad(uv0, i.uv01.zw, i.uv23.xy, i.uv23.zw, i.uvMat, uvMain, ddxMain, ddyMain, facing, depth);
-    LTSKKS_ClipAlpha(alpha, _Cutoff);
-    LTSKKS_ClipSubpassAlpha(alpha, i.pos);
+    #if defined(LTSKKS_RENDER_TRANSPARENT) || defined(LTSKKS_RENDER_ONEPASS_TRANSPARENT) || defined(LTSKKS_RENDER_TWOPASS_TRANSPARENT)
+        LTSKKS_ClipTransparentPrepassAlpha(alpha, i.pos);
+    #else
+        LTSKKS_ClipAlpha(alpha, _Cutoff);
+    #endif
     return 0;
 }
 
