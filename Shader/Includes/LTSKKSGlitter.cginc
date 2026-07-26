@@ -134,7 +134,9 @@ void LTSKKS_ApplyGlitter(inout LTSKKSFragData fd)
     glitterColor.a = (fd.facing < (_GlitterBackfaceMask - 1.0)) ? 0.0 : glitterColor.a;
     glitterColor.a = lerp(glitterColor.a, glitterColor.a * fd.shadowmix, saturate(_GlitterShadowMask));
 
-    glitterColor.a *= lerp(1.0, fd.col.a, saturate(_GlitterApplyTransparency));
+    #if !defined(LTSKKS_REFRACTION)
+        glitterColor.a *= lerp(1.0, fd.col.a, saturate(_GlitterApplyTransparency));
+    #endif
 
     #if defined(LTSKKS_PASS_FORWARDADD)
         fd.col.rgb += glitterColor.a * saturate(_GlitterEnableLighting) * glitterColor.rgb * fd.lightColor;

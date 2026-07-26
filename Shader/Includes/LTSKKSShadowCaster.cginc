@@ -12,7 +12,6 @@ struct LTSKKSShadowV2F
     V2F_SHADOW_CASTER;
     float4 uv01 : TEXCOORD1;
     float4 uv23 : TEXCOORD2;
-    float2 uvMain : TEXCOORD3;
     float2 uvMat : TEXCOORD4;
     float3 posWS : TEXCOORD5;
     float3 normalWS : TEXCOORD6;
@@ -30,7 +29,6 @@ LTSKKSShadowV2F vert(appdata_full v)
     UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
     o.uv01 = float4(v.texcoord.xy, v.texcoord1.xy);
     o.uv23 = float4(v.texcoord2.xy, v.texcoord3.xy);
-    o.uvMain = LTSKKS_CalcUV(v.texcoord.xy, _MainTex_ST, _MainTex_ScrollRotate);
     o.uvMat = LTSKKS_MatCapUV(UnityObjectToWorldNormal(v.normal)).xy;
     o.posWS = mul(unity_ObjectToWorld, v.vertex).xyz;
     o.normalWS = UnityObjectToWorldNormal(v.normal);
@@ -45,11 +43,14 @@ float4 frag(LTSKKSShadowV2F i, fixed facing : VFACE) : SV_Target
     if(_Invisible > 0.5) discard;
     float depth = length(_WorldSpaceCameraPos.xyz - i.posWS);
     float2 uv0 = i.uv01.xy;
-    float2 uvMain = i.uvMain;
+    #if defined(LTSKKS_KKS_SKIN)
+        LTSKKS_ClipKKSSkinBodyMask(uv0);
+    #endif
+    float2 uvMain = LTSKKS_CalcMainUV(uv0, facing, _ShiftBackfaceUV, _MainTex_ST, _MainTex_ScrollRotate);
     float2 ddxMain = abs(ddx(uvMain));
     float2 ddyMain = abs(ddy(uvMain));
     LTSKKS_ApplyAuxiliaryMainParallax(uvMain, uv0, i.posWS, i.normalWS, i.tangentWS);
-    float alpha = LTSKKS_GetLayeredProcessedAlphaGrad(uv0, i.uv01.zw, i.uv23.xy, i.uv23.zw, i.uvMat, uvMain, ddxMain, ddyMain, facing, depth);
+    float alpha = LTSKKS_GetLayeredProcessedAlphaGrad(uv0, i.uv01.zw, i.uv23.xy, i.uv23.zw, i.uvMat, uvMain, ddxMain, ddyMain, i.posWS, facing, depth);
     LTSKKS_ClipShadowAlpha(alpha, i.pos);
     SHADOW_CASTER_FRAGMENT(i)
 }

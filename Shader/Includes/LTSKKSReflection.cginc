@@ -108,12 +108,39 @@ float3 LTSKKS_SampleFallbackReflection(float3 reflDir, float perceptualRoughness
     return DecodeHDR(fallback, _ReflectionCubeTex_HDR) * _ReflectionCubeColor.rgb;
 }
 
-float3 LTSKKS_SampleUnityReflection(float3 reflDir, float perceptualRoughness)
+UnityGIInput LTSKKS_SetupGIInput(float3 positionWS)
 {
+    UnityGIInput data;
+    UNITY_INITIALIZE_OUTPUT(UnityGIInput, data);
+    data.worldPos = positionWS;
+    data.probeHDR[0] = unity_SpecCube0_HDR;
+    data.probeHDR[1] = unity_SpecCube1_HDR;
+    #if defined(UNITY_SPECCUBE_BLENDING) || defined(UNITY_SPECCUBE_BOX_PROJECTION)
+        data.boxMin[0] = unity_SpecCube0_BoxMin;
+    #endif
+    #if defined(UNITY_SPECCUBE_BOX_PROJECTION)
+        data.boxMax[0] = unity_SpecCube0_BoxMax;
+        data.probePosition[0] = unity_SpecCube0_ProbePosition;
+        data.boxMax[1] = unity_SpecCube1_BoxMax;
+        data.boxMin[1] = unity_SpecCube1_BoxMin;
+        data.probePosition[1] = unity_SpecCube1_ProbePosition;
+    #endif
+    return data;
+}
+
+float3 LTSKKS_SampleUnityReflection(float3 viewDirection, float3 normalDirection, float perceptualRoughness, float3 positionWS)
+{
+    UnityGIInput data = LTSKKS_SetupGIInput(positionWS);
     Unity_GlossyEnvironmentData glossIn;
     glossIn.roughness = perceptualRoughness;
-    glossIn.reflUVW = reflDir;
-    return Unity_GlossyEnvironment(UNITY_PASS_TEXCUBE(unity_SpecCube0), unity_SpecCube0_HDR, glossIn);
+    glossIn.reflUVW = reflect(-viewDirection, normalDirection);
+    return UnityGI_IndirectSpecular(data, 1.0, glossIn);
+}
+
+bool LTSKKS_ShouldUseFallbackReflection()
+{
+    // BRP uses a zero HDR decode scale when no usable reflection probe is bound.
+    return _ReflectionCubeOverride > 0.5 || unity_SpecCube0_HDR.x == 0.0;
 }
 
 void LTSKKS_ApplyReflection(inout LTSKKSFragData fd)
@@ -125,6 +152,11 @@ void LTSKKS_ApplyReflection(inout LTSKKSFragData fd)
     #endif
 
     fd.smoothness = saturate(_Smoothness * LTSKKS_SAMPLE_TEX(_SmoothnessTex, fd.uvMain).r);
+    #if defined(LTSKKS_KKS_SKIN)
+        float2 detailMaskUV = LTSKKS_CalcUV(fd.uv0, _DetailMask_ST);
+        fd.smoothness *= LTSKKS_SAMPLE_KKS_SKIN(_DetailMask, detailMaskUV).a;
+        fd.smoothness = lerp(fd.smoothness, max(fd.smoothness, saturate(_LiquidSmoothness)), fd.liquidMask);
+    #endif
     LTSKKS_GSAAForSmoothness(fd.smoothness, fd.N, _GSAAStrength);
     fd.perceptualRoughness = saturate(fd.perceptualRoughness - fd.smoothness * fd.perceptualRoughness);
     fd.roughness = max(fd.perceptualRoughness * fd.perceptualRoughness, 0.002);
@@ -134,7 +166,9 @@ void LTSKKS_ApplyReflection(inout LTSKKSFragData fd)
     float3 specularColor = lerp(float3(_Reflectance, _Reflectance, _Reflectance), fd.albedo, metallic);
 
     float4 reflectionColor = _ReflectionColor * LTSKKS_SAMPLE_TEX(_ReflectionColorTex, fd.uvMain);
-    reflectionColor.a *= lerp(1.0, fd.col.a, saturate(_ReflectionApplyTransparency));
+    #if !defined(LTSKKS_REFRACTION)
+        reflectionColor.a *= lerp(1.0, fd.col.a, saturate(_ReflectionApplyTransparency));
+    #endif
 
     if(_ApplySpecular > 0.5)
     {
@@ -156,9 +190,16 @@ void LTSKKS_ApplyReflection(inout LTSKKSFragData fd)
         {
             float3 n = normalize(lerp(fd.origN, fd.reflectionN, saturate(_ReflectionNormalStrength)));
             float3 reflDir = reflect(-fd.V, n);
-            float3 env = LTSKKS_SampleUnityReflection(reflDir, fd.perceptualRoughness);
-            float3 fallbackEnv = LTSKKS_SampleFallbackReflection(reflDir, fd.perceptualRoughness);
-            env = lerp(env, fallbackEnv * lerp(1.0, fd.lightColor, saturate(_ReflectionCubeEnableLighting)), saturate(_ReflectionCubeOverride));
+            float3 env;
+            if(LTSKKS_ShouldUseFallbackReflection())
+            {
+                env = LTSKKS_SampleFallbackReflection(reflDir, fd.perceptualRoughness);
+                env *= lerp(1.0, fd.lightColor, saturate(_ReflectionCubeEnableLighting));
+            }
+            else
+            {
+                env = LTSKKS_SampleUnityReflection(fd.V, n, fd.perceptualRoughness, fd.posWS);
+            }
 
             float oneMinusReflectivity = 0.96 - metallic * 0.96;
             float grazingTerm = saturate(fd.smoothness + (1.0 - oneMinusReflectivity));
@@ -168,8 +209,11 @@ void LTSKKS_ApplyReflection(inout LTSKKSFragData fd)
                 float surfaceReduction = 1.0 / (fd.roughness * fd.roughness + 1.0);
             #endif
             float3 reflectCol = surfaceReduction * env * LTSKKS_FresnelLerp(specularColor, grazingTerm, fd.nv);
-            #if defined(LTSKKS_RENDER_TRANSPARENT) || defined(LTSKKS_RENDER_ONEPASS_TRANSPARENT) || defined(LTSKKS_RENDER_TWOPASS_TRANSPARENT)
-                reflectCol *= lerp(1.0, fd.col.a, saturate(_ReflectionApplyTransparency));
+            #if defined(LTSKKS_REFRACTION)
+                float refractionBlend = fd.col.a + (1.0 - fd.col.a) * pow(fd.nvabs, abs(_RefractionStrength) * 0.5 + 0.25);
+                fd.col.rgb = lerp(env, fd.col.rgb, refractionBlend);
+                reflectCol *= fd.col.a;
+                fd.col.a = 1.0;
             #endif
             fd.col.rgb = LTSKKS_BlendColor(fd.col.rgb, reflectionColor.rgb, reflectCol * reflectionColor.a, _ReflectionBlendMode);
         }

@@ -12,6 +12,65 @@ float4 _Color;
 float _MainGradationStrength;
 UNITY_DECLARE_TEX2D_NOSAMPLER(_MainGradationTex);
 UNITY_DECLARE_TEX2D_NOSAMPLER(_MainColorAdjustMask);
+
+// KKS body material compatibility. Compiled only by lilToonKKSSkin.
+#if defined(LTSKKS_KKS_SKIN)
+UNITY_DECLARE_TEX2D(_ColMask);
+float4 _ColMask_ST;
+float4 _Col0;
+float4 _Col1;
+float4 _Col2;
+float4 _Col3;
+// KKS overlay UV sets rely on each texture's own wrap mode outside its authored region.
+UNITY_DECLARE_TEX2D(_overtex1);
+UNITY_DECLARE_TEX2D(_overtex2);
+UNITY_DECLARE_TEX2D(_overtex3);
+float4 _overtex1_ST;
+float4 _overtex2_ST;
+float4 _overtex3_ST;
+float4 _overcolor1;
+float4 _overcolor2;
+float4 _overcolor3;
+float _nipsize;
+float _nip;
+float _nip_specular;
+float _tex1mask;
+float _alpha_a;
+float _alpha_b;
+UNITY_DECLARE_TEX2D_NOSAMPLER(_NormalMap);
+UNITY_DECLARE_TEX2D_NOSAMPLER(_NormalMapDetail);
+float4 _NormalMap_ST;
+float4 _NormalMapDetail_ST;
+float _NormalMapScale;
+float _DetailNormalMapScale;
+UNITY_DECLARE_TEX2D_NOSAMPLER(_DetailMask);
+float4 _DetailMask_ST;
+UNITY_DECLARE_TEX2D_NOSAMPLER(_EmissionMask);
+float4 _EmissionMask_ST;
+float _EmissionIntensity;
+float _EmissionMaskMode;
+UNITY_DECLARE_TEX2D(_Texture2);
+UNITY_DECLARE_TEX2D_NOSAMPLER(_Texture3);
+UNITY_DECLARE_TEX2D_NOSAMPLER(_LiquidPatternTex);
+UNITY_DECLARE_TEX2D_NOSAMPLER(_LiquidNormalMap);
+UNITY_DECLARE_TEX2D_NOSAMPLER(_liquidmask);
+float4 _Texture2_ST;
+float4 _Texture3_ST;
+float4 _LiquidPatternTex_ST;
+float4 _LiquidNormalMap_ST;
+float4 _liquidmask_ST;
+float4 _LiquidUVTransform;
+float _UseLiquidCustomTextures;
+float _liquidftop;
+float _liquidfbot;
+float _liquidbtop;
+float _liquidbbot;
+float _liquidface;
+float4 _LiquidColor;
+float _LiquidNormalScale;
+float _LiquidSmoothness;
+#define LTSKKS_SAMPLE_KKS_SKIN(texName, uv) UNITY_SAMPLE_TEX2D_SAMPLER(texName, _ColMask, uv)
+#endif
 float _UseParallax;
 float _UsePOM;
 UNITY_DECLARE_TEX2D_NOSAMPLER(_ParallaxMap);
@@ -68,6 +127,15 @@ UNITY_DECLARE_TEX2D_NOSAMPLER(_Main2ndBlendMask);
 float _Main2ndTexBlendMode;
 float _Main2ndTexAlphaMode;
 float _Main2ndEnableLighting;
+UNITY_DECLARE_TEX2D_NOSAMPLER(_Main2ndDissolveMask);
+float4 _Main2ndDissolveMask_ST;
+UNITY_DECLARE_TEX2D_NOSAMPLER(_Main2ndDissolveNoiseMask);
+float4 _Main2ndDissolveNoiseMask_ST;
+float4 _Main2ndDissolveNoiseMask_ScrollRotate;
+float _Main2ndDissolveNoiseStrength;
+float4 _Main2ndDissolveColor;
+float4 _Main2ndDissolveParams;
+float4 _Main2ndDissolvePos;
 float4 _Main2ndDistanceFade;
 
 float _UseMain3rdTex;
@@ -91,10 +159,23 @@ UNITY_DECLARE_TEX2D_NOSAMPLER(_Main3rdBlendMask);
 float _Main3rdTexBlendMode;
 float _Main3rdTexAlphaMode;
 float _Main3rdEnableLighting;
+UNITY_DECLARE_TEX2D_NOSAMPLER(_Main3rdDissolveMask);
+float4 _Main3rdDissolveMask_ST;
+UNITY_DECLARE_TEX2D_NOSAMPLER(_Main3rdDissolveNoiseMask);
+float4 _Main3rdDissolveNoiseMask_ST;
+float4 _Main3rdDissolveNoiseMask_ScrollRotate;
+float _Main3rdDissolveNoiseStrength;
+float4 _Main3rdDissolveColor;
+float4 _Main3rdDissolveParams;
+float4 _Main3rdDissolvePos;
 float4 _Main3rdDistanceFade;
 
 float _AlphaMaskMode;
+#if defined(LTSKKS_KKS_SKIN)
+UNITY_DECLARE_TEX2D(_AlphaMask);
+#else
 UNITY_DECLARE_TEX2D_NOSAMPLER(_AlphaMask);
+#endif
 float4 _AlphaMask_ST;
 float _AlphaMaskScale;
 float _AlphaMaskValue;
@@ -182,6 +263,7 @@ float _RimShadeFresnelPower;
 float _UseBacklight;
 float4 _BacklightColor;
 UNITY_DECLARE_TEX2D_NOSAMPLER(_BacklightColorTex);
+float4 _BacklightColorTex_ST;
 float _BacklightMainStrength;
 float _BacklightNormalStrength;
 float _BacklightBorder;
@@ -285,7 +367,6 @@ float _RimDirRange;
 float _RimIndirRange;
 float _RimIndirBorder;
 float _RimIndirBlur;
-float _RimIndirColorStrength;
 
 float _UseGlitter;
 float _GlitterUVMode;
@@ -394,6 +475,28 @@ UNITY_DECLARE_TEX2D_NOSAMPLER(_Emission2ndGradTex);
 float _Emission2ndGradSpeed;
 float _Emission2ndParallaxDepth;
 float _Emission2ndFluorescence;
+
+UNITY_DECLARE_TEX2D_NOSAMPLER(_DissolveMask);
+float4 _DissolveMask_ST;
+UNITY_DECLARE_TEX2D_NOSAMPLER(_DissolveNoiseMask);
+float4 _DissolveNoiseMask_ST;
+float4 _DissolveNoiseMask_ScrollRotate;
+float _DissolveNoiseStrength;
+float4 _DissolveColor;
+float4 _DissolveParams;
+float4 _DissolvePos;
+
+float _RefractionStrength;
+float _RefractionFresnelPower;
+float _RefractionColorFromMain;
+float4 _RefractionColor;
+
+float _GemChromaticAberration;
+float _GemEnvContrast;
+float4 _GemEnvColor;
+float _GemParticleLoop;
+float4 _GemParticleColor;
+float _GemVRParallaxStrength;
 
 float _UseOutline;
 float4 _OutlineColor;

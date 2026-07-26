@@ -24,7 +24,11 @@ struct LTSKKSV2F
     float4 tangentWS : TEXCOORD4;
     float3 bitangentWS : TEXCOORD5;
     float4 color : COLOR;
-    float furLayer : TEXCOORD9;
+    #if defined(LTSKKS_PASS_FUR)
+        float furLayer : TEXCOORD9;
+    #elif defined(LTSKKS_REFRACTION) || defined(LTSKKS_GEM)
+        float4 grabPos : TEXCOORD9;
+    #endif
     float3 vertexLightColor : TEXCOORD8;
     SHADOW_COORDS(6)
     UNITY_FOG_COORDS(7)
@@ -39,6 +43,13 @@ struct LTSKKSFragData
     float4 main3rdLayer;
     float3 albedo;
     float3 emissionColor;
+    float dissolveAlpha;
+    float main2ndDissolveAlpha;
+    float main3rdDissolveAlpha;
+    #if defined(LTSKKS_KKS_SKIN)
+        float4 vertexColor;
+        float liquidMask;
+    #endif
     float2 uv0;
     float2 uv1;
     float2 uv2;
@@ -73,6 +84,7 @@ struct LTSKKSFragData
     float3 lightColor;
     float3 indLightColor;
     float3 addLightColor;
+    float3 invLighting;
     float shadowmix;
     float facing;
 };
@@ -85,6 +97,13 @@ LTSKKSFragData LTSKKS_InitFragData()
     fd.main3rdLayer = 0.0;
     fd.albedo = 1.0;
     fd.emissionColor = 0.0;
+    fd.dissolveAlpha = 0.0;
+    fd.main2ndDissolveAlpha = 0.0;
+    fd.main3rdDissolveAlpha = 0.0;
+    #if defined(LTSKKS_KKS_SKIN)
+        fd.vertexColor = 1.0;
+        fd.liquidMask = 0.0;
+    #endif
     fd.uv0 = fd.uv1 = fd.uv2 = fd.uv3 = fd.uvMain = fd.uvMat = 0.0;
     fd.ddxMain = fd.ddyMain = fd.parallaxOffset = 0.0;
     fd.parallaxViewDirection = 0.0;
@@ -102,6 +121,7 @@ LTSKKSFragData LTSKKS_InitFragData()
     fd.depth = 0.0;
     fd.lightColor = 1.0;
     fd.indLightColor = fd.addLightColor = 0.0;
+    fd.invLighting = 0.0;
     fd.shadowmix = 1.0;
     fd.facing = 1.0;
     return fd;

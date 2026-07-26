@@ -6,7 +6,7 @@
 
 本项目的目标不是把 VRChat 运行环境整体搬进 KKS，而是在 KKS 可用的渲染条件下尽量保留 lilToon 的属性名称、参数语义和普通服装材质效果，让已有 lilToon 资产更容易迁移到 MaterialEditor。
 
-> 当前版本：`0.0.1 Prototype`
+> 当前版本：`0.1.1 Prototype`
 > 项目仍处于开发阶段，不代表 lilToon 官方，也不保证所有原版材质可以无调整直接迁移。
 
 ## 设计原则
@@ -26,6 +26,10 @@
 - `lilToonTransparent`
 - `lilToonOnePassTransparent`
 - `lilToonTwoPassTransparent`
+
+### KKS 专用适配系列
+
+- `lilToonKKSSkin` - 保留 lilToon Opaque 光照，同时直接兼容 KKS 身体的贴图、蒙版、叠加层、法线、alpha、emission 与区域汗水控制
 
 ### Lite 系列
 
@@ -52,6 +56,15 @@
 - `lilToonFurOnlyCutout`
 - `lilToonFurOnlyTwoPass`
 
+### Refraction 系列
+
+- `lilToonRefraction`
+- `lilToonRefractionBlur`
+
+### Gem 系列
+
+- `lilToonGem`
+
 所有 shader 都在 `manifest.xml` 中直接公开，不使用 `Hidden/...` 名称。每个 shader 都有对应的 Material 和 Prefab 入口。
 
 ## 当前复现程度
@@ -73,6 +86,10 @@
 | Lite | 较高 | 5 个轻量变体覆盖常用主贴图、阴影、法线、发光、MatCap、Rim、Outline 与透明渲染路径 |
 | Tessellation | 较高 | 5 个变体使用 hull/domain shader，Forward、Outline、Depth 与 Shadow 路径保持一致 |
 | Fur | 中高 | Geometry 多层毛、方向/长度/noise/mask/AO/rim、稳定随机与 TwoPass 已实现 |
+| KKS Skin | 初步可用 | 主系列 Opaque 已适配 KKS 身体资产，包括颜色蒙版、叠加层、固定法线/alpha/Texture2/Texture3 命名、DetailMask 光滑度，以及通过 lilToon 路径渲染的区域汗水颜色与法线控制 |
+| Dissolve | 高 | 全局及 Main2nd/Main3rd 的蒙版、UV、物体空间模式、滚动噪声与边缘发光已接入 Forward、Depth、Shadow 与 Outline 路径 |
+| Refraction | 较高 | 已实现 GrabPass Fresnel 折射与粗糙度模糊；KKS 模糊版采用实用的单 Pass 近似 |
+| Gem | 高 | 独立加算宝石路径，包含背景色散折射、环境反射色散、内部粒子、MatCap、Rim、Glitter 与 Emission |
 
 如果只评价 KKS 普通服装资产最常用的 lilToon 功能，主系列已经具备较高可用度。若按原版 lilToon 的完整 shader 产品矩阵评价，本项目仍属于部分复现。
 
@@ -80,11 +97,10 @@
 
 - AudioLink 与其他 VRChat 音频驱动效果。
 - VR 专项、VRC Light Volumes、Motion Vector 等运行环境相关功能。
-- Dissolve、ID Mask、Distance Fade 的完整路径。
+- ID Mask、Distance Fade 的完整路径。
 - 面部 SDF shadow 专项。
 - 完整的 reflection probe / box projection 高级适配。
 - Overlay、Outline Only、FakeShadow、Multi 系列。
-- Gem、Refraction、Refraction Blur。
 - Fur touch / collision、MultiFur、Tessellation + Fur 组合变体。
 - 原版 lilToon Inspector、自动 keyword 管理与渐变贴图生成器。
 
@@ -132,7 +148,7 @@ Assets/Mods/liltoon
 - Windows / Direct3D 11
 - MaterialEditor 与 Sideloader
 
-最近一次 Unity `AssetDatabase.Refresh` 和强制 AssetBundle 构建已通过，21 个 shader 变体没有 lilToon/LTSKKS 编译错误。
+最近一次 Unity `AssetDatabase.Refresh` 和强制 AssetBundle 构建已通过，22 个 shader 变体没有 lilToon/LTSKKS 编译错误。
 
 仓库本身主要保存开发源码和 Unity 入口资产。面向普通玩家的安装包应使用构建完成的 zipmod，而不是直接把仓库放入游戏目录。
 

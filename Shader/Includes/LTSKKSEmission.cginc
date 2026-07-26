@@ -20,11 +20,6 @@ float2 LTSKKS_GetEmissionUV(LTSKKSFragData fd, float uvMode)
     return fd.uv0;
 }
 
-float3 LTSKKS_GetInverseLighting(float3 lightColor)
-{
-    return saturate((1.0 - lightColor) * sqrt(max(lightColor, 0.0)));
-}
-
 float LTSKKS_GetEmissionTransparency(LTSKKSFragData fd)
 {
 #if defined(LTSKKS_RENDER_TRANSPARENT) || defined(LTSKKS_RENDER_ONEPASS_TRANSPARENT) || defined(LTSKKS_RENDER_TWOPASS_TRANSPARENT)
@@ -43,15 +38,25 @@ void LTSKKS_ApplyEmission(inout LTSKKSFragData fd)
         float2 uv = LTSKKS_GetEmissionUV(fd, _EmissionMap_UVMode);
         uv += _EmissionParallaxDepth * fd.parallaxOffset;
         uv = LTSKKS_CalcUV(uv, _EmissionMap_ST, _EmissionMap_ScrollRotate);
-        float4 emission = LTSKKS_SAMPLE_TEX(_EmissionMap, uv) * _EmissionColor;
+        #if defined(LTSKKS_KKS_SKIN)
+            float4 emission = LTSKKS_SAMPLE_KKS_SKIN(_EmissionMask, LTSKKS_CalcUV(fd.uv0, _EmissionMask_ST)) * _EmissionColor * _EmissionIntensity;
+        #else
+            float4 emission = LTSKKS_SAMPLE_TEX(_EmissionMap, uv) * _EmissionColor;
+        #endif
         float2 maskUV = LTSKKS_CalcUV(fd.uvMain, _EmissionBlendMask_ST, _EmissionBlendMask_ScrollRotate);
         emission *= LTSKKS_SAMPLE_TEX(_EmissionBlendMask, maskUV);
         float2 gradUV = float2(frac(_EmissionGradSpeed * _Time.y), 0.5);
         emission *= lerp(1.0, LTSKKS_SAMPLE_TEX(_EmissionGradTex, gradUV), saturate(_EmissionUseGrad));
-        emission.rgb = lerp(emission.rgb, emission.rgb * LTSKKS_GetInverseLighting(fd.lightColor), saturate(_EmissionFluorescence));
+        emission.rgb = lerp(emission.rgb, emission.rgb * fd.invLighting, saturate(_EmissionFluorescence));
         emission.rgb = lerp(emission.rgb, emission.rgb * fd.albedo, saturate(_EmissionMainStrength));
         float alpha = _EmissionBlend * LTSKKS_Blink(_EmissionBlink) * emission.a * transparency;
-        fd.col.rgb = LTSKKS_BlendColor(fd.col.rgb, emission.rgb, alpha, _EmissionBlendMode);
+        #if defined(LTSKKS_KKS_SKIN)
+            float3 overlayedEmission = lerp(fd.col.rgb, emission.rgb, alpha);
+            float3 maskedEmission = fd.col.rgb + fd.col.rgb * emission.rgb * alpha;
+            fd.col.rgb = lerp(overlayedEmission, maskedEmission, saturate(_EmissionMaskMode));
+        #else
+            fd.col.rgb = LTSKKS_BlendColor(fd.col.rgb, emission.rgb, alpha, _EmissionBlendMode);
+        #endif
         fd.emissionColor += emission.rgb * alpha;
     }
 
@@ -65,7 +70,7 @@ void LTSKKS_ApplyEmission(inout LTSKKSFragData fd)
         emission *= LTSKKS_SAMPLE_TEX(_Emission2ndBlendMask, maskUV);
         float2 gradUV = float2(frac(_Emission2ndGradSpeed * _Time.y), 0.5);
         emission *= lerp(1.0, LTSKKS_SAMPLE_TEX(_Emission2ndGradTex, gradUV), saturate(_Emission2ndUseGrad));
-        emission.rgb = lerp(emission.rgb, emission.rgb * LTSKKS_GetInverseLighting(fd.lightColor), saturate(_Emission2ndFluorescence));
+        emission.rgb = lerp(emission.rgb, emission.rgb * fd.invLighting, saturate(_Emission2ndFluorescence));
         emission.rgb = lerp(emission.rgb, emission.rgb * fd.albedo, saturate(_Emission2ndMainStrength));
         float alpha = _Emission2ndBlend * LTSKKS_Blink(_Emission2ndBlink) * emission.a * transparency;
         fd.col.rgb = LTSKKS_BlendColor(fd.col.rgb, emission.rgb, alpha, _Emission2ndBlendMode);

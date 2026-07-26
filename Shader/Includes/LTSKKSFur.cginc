@@ -1,12 +1,16 @@
 #ifndef LTSKKS_FUR_INCLUDED
 #define LTSKKS_FUR_INCLUDED
 
+#define LTSKKS_PASS_FUR 1
+
 #include "UnityCG.cginc"
 #include "Lighting.cginc"
 #include "AutoLight.cginc"
 #include "LTSKKSCommon.cginc"
 #include "LTSKKSInput.cginc"
 #include "LTSKKSData.cginc"
+#define LTSKKS_DISSOLVE_WITH_FRAGDATA 1
+#include "LTSKKSDissolve.cginc"
 #include "LTSKKSPipeline.cginc"
 #define LTSKKS_PARALLAX_WITH_FRAGDATA 1
 #include "LTSKKSParallax.cginc"
@@ -285,8 +289,7 @@ void LTSKKS_ApplyFurAOAndRim(inout LTSKKSFragData fd, LTSKKSV2F i)
     #endif
 
     float fresnel = pow(saturate(1.0 - abs(dot(normalize(fd.N), fd.V))), max(_FurRimFresnelPower, 0.01));
-    float3 invLighting = saturate((1.0 - fd.lightColor) * sqrt(max(fd.lightColor, 0.0)));
-    float antiLight = lerp(1.0, dot(invLighting, float3(0.299, 0.587, 0.114)), saturate(_FurRimAntiLight));
+    float antiLight = lerp(1.0, LTSKKS_OpenLitGray(fd.invLighting), saturate(_FurRimAntiLight));
     fd.col.rgb += furLayer * fresnel * antiLight * _FurRimColor.rgb * fd.lightColor;
 }
 
@@ -312,6 +315,7 @@ float4 frag(LTSKKSV2F i, fixed facing : VFACE) : SV_Target
     LTSKKS_PrepareLighting(fd, i);
     LTSKKS_ApplyMainLayers(fd);
     LTSKKS_ApplyAlphaMask(fd);
+    LTSKKS_ApplyGlobalDissolve(fd);
     LTSKKS_ApplyFurAlpha(fd, i);
 
     fd.albedo = fd.col.rgb;
@@ -319,6 +323,7 @@ float4 frag(LTSKKSV2F i, fixed facing : VFACE) : SV_Target
     LTSKKS_ApplyMainLayersAfterLighting(fd);
     LTSKKS_ApplyRimShade(fd);
     LTSKKS_ApplyFurAOAndRim(fd, i);
+    LTSKKS_ApplyDissolveEmission(fd);
 
     fd.col.rgb = (fd.facing < 0.0) ? lerp(fd.col.rgb, _BackfaceColor.rgb * fd.lightColor, _BackfaceColor.a) : fd.col.rgb;
     fd.col.rgb = min(fd.col.rgb, float3(_BeforeExposureLimit, _BeforeExposureLimit, _BeforeExposureLimit));

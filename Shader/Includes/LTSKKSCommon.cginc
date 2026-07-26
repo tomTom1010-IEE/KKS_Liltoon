@@ -38,6 +38,16 @@ float2 LTSKKS_CalcUV(float2 uv, float4 st, float4 scrollRotate)
     return outUV + frac(scrollRotate.xy * _Time.y);
 }
 
+float2 LTSKKS_CalcDoubleSideUV(float2 uv, float facing, float shiftBackfaceUV)
+{
+    return facing < (shiftBackfaceUV - 1.0) ? uv + float2(1.0, 0.0) : uv;
+}
+
+float2 LTSKKS_CalcMainUV(float2 uv0, float facing, float shiftBackfaceUV, float4 st, float4 scrollRotate)
+{
+    return LTSKKS_CalcUV(LTSKKS_CalcDoubleSideUV(uv0, facing, shiftBackfaceUV), st, scrollRotate);
+}
+
 float2 LTSKKS_CalcDecalUV(float2 uv, float4 st, float4 scrollRotate, float isLeftOnly, float isRightOnly, float shouldCopy, float shouldFlipMirror, float shouldFlipCopy)
 {
     bool isRightHand = uv.x > 0.5;

@@ -6,7 +6,7 @@ An unofficial lilToon port for **Koikatsu Sunshine (KKS)**, Unity 2019.4.9f1 Bui
 
 The goal is not to reproduce the entire VRChat runtime inside KKS. Instead, this project preserves lilToon's property names, parameter semantics, and common clothing-material effects wherever the KKS rendering environment allows it, making existing lilToon assets easier to migrate to MaterialEditor.
 
-> Current version: `0.0.1 Prototype`
+> Current version: `0.1.1 Prototype`
 > This project is still under development. It is not an official lilToon release, and materials may require manual adjustment after migration.
 
 ## Design Goals
@@ -26,6 +26,10 @@ The goal is not to reproduce the entire VRChat runtime inside KKS. Instead, this
 - `lilToonTransparent`
 - `lilToonOnePassTransparent`
 - `lilToonTwoPassTransparent`
+
+### KKS Adaptation Series
+
+- `lilToonKKSSkin` - Opaque lilToon lighting with native KKS body texture, mask, overlay, normal, alpha, emission, and regional sweat/liquid controls
 
 ### Lite Series
 
@@ -52,6 +56,15 @@ The goal is not to reproduce the entire VRChat runtime inside KKS. Instead, this
 - `lilToonFurOnlyCutout`
 - `lilToonFurOnlyTwoPass`
 
+### Refraction Series
+
+- `lilToonRefraction`
+- `lilToonRefractionBlur`
+
+### Gem Series
+
+- `lilToonGem`
+
 All shaders are exposed directly through `manifest.xml` without `Hidden/...` names. Every shader has a matching Material and Prefab entry.
 
 ## Current Porting Status
@@ -73,6 +86,10 @@ All shaders are exposed directly through `manifest.xml` without `Hidden/...` nam
 | Lite | Medium-high | Five lightweight variants provide the common main, shadow, normal, emission, MatCap, rim, outline, and transparent render paths |
 | Tessellation | Medium-high | Five hull/domain shader variants keep Forward, Outline, Depth, and Shadow geometry consistent |
 | Fur | Medium-high | Geometry-layer fur, direction/length/noise/masks/AO/rim, stable randomization, and TwoPass rendering are implemented |
+| KKS Skin | Initial usable | Main opaque shading adapted to KKS body assets, including color masks, overlays, fixed normal/alpha/Texture2/Texture3 names, detail smoothness, and regional sweat color/normal controls rendered through the lilToon path |
+| Dissolve | High | Global and Main2nd/Main3rd mask, UV, and object modes, animated noise, and edge emission are connected to forward, depth, shadow, and outline paths |
+| Refraction | Medium-high | GrabPass Fresnel refraction and roughness blur are implemented; the KKS blur variant uses a practical single-pass approximation |
+| Gem | High | Dedicated additive gem path with chromatic background refraction, chromatic environment reflection, internal particles, MatCap, Rim, Glitter, and Emission |
 
 The common lilToon feature set used by KKS clothing materials is already broadly usable. Compared with the complete upstream lilToon shader matrix, however, this remains a partial port.
 
@@ -80,11 +97,10 @@ The common lilToon feature set used by KKS clothing materials is already broadly
 
 - AudioLink and other VRChat audio-driven effects.
 - VR-specific behavior, VRC Light Volumes, Motion Vectors, and similar runtime integrations.
-- Complete Dissolve, ID Mask, and Distance Fade paths.
+- Complete ID Mask and Distance Fade paths.
 - Dedicated face SDF shadows.
 - Advanced reflection probe and box-projection compatibility.
 - Overlay, Outline Only, FakeShadow, and Multi series.
-- Gem, Refraction, and Refraction Blur.
 - Fur touch/collision, MultiFur, and Tessellation + Fur combinations.
 - The original lilToon Inspector, automatic keyword management, and gradient texture generation tools.
 
@@ -132,7 +148,7 @@ Development environment:
 - Windows / Direct3D 11
 - MaterialEditor and Sideloader
 
-The latest Unity `AssetDatabase.Refresh` and forced AssetBundle build completed successfully with no lilToon/LTSKKS shader compilation errors across the 21 variants.
+The latest Unity `AssetDatabase.Refresh` and forced AssetBundle build completed successfully with no lilToon/LTSKKS shader compilation errors across the 22 variants.
 
 This repository contains development sources and Unity entry assets. End users should install a built zipmod release rather than copying the repository directly into the game directory.
 

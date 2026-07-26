@@ -63,6 +63,13 @@ Shader "lilToonFurOnlyTwoPass"
         _Main2ndTexBlendMode ("sBlendModes", Int) = 0
         _Main2ndTexAlphaMode ("sAlphaModes", Int) = 0
         _Main2ndEnableLighting ("sEnableLighting", Range(0, 1)) = 1
+        _Main2ndDissolveMask ("Dissolve Mask", 2D) = "white" {}
+        _Main2ndDissolveNoiseMask ("Dissolve Noise Mask", 2D) = "gray" {}
+        _Main2ndDissolveNoiseMask_ScrollRotate ("Scroll", Vector) = (0,0,0,0)
+        _Main2ndDissolveNoiseStrength ("Dissolve Noise Strength", Float) = 0.1
+        [HDR] _Main2ndDissolveColor ("sColor", Color) = (1,1,1,1)
+        _Main2ndDissolveParams ("sDissolveParams", Vector) = (0,0,0.5,0.1)
+        _Main2ndDissolvePos ("Dissolve Position", Vector) = (0,0,0,0)
         _Main2ndDistanceFade ("sDistanceFadeSettings", Vector) = (0.1,0.01,0,0)
 
         // Main3rd
@@ -86,6 +93,13 @@ Shader "lilToonFurOnlyTwoPass"
         _Main3rdTexBlendMode ("sBlendModes", Int) = 0
         _Main3rdTexAlphaMode ("sAlphaModes", Int) = 0
         _Main3rdEnableLighting ("sEnableLighting", Range(0, 1)) = 1
+        _Main3rdDissolveMask ("Dissolve Mask", 2D) = "white" {}
+        _Main3rdDissolveNoiseMask ("Dissolve Noise Mask", 2D) = "gray" {}
+        _Main3rdDissolveNoiseMask_ScrollRotate ("Scroll", Vector) = (0,0,0,0)
+        _Main3rdDissolveNoiseStrength ("Dissolve Noise Strength", Float) = 0.1
+        [HDR] _Main3rdDissolveColor ("sColor", Color) = (1,1,1,1)
+        _Main3rdDissolveParams ("sDissolveParams", Vector) = (0,0,0.5,0.1)
+        _Main3rdDissolvePos ("Dissolve Position", Vector) = (0,0,0,0)
         _Main3rdDistanceFade ("sDistanceFadeSettings", Vector) = (0.1,0.01,0,0)
 
         // Alpha Mask
@@ -256,15 +270,15 @@ Shader "lilToonFurOnlyTwoPass"
 
         // Rim
         _UseRim ("sRimLight", Int) = 0
-        [HDR] _RimColor ("sColor", Color) = (1,1,1,1)
+        [HDR] _RimColor ("sColor", Color) = (0.66,0.5,0.48,1)
         [NoScaleOffset] _RimColorTex ("Texture", 2D) = "white" {}
         _RimMainStrength ("sMainColorPower", Range(0, 1)) = 0
         _RimNormalStrength ("sNormalStrength", Range(0, 1)) = 1
         [HDR] _RimIndirColor ("sColor", Color) = (1,1,1,1)
         _RimBorder ("sBorder", Range(0, 1)) = 0.5
         _RimBlur ("sBlur", Range(0, 1)) = 0.65
-        _RimFresnelPower ("sFresnelPower", Range(0.01, 50)) = 3
-        _RimShadowMask ("sShadowMask", Range(0, 1)) = 0
+        _RimFresnelPower ("sFresnelPower", Range(0.01, 50)) = 3.5
+        _RimShadowMask ("sShadowMask", Range(0, 1)) = 0.5
         _RimBackfaceMask ("sBackfaceMask", Int) = 1
         _RimVRParallaxStrength ("VR Parallax Strength", Range(0, 1)) = 1
         _RimApplyTransparency ("sApplyTransparency", Int) = 1
@@ -275,7 +289,6 @@ Shader "lilToonFurOnlyTwoPass"
         _RimIndirRange ("sIndirectionRange", Range(-1, 1)) = 0
         _RimIndirBorder ("sBorder", Range(0, 1)) = 0.5
         _RimIndirBlur ("sBlur", Range(0, 1)) = 0.1
-        _RimIndirColorStrength ("sIndirectionColorStrength", Range(0, 1)) = 0
 
         // Glitter
         _UseGlitter ("sGlitter", Int) = 0
@@ -439,6 +452,14 @@ Shader "lilToonFurOnlyTwoPass"
         [HDR] _DistanceFadeRimColor ("sColor", Color) = (0,0,0,0)
         _DistanceFadeRimFresnelPower ("sFresnelPower", Range(0.01, 50)) = 5
 
+        // Dissolve
+        _DissolveMask ("Dissolve Mask", 2D) = "white" {}
+        _DissolveNoiseMask ("Dissolve Noise Mask", 2D) = "gray" {}
+        _DissolveNoiseMask_ScrollRotate ("Scroll", Vector) = (0,0,0,0)
+        _DissolveNoiseStrength ("Dissolve Noise Strength", Float) = 0.1
+        [HDR] _DissolveColor ("sColor", Color) = (1,1,1,1)
+        _DissolveParams ("sDissolveParamsModes", Vector) = (0,0,0.5,0.1)
+        _DissolvePos ("Dissolve Position", Vector) = (0,0,0,0)
         // Rendering
         _Cull ("sCullModes", Int) = 2
         _SrcBlend ("sSrcBlendRGB", Int) = 1

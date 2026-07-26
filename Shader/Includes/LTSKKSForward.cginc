@@ -8,9 +8,14 @@
 #include "LTSKKSCommon.cginc"
 #include "LTSKKSInput.cginc"
 #include "LTSKKSData.cginc"
+#define LTSKKS_DISSOLVE_WITH_FRAGDATA 1
+#include "LTSKKSDissolve.cginc"
 #include "LTSKKSPipeline.cginc"
 #define LTSKKS_PARALLAX_WITH_FRAGDATA 1
 #include "LTSKKSParallax.cginc"
+#if defined(LTSKKS_KKS_SKIN)
+    #include "LTSKKSKKSSkin.cginc"
+#endif
 #include "LTSKKSMain.cginc"
 #define LTSKKS_ALPHA_WITH_FRAGDATA 1
 #include "LTSKKSAlpha.cginc"
@@ -22,6 +27,8 @@
 #include "LTSKKSRim.cginc"
 #include "LTSKKSGlitter.cginc"
 #include "LTSKKSEmission.cginc"
+#include "LTSKKSRefraction.cginc"
+#include "LTSKKSGem.cginc"
 
 LTSKKSV2F vert(LTSKKSAppData v)
 {
@@ -39,7 +46,11 @@ LTSKKSV2F vert(LTSKKSAppData v)
     o.uv01 = float4(v.texcoord.xy, v.texcoord1.xy);
     o.uv23 = float4(v.texcoord2.xy, v.texcoord3.xy);
     o.color = v.color;
-    o.furLayer = -2.0;
+    #if defined(LTSKKS_PASS_FUR)
+        o.furLayer = -2.0;
+    #elif defined(LTSKKS_REFRACTION) || defined(LTSKKS_GEM)
+        o.grabPos = ComputeGrabScreenPos(o.pos);
+    #endif
     o.vertexLightColor = LTSKKS_GetVertexLightColor(o.posWS);
     TRANSFER_SHADOW(o);
     UNITY_TRANSFER_FOG(o, o.pos);
@@ -59,15 +70,28 @@ float4 frag(LTSKKSV2F i, fixed facing : VFACE) : SV_Target
     fd.posWS = i.posWS;
     fd.depth = length(_WorldSpaceCameraPos.xyz - i.posWS);
     fd.facing = facing;
+    #if defined(LTSKKS_KKS_SKIN)
+        fd.vertexColor = i.color;
+    #endif
 
     if(_Invisible > 0.5) discard;
+
+    #if defined(LTSKKS_GEM) && defined(LTSKKS_PASS_FORWARDADD)
+        return 0.0;
+    #endif
 
     LTSKKS_PrepareSurfaceBasis(fd, i);
     LTSKKS_ApplyMain(fd);
     LTSKKS_ApplyNormal(fd, i);
+    #if defined(LTSKKS_GEM)
+        LTSKKS_PrepareGemNormal(fd);
+    #endif
     LTSKKS_PrepareLighting(fd, i);
     LTSKKS_ApplyAnisotropy(fd);
     LTSKKS_ApplyMainLayers(fd);
+    #if defined(LTSKKS_KKS_SKIN)
+        LTSKKS_ApplyKKSLiquidColor(fd);
+    #endif
     LTSKKS_ApplyRenderAlpha(fd, i.pos);
 
     #if defined(LTSKKS_TRANSPARENT_PRE)
@@ -77,25 +101,41 @@ float4 frag(LTSKKSV2F i, fixed facing : VFACE) : SV_Target
         }
     #endif
 
-    fd.albedo = fd.col.rgb;
-    LTSKKS_ApplyShadow(fd);
-    LTSKKS_ApplyMainLayersAfterLighting(fd);
-    LTSKKS_ApplyRimShade(fd);
-    #if !defined(LTSKKS_PASS_FORWARDADD)
-        LTSKKS_ApplyBacklight(fd);
+    #if defined(LTSKKS_GEM)
+        LTSKKS_ApplyMainLayersAfterLighting(fd);
+        fd.albedo = fd.col.rgb;
+        LTSKKS_ApplyGem(fd, i.grabPos);
+    #else
+        fd.albedo = fd.col.rgb;
+        LTSKKS_ApplyShadow(fd);
+        LTSKKS_ApplyMainLayersAfterLighting(fd);
+        LTSKKS_ApplyRimShade(fd);
+        #if !defined(LTSKKS_PASS_FORWARDADD)
+            LTSKKS_ApplyBacklight(fd);
+        #endif
+        #if defined(LTSKKS_REFRACTION) && !defined(LTSKKS_PASS_FORWARDADD)
+            LTSKKS_ApplyRefraction(fd, i.grabPos);
+        #endif
+        LTSKKS_ApplyReflection(fd);
     #endif
-    LTSKKS_ApplyReflection(fd);
     LTSKKS_ApplyMatCap(fd);
     LTSKKS_ApplyRim(fd);
     LTSKKS_ApplyGlitter(fd);
     #if !defined(LTSKKS_PASS_FORWARDADD)
         LTSKKS_ApplyEmission(fd);
     #endif
+    LTSKKS_ApplyDissolveEmission(fd);
 
-    fd.col.rgb = (fd.facing < 0.0) ? lerp(fd.col.rgb, _BackfaceColor.rgb * fd.lightColor, _BackfaceColor.a) : fd.col.rgb;
+    #if !defined(LTSKKS_GEM)
+        fd.col.rgb = (fd.facing < 0.0) ? lerp(fd.col.rgb, _BackfaceColor.rgb * fd.lightColor, _BackfaceColor.a) : fd.col.rgb;
+    #endif
     fd.col.rgb = min(fd.col.rgb, float3(_BeforeExposureLimit, _BeforeExposureLimit, _BeforeExposureLimit));
     fd.col = LTSKKS_PremultiplyTransparentColor(fd.col);
-    UNITY_APPLY_FOG(i.fogCoord, fd.col);
+    #if defined(LTSKKS_GEM)
+        UNITY_APPLY_FOG_COLOR(i.fogCoord, fd.col, float4(0.0, 0.0, 0.0, 0.0));
+    #else
+        UNITY_APPLY_FOG(i.fogCoord, fd.col);
+    #endif
     return fd.col;
 }
 

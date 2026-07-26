@@ -1,9 +1,35 @@
 #ifndef LTSKKS_ALPHA_INCLUDED
 #define LTSKKS_ALPHA_INCLUDED
 
+#include "LTSKKSDissolve.cginc"
+
+#if defined(LTSKKS_KKS_SKIN)
+    float LTSKKS_GetKKSSkinBodyMask(float2 uv)
+    {
+        float4 mask = UNITY_SAMPLE_TEX2D(_AlphaMask, LTSKKS_CalcUV(uv, _AlphaMask_ST));
+        float maskR = max(1.0 - _alpha_a, mask.r);
+        float maskG = max(1.0 - _alpha_b, mask.g);
+        return min(maskR, maskG);
+    }
+
+    void LTSKKS_ClipKKSSkinBodyMask(float2 uv)
+    {
+        clip(LTSKKS_GetKKSSkinBodyMask(uv) - 0.5);
+    }
+#endif
+
+float LTSKKS_SampleAlphaMask(float2 uv)
+{
+    #if defined(LTSKKS_KKS_SKIN)
+        return UNITY_SAMPLE_TEX2D(_AlphaMask, LTSKKS_CalcUV(uv, _AlphaMask_ST)).r;
+    #else
+        return LTSKKS_SAMPLE_TEX(_AlphaMask, LTSKKS_CalcUV(uv, _AlphaMask_ST)).r;
+    #endif
+}
+
 float LTSKKS_ApplyAlphaMaskValue(float alpha, float2 uv)
 {
-    float mask = LTSKKS_SAMPLE_TEX(_AlphaMask, LTSKKS_CalcUV(uv, _AlphaMask_ST)).r;
+    float mask = LTSKKS_SampleAlphaMask(uv);
     float processed = saturate(mask * _AlphaMaskScale + _AlphaMaskValue);
     if(_AlphaMaskMode > 0.5 && _AlphaMaskMode < 1.5)
     {
@@ -26,8 +52,12 @@ float LTSKKS_ApplyAlphaMaskValue(float alpha, float2 uv)
 
 float LTSKKS_GetProcessedAlpha(float2 uv, float2 uvMain)
 {
-    float alpha = LTSKKS_SAMPLE_MAIN_TEX(uvMain).a * _Color.a;
-    return LTSKKS_ApplyAlphaMaskValue(alpha, uv);
+    #if defined(LTSKKS_KKS_SKIN)
+        float alpha = LTSKKS_SAMPLE_MAIN_TEX(uvMain).a;
+    #else
+        float alpha = LTSKKS_SAMPLE_MAIN_TEX(uvMain).a * _Color.a;
+    #endif
+    return LTSKKS_ApplyAlphaMaskValue(alpha, uvMain);
 }
 
 float2 LTSKKS_SelectAlphaLayerUV(float2 uv0, float2 uv1, float2 uv2, float2 uv3, float2 uvMat, float uvMode)
@@ -66,7 +96,7 @@ float LTSKKS_BlendAlphaForMode(float baseAlpha, float layerAlpha, float alphaMod
     return baseAlpha;
 }
 
-float LTSKKS_ApplyMain2ndAlpha(float alpha, float2 uv0, float2 uv1, float2 uv2, float2 uv3, float2 uvMat, float2 uvMain, float facing, float depth)
+float LTSKKS_ApplyMain2ndAlpha(float alpha, float2 uv0, float2 uv1, float2 uv2, float2 uv3, float2 uvMat, float2 uvMain, float3 posWS, float facing, float depth)
 {
     if(_UseMain2ndTex < 0.5 || _Main2ndTexAlphaMode < 0.5) return alpha;
     if(_Main2ndTex_Cull > 0.5 && _Main2ndTex_Cull < 1.5 && facing > 0.0) return alpha;
@@ -77,11 +107,13 @@ float LTSKKS_ApplyMain2ndAlpha(float alpha, float2 uv0, float2 uv1, float2 uv2, 
     float layerAlpha = layerColor.a;
     layerAlpha *= LTSKKS_DecalUVAlpha(uv, _Main2ndTexIsDecal);
     layerAlpha *= LTSKKS_SAMPLE_TEX(_Main2ndBlendMask, uvMain).r;
+    float dissolveAlpha = 0.0;
+    LTSKKS_ApplyDissolve(layerAlpha, dissolveAlpha, uv0, posWS, 1);
     layerAlpha = LTSKKS_ApplyLayerDistanceFade(layerAlpha, depth, _Main2ndDistanceFade);
     return LTSKKS_BlendAlphaForMode(alpha, layerAlpha, _Main2ndTexAlphaMode);
 }
 
-float LTSKKS_ApplyMain3rdAlpha(float alpha, float2 uv0, float2 uv1, float2 uv2, float2 uv3, float2 uvMat, float2 uvMain, float facing, float depth)
+float LTSKKS_ApplyMain3rdAlpha(float alpha, float2 uv0, float2 uv1, float2 uv2, float2 uv3, float2 uvMat, float2 uvMain, float3 posWS, float facing, float depth)
 {
     if(_UseMain3rdTex < 0.5 || _Main3rdTexAlphaMode < 0.5) return alpha;
     if(_Main3rdTex_Cull > 0.5 && _Main3rdTex_Cull < 1.5 && facing > 0.0) return alpha;
@@ -92,21 +124,30 @@ float LTSKKS_ApplyMain3rdAlpha(float alpha, float2 uv0, float2 uv1, float2 uv2, 
     float layerAlpha = layerColor.a;
     layerAlpha *= LTSKKS_DecalUVAlpha(uv, _Main3rdTexIsDecal);
     layerAlpha *= LTSKKS_SAMPLE_TEX(_Main3rdBlendMask, uvMain).r;
+    float dissolveAlpha = 0.0;
+    LTSKKS_ApplyDissolve(layerAlpha, dissolveAlpha, uv0, posWS, 2);
     layerAlpha = LTSKKS_ApplyLayerDistanceFade(layerAlpha, depth, _Main3rdDistanceFade);
     return LTSKKS_BlendAlphaForMode(alpha, layerAlpha, _Main3rdTexAlphaMode);
 }
 
-float LTSKKS_GetLayeredProcessedAlphaGrad(float2 uv0, float2 uv1, float2 uv2, float2 uv3, float2 uvMat, float2 uvMain, float2 ddxMain, float2 ddyMain, float facing, float depth)
+float LTSKKS_GetLayeredProcessedAlphaGrad(float2 uv0, float2 uv1, float2 uv2, float2 uv3, float2 uvMat, float2 uvMain, float2 ddxMain, float2 ddyMain, float3 posWS, float facing, float depth)
 {
-    float alpha = LTSKKS_SampleMainTexAfterParallax(uvMain, ddxMain, ddyMain).a * _Color.a;
-    alpha = LTSKKS_ApplyMain2ndAlpha(alpha, uv0, uv1, uv2, uv3, uvMat, uvMain, facing, depth);
-    alpha = LTSKKS_ApplyMain3rdAlpha(alpha, uv0, uv1, uv2, uv3, uvMat, uvMain, facing, depth);
-    return LTSKKS_ApplyAlphaMaskValue(alpha, uv0);
+    #if defined(LTSKKS_KKS_SKIN)
+        float alpha = LTSKKS_SampleMainTexAfterParallax(uvMain, ddxMain, ddyMain).a;
+    #else
+        float alpha = LTSKKS_SampleMainTexAfterParallax(uvMain, ddxMain, ddyMain).a * _Color.a;
+    #endif
+    alpha = LTSKKS_ApplyMain2ndAlpha(alpha, uv0, uv1, uv2, uv3, uvMat, uvMain, posWS, facing, depth);
+    alpha = LTSKKS_ApplyMain3rdAlpha(alpha, uv0, uv1, uv2, uv3, uvMat, uvMain, posWS, facing, depth);
+    alpha = LTSKKS_ApplyAlphaMaskValue(alpha, uvMain);
+    float dissolveAlpha = 0.0;
+    LTSKKS_ApplyDissolve(alpha, dissolveAlpha, uv0, posWS, 0);
+    return alpha;
 }
 
-float LTSKKS_GetLayeredProcessedAlpha(float2 uv0, float2 uv1, float2 uv2, float2 uv3, float2 uvMat, float2 uvMain, float facing, float depth)
+float LTSKKS_GetLayeredProcessedAlpha(float2 uv0, float2 uv1, float2 uv2, float2 uv3, float2 uvMat, float2 uvMain, float3 posWS, float facing, float depth)
 {
-    return LTSKKS_GetLayeredProcessedAlphaGrad(uv0, uv1, uv2, uv3, uvMat, uvMain, abs(ddx(uvMain)), abs(ddy(uvMain)), facing, depth);
+    return LTSKKS_GetLayeredProcessedAlphaGrad(uv0, uv1, uv2, uv3, uvMat, uvMain, abs(ddx(uvMain)), abs(ddy(uvMain)), posWS, facing, depth);
 }
 
 void LTSKKS_ClipAlpha(float alpha, float cutoff)
@@ -158,7 +199,9 @@ void LTSKKS_ClipTransparentPrepassAlpha(float alpha, float4 screenPos)
 
 float4 LTSKKS_PremultiplyTransparentColor(float4 color)
 {
-    #if defined(LTSKKS_RENDER_TRANSPARENT) || defined(LTSKKS_RENDER_ONEPASS_TRANSPARENT) || defined(LTSKKS_RENDER_TWOPASS_TRANSPARENT)
+    #if defined(LTSKKS_REFRACTION)
+        color.rgb *= saturate(color.a);
+    #elif defined(LTSKKS_RENDER_TRANSPARENT) || defined(LTSKKS_RENDER_ONEPASS_TRANSPARENT) || defined(LTSKKS_RENDER_TWOPASS_TRANSPARENT)
         #if defined(LTSKKS_PASS_FORWARDADD)
             color.rgb *= saturate(color.a * _AlphaBoostFA);
         #else
@@ -172,7 +215,7 @@ float4 LTSKKS_PremultiplyTransparentColor(float4 color)
 
 void LTSKKS_ApplyAlphaMask(inout LTSKKSFragData fd)
 {
-    fd.col.a = LTSKKS_ApplyAlphaMaskValue(fd.col.a, fd.uv0);
+    fd.col.a = LTSKKS_ApplyAlphaMaskValue(fd.col.a, fd.uvMain);
 }
 
 void LTSKKS_ApplyOpaqueAlpha(inout LTSKKSFragData fd)
@@ -183,6 +226,7 @@ void LTSKKS_ApplyOpaqueAlpha(inout LTSKKSFragData fd)
 void LTSKKS_ApplyCutoutAlpha(inout LTSKKSFragData fd, float4 screenPos)
 {
     LTSKKS_ApplyAlphaMask(fd);
+    LTSKKS_ApplyGlobalDissolve(fd);
     fd.col.a = LTSKKS_ApplyDitherToAlpha(fd.col.a, screenPos);
     LTSKKS_ClipAlpha(fd.col.a, _Cutoff);
 }
@@ -190,6 +234,7 @@ void LTSKKS_ApplyCutoutAlpha(inout LTSKKSFragData fd, float4 screenPos)
 void LTSKKS_ApplyTransparentAlpha(inout LTSKKSFragData fd, float4 screenPos)
 {
     LTSKKS_ApplyAlphaMask(fd);
+    LTSKKS_ApplyGlobalDissolve(fd);
     #if defined(LTSKKS_TRANSPARENT_PRE)
         fd.col *= _PreColor;
         LTSKKS_ClipAlpha(fd.col.a, _PreCutoff);
@@ -200,8 +245,14 @@ void LTSKKS_ApplyTransparentAlpha(inout LTSKKSFragData fd, float4 screenPos)
 
 void LTSKKS_ApplyRenderAlpha(inout LTSKKSFragData fd, float4 screenPos)
 {
+    #if defined(LTSKKS_KKS_SKIN)
+        LTSKKS_ClipKKSSkinBodyMask(fd.uv0);
+    #endif
     #if defined(LTSKKS_RENDER_CUTOUT)
         LTSKKS_ApplyCutoutAlpha(fd, screenPos);
+    #elif defined(LTSKKS_REFRACTION) || defined(LTSKKS_GEM)
+        LTSKKS_ApplyAlphaMask(fd);
+        LTSKKS_ApplyGlobalDissolve(fd);
     #elif defined(LTSKKS_RENDER_TRANSPARENT) || defined(LTSKKS_RENDER_ONEPASS_TRANSPARENT) || defined(LTSKKS_RENDER_TWOPASS_TRANSPARENT)
         LTSKKS_ApplyTransparentAlpha(fd, screenPos);
     #else

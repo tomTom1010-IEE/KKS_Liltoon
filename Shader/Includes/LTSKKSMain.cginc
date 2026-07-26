@@ -30,11 +30,18 @@ float2 LTSKKS_GetMain3rdUV(LTSKKSFragData fd)
 
 void LTSKKS_ApplyMain(inout LTSKKSFragData fd)
 {
-    fd.uvMain = LTSKKS_CalcUV(fd.uv0, _MainTex_ST, _MainTex_ScrollRotate);
+    #if defined(LTSKKS_PASS_FUR)
+        fd.uvMain = LTSKKS_CalcUV(fd.uv0, _MainTex_ST, _MainTex_ScrollRotate);
+    #else
+        fd.uvMain = LTSKKS_CalcMainUV(fd.uv0, fd.facing, _ShiftBackfaceUV, _MainTex_ST, _MainTex_ScrollRotate);
+    #endif
     fd.ddxMain = abs(ddx(fd.uvMain));
     fd.ddyMain = abs(ddy(fd.uvMain));
     LTSKKS_ApplyMainParallax(fd);
     float4 mainTex = LTSKKS_SampleMainTexAfterParallax(fd.uvMain, fd.ddxMain, fd.ddyMain);
+    #if defined(LTSKKS_KKS_SKIN)
+        mainTex.rgb = LTSKKS_ApplyKKSSkinMainColor(fd, mainTex.rgb);
+    #endif
     float3 beforeToneCorrection = mainTex.rgb;
     float colorAdjustMask = LTSKKS_SAMPLE_TEX(_MainColorAdjustMask, fd.uvMain).r;
     mainTex.rgb = LTSKKS_ToneCorrection(mainTex.rgb, _MainTexHSVG);
@@ -43,7 +50,13 @@ void LTSKKS_ApplyMain(inout LTSKKSFragData fd)
     mainTex.rgb = lerp(mainTex.rgb, grad, saturate(_MainGradationStrength));
     mainTex.rgb = lerp(beforeToneCorrection, mainTex.rgb, saturate(colorAdjustMask));
 
-    fd.col = mainTex * _Color;
+    #if defined(LTSKKS_KKS_SKIN)
+        // KKS body logic writes _Color independently of the skin color slots.
+        // SkinPlus-style body tinting is controlled exclusively by _Col0-3.
+        fd.col = mainTex;
+    #else
+        fd.col = mainTex * _Color;
+    #endif
 }
 
 bool LTSKKS_IsLayerVisibleForFace(float cullMode, float facing)
@@ -77,6 +90,7 @@ float LTSKKS_BlendLayerAlpha(float baseAlpha, float layerAlpha, float alphaMode)
 void LTSKKS_ApplyMain2ndLayer(inout LTSKKSFragData fd)
 {
     fd.main2ndLayer = 0.0;
+    fd.main2ndDissolveAlpha = 0.0;
     if(_UseMain2ndTex < 0.5) return;
     if(!LTSKKS_IsLayerVisibleForFace(_Main2ndTex_Cull, fd.facing)) return;
     float2 uv = LTSKKS_GetMain2ndUV(fd);
@@ -85,6 +99,7 @@ void LTSKKS_ApplyMain2ndLayer(inout LTSKKSFragData fd)
     layer.a *= LTSKKS_DecalUVAlpha(uv, _Main2ndTexIsDecal);
     float mask = LTSKKS_SAMPLE_TEX(_Main2ndBlendMask, fd.uvMain).r;
     layer.a *= mask;
+    LTSKKS_ApplyDissolve(layer.a, fd.main2ndDissolveAlpha, fd.uv0, fd.posWS, 1);
     layer.a = LTSKKS_ApplyLayerDistanceFade(layer.a, fd.depth, _Main2ndDistanceFade);
     float layerBlendAlpha = layer.a;
     if(_Main2ndTexAlphaMode > 0.5)
@@ -100,6 +115,7 @@ void LTSKKS_ApplyMain2ndLayer(inout LTSKKSFragData fd)
 void LTSKKS_ApplyMain3rdLayer(inout LTSKKSFragData fd)
 {
     fd.main3rdLayer = 0.0;
+    fd.main3rdDissolveAlpha = 0.0;
     if(_UseMain3rdTex < 0.5) return;
     if(!LTSKKS_IsLayerVisibleForFace(_Main3rdTex_Cull, fd.facing)) return;
     float2 uv = LTSKKS_GetMain3rdUV(fd);
@@ -108,6 +124,7 @@ void LTSKKS_ApplyMain3rdLayer(inout LTSKKSFragData fd)
     layer.a *= LTSKKS_DecalUVAlpha(uv, _Main3rdTexIsDecal);
     float mask = LTSKKS_SAMPLE_TEX(_Main3rdBlendMask, fd.uvMain).r;
     layer.a *= mask;
+    LTSKKS_ApplyDissolve(layer.a, fd.main3rdDissolveAlpha, fd.uv0, fd.posWS, 2);
     layer.a = LTSKKS_ApplyLayerDistanceFade(layer.a, fd.depth, _Main3rdDistanceFade);
     float layerBlendAlpha = layer.a;
     if(_Main3rdTexAlphaMode > 0.5)

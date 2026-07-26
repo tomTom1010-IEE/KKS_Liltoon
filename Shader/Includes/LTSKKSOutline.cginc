@@ -6,6 +6,7 @@
 #include "AutoLight.cginc"
 #include "LTSKKSCommon.cginc"
 #include "LTSKKSInput.cginc"
+#include "LTSKKSOpenLit.cginc"
 #include "LTSKKSParallax.cginc"
 #include "LTSKKSAlpha.cginc"
 
@@ -22,41 +23,41 @@ struct LTSKKSOutlineAppData
     UNITY_VERTEX_INPUT_INSTANCE_ID
 };
 
-float3 LTSKKS_OutlineGetLightDirection(float3 posWS)
-{
-    float3 lightVector = _WorldSpaceLightPos0.xyz - posWS * _WorldSpaceLightPos0.w;
-    return normalize(lightVector);
-}
-
-float3 LTSKKS_OutlineApplyLightColorOptions(float3 lightColor)
-{
-    lightColor = min(max(lightColor, float3(_LightMinLimit, _LightMinLimit, _LightMinLimit)), float3(_LightMaxLimit, _LightMaxLimit, _LightMaxLimit));
-    float gray = dot(lightColor, float3(0.299, 0.587, 0.114));
-    lightColor = lerp(lightColor, float3(gray, gray, gray), saturate(_MonochromeLighting));
-    return lerp(lightColor, 1.0, saturate(_AsUnlit));
-}
-
-float3 LTSKKS_OutlineGetLightColor(float attenuation)
-{
-    return LTSKKS_OutlineApplyLightColorOptions(_LightColor0.rgb * attenuation * _lilDirectionalLightStrength);
-}
-
 float3 LTSKKS_OutlineGetVertexLightColor(float3 posWS)
 {
-    float3 vertexLight = 0.0;
-    #if defined(LIGHTPROBE_SH) && defined(VERTEXLIGHT_ON)
-        float4 toLightX = unity_4LightPosX0 - posWS.x;
-        float4 toLightY = unity_4LightPosY0 - posWS.y;
-        float4 toLightZ = unity_4LightPosZ0 - posWS.z;
-        float4 lengthSq = toLightX * toLightX + toLightY * toLightY + toLightZ * toLightZ + 0.000001;
-        float4 atten = saturate(saturate((25.0 - lengthSq * unity_4LightAtten0) * 0.111375) / (0.987725 + lengthSq * unity_4LightAtten0)) * saturate(_VertexLightStrength);
-
-        vertexLight += unity_LightColor[0].rgb * atten.x;
-        vertexLight += unity_LightColor[1].rgb * atten.y;
-        vertexLight += unity_LightColor[2].rgb * atten.z;
-        vertexLight += unity_LightColor[3].rgb * atten.w;
+    #if !defined(LTSKKS_PASS_FORWARDADD) && UNITY_SHOULD_SAMPLE_SH
+        return LTSKKS_OpenLitComputeAdditionalLights(posWS) * saturate(_VertexLightStrength);
+    #else
+        return 0.0;
     #endif
-    return vertexLight;
+}
+
+void LTSKKS_OutlinePrepareLighting(float3 posWS, float attenuation, out float3 lightDirection, out float3 lightColor)
+{
+    #if defined(LTSKKS_PASS_FORWARDADD)
+        lightDirection = normalize(UnityWorldSpaceLightDir(posWS));
+        lightColor = LTSKKS_OpenLitCorrectAdditionalLight(
+            _LightColor0.rgb * attenuation,
+            _LightMaxLimit,
+            _MonochromeLighting,
+            _AsUnlit);
+    #else
+        LTSKKSOpenLitLightData lightData;
+        LTSKKS_OpenLitComputeLights(
+            lightData,
+            _LightDirectionOverride,
+            posWS,
+            _lilDirectionalLightStrength);
+        lightData.directLight += LTSKKS_OutlineGetVertexLightColor(posWS);
+        LTSKKS_OpenLitCorrectBaseLights(
+            lightData,
+            _LightMinLimit,
+            _LightMaxLimit,
+            _MonochromeLighting,
+            _AsUnlit);
+        lightDirection = lightData.lightDirection;
+        lightColor = lightData.directLight;
+    #endif
 }
 
 float LTSKKS_GetOutlineWidth(float2 uv, float4 color)
@@ -108,7 +109,6 @@ struct LTSKKSOutlineShadowV2F
     V2F_SHADOW_CASTER;
     float4 uv01 : TEXCOORD1;
     float4 uv23 : TEXCOORD2;
-    float2 uvMain : TEXCOORD3;
     float2 uvMat : TEXCOORD4;
     float3 posWS : TEXCOORD5;
     float3 normalWS : TEXCOORD6;
@@ -128,7 +128,6 @@ LTSKKSOutlineShadowV2F vert(LTSKKSOutlineAppData v)
     float3 outlineOS;
     o.uv01 = float4(v.texcoord.xy, v.texcoord1.xy);
     o.uv23 = float4(v.texcoord2.xy, v.texcoord3.xy);
-    o.uvMain = LTSKKS_CalcUV(v.texcoord.xy, _MainTex_ST, _MainTex_ScrollRotate);
     o.normalWS = UnityObjectToWorldNormal(v.normal);
     o.tangentWS = float4(UnityObjectToWorldDir(v.tangent.xyz), v.tangent.w * unity_WorldTransformParams.w);
     o.uvMat = LTSKKS_MatCapUV(o.normalWS).xy;
@@ -143,13 +142,16 @@ float4 frag(LTSKKSOutlineShadowV2F i, fixed facing : VFACE) : SV_Target
 {
     UNITY_SETUP_INSTANCE_ID(i);
     if(_Invisible > 0.5 || _UseOutline < 0.5) discard;
+    #if defined(LTSKKS_KKS_SKIN)
+        LTSKKS_ClipKKSSkinBodyMask(i.uv01.xy);
+    #endif
     float depth = length(_WorldSpaceCameraPos.xyz - i.posWS);
     float2 uv0 = i.uv01.xy;
-    float2 uvMain = i.uvMain;
+    float2 uvMain = LTSKKS_CalcMainUV(uv0, facing, _ShiftBackfaceUV, _MainTex_ST, _MainTex_ScrollRotate);
     float2 ddxMain = abs(ddx(uvMain));
     float2 ddyMain = abs(ddy(uvMain));
     LTSKKS_ApplyAuxiliaryMainParallax(uvMain, uv0, i.posWS, i.normalWS, i.tangentWS);
-    float alpha = LTSKKS_GetLayeredProcessedAlphaGrad(uv0, i.uv01.zw, i.uv23.xy, i.uv23.zw, i.uvMat, uvMain, ddxMain, ddyMain, facing, depth);
+    float alpha = LTSKKS_GetLayeredProcessedAlphaGrad(uv0, i.uv01.zw, i.uv23.xy, i.uv23.zw, i.uvMat, uvMain, ddxMain, ddyMain, i.posWS, facing, depth);
     LTSKKS_ClipShadowAlpha(alpha, i.pos);
     SHADOW_CASTER_FRAGMENT(i)
 }
@@ -162,7 +164,6 @@ struct LTSKKSOutlineV2F
     float2 uv : TEXCOORD0;
     float3 normalWS : TEXCOORD1;
     float3 posWS : TEXCOORD2;
-    float2 uvMain : TEXCOORD5;
     float4 uv01 : TEXCOORD6;
     float4 uv23 : TEXCOORD7;
     float3 baseNormalWS : TEXCOORD8;
@@ -187,7 +188,6 @@ LTSKKSOutlineV2F vert(LTSKKSOutlineAppData v)
 
     o.pos = UnityObjectToClipPos(float4(positionOS, 1.0));
     o.uv = uv;
-    o.uvMain = LTSKKS_CalcUV(v.texcoord.xy, _MainTex_ST, _MainTex_ScrollRotate);
     o.uv01 = float4(v.texcoord.xy, v.texcoord1.xy);
     o.uv23 = float4(v.texcoord2.xy, v.texcoord3.xy);
     o.baseNormalWS = UnityObjectToWorldNormal(v.normal);
@@ -203,19 +203,22 @@ float4 frag(LTSKKSOutlineV2F i, fixed facing : VFACE) : SV_Target
 {
     UNITY_SETUP_INSTANCE_ID(i);
     if(_Invisible > 0.5 || _UseOutline < 0.5) discard;
-    #if defined(LTSKKS_RENDER_CUTOUT) || defined(LTSKKS_RENDER_TRANSPARENT) || defined(LTSKKS_RENDER_ONEPASS_TRANSPARENT) || defined(LTSKKS_RENDER_TWOPASS_TRANSPARENT)
+    #if defined(LTSKKS_KKS_SKIN)
+        LTSKKS_ClipKKSSkinBodyMask(i.uv01.xy);
+    #endif
+    #if defined(LTSKKS_RENDER_CUTOUT) || defined(LTSKKS_RENDER_TRANSPARENT) || defined(LTSKKS_RENDER_ONEPASS_TRANSPARENT) || defined(LTSKKS_RENDER_TWOPASS_TRANSPARENT) || defined(LTSKKS_REFRACTION)
         float depth = length(_WorldSpaceCameraPos.xyz - i.posWS);
         float2 uv0 = i.uv01.xy;
-        float2 uvMain = i.uvMain;
+        float2 uvMain = LTSKKS_CalcMainUV(uv0, facing, _ShiftBackfaceUV, _MainTex_ST, _MainTex_ScrollRotate);
         float2 ddxMain = abs(ddx(uvMain));
         float2 ddyMain = abs(ddy(uvMain));
         LTSKKS_ApplyAuxiliaryMainParallax(uvMain, uv0, i.posWS, i.baseNormalWS, i.tangentWS);
         float2 uvMat = LTSKKS_MatCapUV(normalize(i.baseNormalWS)).xy;
-        float outlineAlpha = LTSKKS_GetLayeredProcessedAlphaGrad(uv0, i.uv01.zw, i.uv23.xy, i.uv23.zw, uvMat, uvMain, ddxMain, ddyMain, facing, depth);
+        float outlineAlpha = LTSKKS_GetLayeredProcessedAlphaGrad(uv0, i.uv01.zw, i.uv23.xy, i.uv23.zw, uvMat, uvMain, ddxMain, ddyMain, i.posWS, facing, depth);
         #if defined(LTSKKS_RENDER_CUTOUT)
             outlineAlpha = LTSKKS_ApplyDitherToAlpha(outlineAlpha, i.pos);
             LTSKKS_ClipAlpha(outlineAlpha, _Cutoff);
-        #else
+        #elif !defined(LTSKKS_REFRACTION)
             LTSKKS_ClipAlpha(outlineAlpha, _Cutoff);
             LTSKKS_ClipSubpassAlpha(outlineAlpha, i.pos);
         #endif
@@ -224,20 +227,17 @@ float4 frag(LTSKKSOutlineV2F i, fixed facing : VFACE) : SV_Target
     float4 col = tex2D(_OutlineTex, i.uv);
     col.rgb = LTSKKS_ToneCorrection(col.rgb, _OutlineTexHSVG);
 
+    UNITY_LIGHT_ATTENUATION(attenuation, i, i.posWS);
+    float3 l;
+    float3 lightColor;
+    LTSKKS_OutlinePrepareLighting(i.posWS, attenuation, l, lightColor);
+
     float3 n = normalize(i.normalWS);
-    float3 l = LTSKKS_OutlineGetLightDirection(i.posWS);
     float outlineNdotL = dot(normalize(mul((float3x3)UNITY_MATRIX_V, n).xy), normalize(mul((float3x3)UNITY_MATRIX_V, l).xy)) * 0.5 + 0.5;
     float3 outlineLitColor = (_OutlineLitApplyTex > 0.5) ? col.rgb * _OutlineLitColor.rgb : _OutlineLitColor.rgb;
     float outlineLitFactor = saturate(outlineNdotL * _OutlineLitScale + _OutlineLitOffset) * _OutlineLitColor.a;
-
-    UNITY_LIGHT_ATTENUATION(attenuation, i, i.posWS);
     if(_OutlineLitShadowReceive > 0.5) outlineLitFactor *= attenuation;
 
-    float3 lightColor = LTSKKS_OutlineGetLightColor(attenuation);
-    #if !defined(LTSKKS_PASS_FORWARDADD)
-        float3 vertexLightColor = LTSKKS_OutlineGetVertexLightColor(i.posWS);
-        lightColor = LTSKKS_OutlineApplyLightColorOptions(_LightColor0.rgb * attenuation * _lilDirectionalLightStrength + vertexLightColor);
-    #endif
     col.rgb = lerp(col.rgb * _OutlineColor.rgb, outlineLitColor, outlineLitFactor);
     col.rgb = lerp(col.rgb, col.rgb * lightColor, saturate(_OutlineEnableLighting));
     col.a *= _OutlineColor.a;
