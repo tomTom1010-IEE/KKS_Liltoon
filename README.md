@@ -30,6 +30,7 @@ The goal is not to reproduce the entire VRChat runtime inside KKS. Instead, this
 ### KKS Adaptation Series
 
 - `lilToonKKSSkin` - Opaque lilToon lighting with native KKS body texture, mask, overlay, normal, alpha, emission, and regional sweat/liquid controls
+- `lilToonKKSLiquidOverlay` - Depthless premultiplied liquid helper for stacking KKS regional liquid controls over another lilToon material, with OpenLit base/point lighting, liquid normals, GGX specular, and environment reflection
 
 ### Lite Series
 
@@ -87,6 +88,7 @@ All shaders are exposed directly through `manifest.xml` without `Hidden/...` nam
 | Tessellation | Medium-high | Five hull/domain shader variants keep Forward, Outline, Depth, and Shadow geometry consistent |
 | Fur | Medium-high | Geometry-layer fur, direction/length/noise/masks/AO/rim, stable randomization, and TwoPass rendering are implemented |
 | KKS Skin | Initial usable | Main opaque shading adapted to KKS body assets, including color masks, overlays, fixed normal/alpha/Texture2/Texture3 names, detail smoothness, and regional sweat color/normal controls rendered through the lilToon path |
+| KKS Liquid Overlay | Initial usable | Independent same-mesh liquid layer with native KKS region controls, OpenLit point-light response, packed liquid normal, GGX highlights, probe/fallback reflection, premultiplied transparency, and no depth/prepass/ShadowCaster behavior |
 | Dissolve | High | Global and Main2nd/Main3rd mask, UV, and object modes, animated noise, and edge emission are connected to forward, depth, shadow, and outline paths |
 | Refraction | Medium-high | GrabPass Fresnel refraction and roughness blur are implemented; the KKS blur variant uses a practical single-pass approximation |
 | Gem | High | Dedicated additive gem path with chromatic background refraction, chromatic environment reflection, internal particles, MatCap, Rim, Glitter, and Emission |

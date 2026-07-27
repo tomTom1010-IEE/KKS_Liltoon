@@ -2,7 +2,7 @@
 <manifest schema-ver="1">
   <guid>tom.lilToon.KKS</guid>
   <name>lilToon KKS</name>
-  <version>1.0.1</version>
+  <version>1.0.2</version>
   <author>tomTom</author>
   <description>lilToon-compatible shaders for Koikatsu Sunshine MaterialEditor.</description>
   <website>https://github.com/tomTom1010-IEE/KKS_Liltoon</website>
@@ -8787,6 +8787,53 @@
       <Property Name="DissolveColor" Category="Dissolve" Type="Color" />
       <Property Name="DissolveParams" Category="Dissolve" Type="Color" />
       <Property Name="DissolvePos" Category="Dissolve" Type="Color" />
+    </Shader>
+    <Shader Name="lilToonKKSLiquidOverlay" AssetBundle="chara/tom/liltoon/shaders/liltoon.unity3d" Asset="a_lilToonKKSLiquidOverlay">
+      <Property Name="Texture2" Category="KKS Liquid" Type="Texture" />
+      <Property Name="Texture3" Category="KKS Liquid" Type="Texture" />
+      <Property Name="liquidmask" Category="KKS Liquid" Type="Texture" />
+      <Property Name="LiquidTiling" Category="KKS Liquid" Type="Color" />
+      <Property Name="liquidftop" Category="KKS Liquid" Type="Float" Range="0,2" />
+      <Property Name="liquidfbot" Category="KKS Liquid" Type="Float" Range="0,2" />
+      <Property Name="liquidbtop" Category="KKS Liquid" Type="Float" Range="0,2" />
+      <Property Name="liquidbbot" Category="KKS Liquid" Type="Float" Range="0,2" />
+      <Property Name="liquidface" Category="KKS Liquid" Type="Float" Range="0,2" />
+
+      <Property Name="LiquidColor" Category="Liquid Appearance" Type="Color" />
+      <Property Name="LiquidOpacity" Category="Liquid Appearance" Type="Float" Range="0,1" />
+      <Property Name="LiquidNormalScale" Category="Liquid Appearance" Type="Float" Range="0,2" />
+      <Property Name="LiquidSmoothness" Category="Liquid Appearance" Type="Float" Range="0,1" />
+      <Property Name="LiquidReflectance" Category="Liquid Appearance" Type="Float" Range="0,1" />
+      <Property Name="LiquidSpecularStrength" Category="Liquid Appearance" Type="Float" Range="0,4" />
+      <Property Name="LiquidReflectionStrength" Category="Liquid Appearance" Type="Float" Range="0,4" />
+      <Property Name="LiquidFresnelStrength" Category="Liquid Appearance" Type="Float" Range="0,1" />
+      <Property Name="LiquidFresnelPower" Category="Liquid Appearance" Type="Float" Range="0.01,20" />
+      <Property Name="LiquidReceiveShadow" Category="Liquid Appearance" Type="Float" Range="0,1" />
+      <Property Name="LiquidEnableLighting" Category="Liquid Appearance" Type="Float" Range="0,1" />
+      <Property Name="LiquidCutoff" Category="Liquid Appearance" Type="Float" Range="0,1" />
+      <Property Name="LiquidApplySpecularFA" Category="Liquid Appearance" Type="Float" Range="0,1" />
+
+      <Property Name="UseBaseNormalMap" Category="Base Normal" Type="Float" Range="0,1" />
+      <Property Name="BaseNormalMap" Category="Base Normal" Type="Texture" />
+      <Property Name="BaseNormalScale" Category="Base Normal" Type="Float" Range="-10,10" />
+
+      <Property Name="LiquidReflectionCubeTex" Category="Environment Reflection" Type="Texture" />
+      <Property Name="LiquidReflectionCubeColor" Category="Environment Reflection" Type="Color" />
+      <Property Name="LiquidReflectionCubeOverride" Category="Environment Reflection" Type="Float" Range="0,1" />
+      <Property Name="LiquidReflectionCubeEnableLighting" Category="Environment Reflection" Type="Float" Range="0,1" />
+
+      <Property Name="AsUnlit" Category="OpenLit" Type="Float" Range="0,1" />
+      <Property Name="VertexLightStrength" Category="OpenLit" Type="Float" Range="0,1" />
+      <Property Name="LightMinLimit" Category="OpenLit" Type="Float" Range="0,1" />
+      <Property Name="LightMaxLimit" Category="OpenLit" Type="Float" Range="0,10" />
+      <Property Name="MonochromeLighting" Category="OpenLit" Type="Float" Range="0,1" />
+      <Property Name="lilDirectionalLightStrength" Category="OpenLit" Type="Float" Range="0,1" />
+      <Property Name="LightDirectionOverride" Category="OpenLit" Type="Color" />
+      <Property Name="BeforeExposureLimit" Category="OpenLit" Type="Float" />
+
+      <Property Name="Cull" Category="Overlay Rendering" Type="Float" Range="0,2" />
+      <Property Name="OffsetFactor" Category="Overlay Rendering" Type="Float" />
+      <Property Name="OffsetUnits" Category="Overlay Rendering" Type="Float" />
     </Shader>
   </MaterialEditor>
   <game>Koikatsu Sunshine</game>
