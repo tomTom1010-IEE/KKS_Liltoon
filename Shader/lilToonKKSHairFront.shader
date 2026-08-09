@@ -1,4 +1,4 @@
-Shader "lilToonKKSSkin"
+Shader "lilToonKKSHairFront"
 {
     Properties
     {
@@ -19,75 +19,22 @@ Shader "lilToonKKSSkin"
         _AlphaBoostFA ("sAlphaBoostFA", Range(1, 100)) = 10
         _lilDirectionalLightStrength ("sDirectionalLightStrength", Range(0, 1)) = 1
         _LightDirectionOverride ("sLightDirectionOverrides", Vector) = (0.001,0.002,0.001,0)
-        _AAStrength ("sAAShading", Range(0, 1)) = 0.7
+        _AAStrength ("sAAShading", Range(0, 1)) = 1
         _UseDither ("sDither", Int) = 0
         [NoScaleOffset] _DitherTex ("Dither", 2D) = "white" {}
         _DitherMaxValue ("Max Value", Float) = 255
         _EnvRimBorder ("[VRCLV] Rim Border", Range(0, 3)) = 3
         _EnvRimBlur ("[VRCLV] Rim Blur", Range(0, 1)) = 0.35
+        _KKSFrontHairOpacity ("KKS Front Hair Opacity", Range(0, 1)) = 0.35
 
         // Main
-        [HideInInspector] _Color ("Unused KKS Body Color", Color) = (1,1,1,1)
+        [HDR] [MainColor] _Color ("sColor", Color) = (1,1,1,1)
         [MainTexture] _MainTex ("Texture", 2D) = "white" {}
         _MainTex_ScrollRotate ("sScrollRotates", Vector) = (0,0,0,0)
         _MainTexHSVG ("sHSVGs", Vector) = (0,1,1,1)
         _MainGradationStrength ("Gradation Strength", Range(0, 1)) = 0
         [NoScaleOffset] _MainGradationTex ("Gradation Map", 2D) = "white" {}
         [NoScaleOffset] _MainColorAdjustMask ("Adjust Mask", 2D) = "white" {}
-
-        // KKS Skin Assets
-        _ColMask ("Color Mask", 2D) = "black" {}
-        [Gamma] _Col0 ("Color 0", Color) = (1,1,1,1)
-        [Gamma] _Col1 ("Color 1", Color) = (1,1,1,1)
-        [Gamma] _Col2 ("Color 2", Color) = (1,1,1,1)
-        [Gamma] _Col3 ("Color 3", Color) = (1,1,1,1)
-        _overtex1 ("Over Tex 1", 2D) = "black" {}
-        [Gamma] _overcolor1 ("Over Color 1", Color) = (1,1,1,1)
-        _overtex2 ("Over Tex 2", 2D) = "black" {}
-        [Gamma] _overcolor2 ("Over Color 2", Color) = (1,1,1,1)
-        _overtex3 ("Over Tex 3", 2D) = "black" {}
-        [Gamma] _overcolor3 ("Over Color 3", Color) = (1,1,1,1)
-        [Normal] _NormalMap ("Normal Map", 2D) = "bump" {}
-        [Normal] _NormalMapDetail ("Normal Map Detail", 2D) = "bump" {}
-        _NormalMapScale ("Normal Map Scale", Range(-10,10)) = 1
-        _DetailNormalMapScale ("Detail Normal Map Scale", Range(-10,10)) = 0.45
-        _DetailMask ("Detail Mask", 2D) = "white" {}
-        _LineMask ("Line Mask", 2D) = "black" {}
-        _EmissionMask ("Emission Mask", 2D) = "black" {}
-        _EmissionIntensity ("Emission Intensity", Float) = 1
-        _EmissionMaskMode ("Emission Mask Mode", Int) = 0
-
-        // KKS single-channel face grade / directional distance field
-        _KKSFaceGradeMap ("KKS Face Grade Map", 2D) = "gray" {}
-        _KKSFaceGradeMode ("Face Grade Mode (0 Off, 1 Direct, 2 Mirrored)", Range(0,2)) = 0
-        _KKSFaceGradeStrength ("Face Grade Strength", Range(0,1)) = 1
-        _KKSFaceGradeOffset ("Face Grade Offset", Range(-1,1)) = 0
-        _KKSFaceGradeInvert ("Face Grade Invert", Range(0,1)) = 0
-        _KKSFaceGradeDirectionOffset ("Face Direction Offset", Range(-180,180)) = 0
-
-        // KKS Skin Liquid / Sweat
-        _liquidmask ("Liquid Region Mask", 2D) = "black" {}
-        _Texture2 ("KKS Liquid Pattern (Texture2)", 2D) = "black" {}
-        _Texture3 ("KKS Liquid Normal (Texture3)", 2D) = "bump" {}
-        _LiquidPatternTex ("Liquid Pattern (R/G)", 2D) = "black" {}
-        _LiquidNormalMap ("Liquid Normal (Packed AG)", 2D) = "bump" {}
-        _LiquidUVTransform ("Liquid UV (Offset U/V, Scale U/V)", Vector) = (0,0,2,2)
-        _UseLiquidCustomTextures ("Use Custom Liquid Textures", Range(0,1)) = 0
-        _liquidftop ("Liquid Front Top", Range(0,2)) = 0
-        _liquidfbot ("Liquid Front Bottom", Range(0,2)) = 0
-        _liquidbtop ("Liquid Back Top", Range(0,2)) = 0
-        _liquidbbot ("Liquid Back Bottom", Range(0,2)) = 0
-        _liquidface ("Liquid Face", Range(0,2)) = 0
-        [HDR] _LiquidColor ("Liquid Color (RGBA)", Color) = (1,1,1,0.15)
-        _LiquidNormalScale ("Liquid Normal Scale", Range(0,2)) = 1
-        _LiquidSmoothness ("Liquid Smoothness", Range(0,1)) = 0.9
-
-        _nipsize ("Nipple Size", Range(0,1)) = 0.5
-        _nip ("Nipple / Lip Overlay", Range(0,1)) = 0
-        _nip_specular ("Nipple Specular", Range(0,1)) = 0.5
-        _tex1mask ("Overlay 1 Mask Mode", Float) = 0
-        _alpha_a ("Body Alpha A", Float) = 1
-        _alpha_b ("Body Alpha B", Float) = 1
 
         // Parallax
         _UseParallax ("sParallax", Int) = 0
@@ -163,11 +110,14 @@ Shader "lilToonKKSSkin"
         _AlphaMaskValue ("Offset", Float) = 0
 
         // NormalMap
-        _UseBumpMap ("sNormalMap", Int) = 1
+        _UseBumpMap ("sNormalMap", Int) = 0
+        [Normal] _BumpMap ("Normal Map", 2D) = "bump" {}
         _BumpScale ("Scale", Range(-10, 10)) = 1
-        _UseBump2ndMap ("sNormalMap2nd", Int) = 1
+        _UseBump2ndMap ("sNormalMap2nd", Int) = 0
+        [Normal] _Bump2ndMap ("Normal Map", 2D) = "bump" {}
         _Bump2ndMap_UVMode ("UV Mode", Int) = 0
         _Bump2ndScale ("Scale", Range(-10, 10)) = 1
+        [NoScaleOffset] _Bump2ndScaleMask ("Mask", 2D) = "white" {}
 
         // Anisotropy
         _UseAnisotropy ("sAnisotropy", Int) = 0
@@ -204,7 +154,7 @@ Shader "lilToonKKSSkin"
 
         // Shadow
         _UseShadow ("sShadow", Int) = 1
-        _ShadowStrength ("sStrength", Range(0, 1)) = 0.75
+        _ShadowStrength ("sStrength", Range(0, 1)) = 1
         [NoScaleOffset] _ShadowStrengthMask ("sStrength", 2D) = "white" {}
         _ShadowStrengthMaskLOD ("LOD", Range(0, 1)) = 0
         [NoScaleOffset] _ShadowBorderMask ("sBorder", 2D) = "white" {}
@@ -218,8 +168,8 @@ Shader "lilToonKKSSkin"
         _ShadowColor ("Shadow Color", Color) = (0.82,0.76,0.85,1)
         [NoScaleOffset] _ShadowColorTex ("Shadow Color", 2D) = "black" {}
         _ShadowNormalStrength ("sNormalStrength", Range(0, 1)) = 1
-        _ShadowBorder ("sBorder", Range(0, 1)) = 0.5
-        _ShadowBlur ("sBlur", Range(0, 1)) = 0.22
+        _ShadowBorder ("sBorder", Range(0, 1)) = 0.58
+        _ShadowBlur ("sBlur", Range(0, 1)) = 0.3
         _ShadowReceive ("sReceiveShadow", Range(0, 1)) = 0
         _Shadow2ndColor ("2nd Color", Color) = (0.68,0.66,0.79,1)
         [NoScaleOffset] _Shadow2ndColorTex ("2nd Color", 2D) = "black" {}
@@ -235,7 +185,7 @@ Shader "lilToonKKSSkin"
         _Shadow3rdReceive ("sReceiveShadow", Range(0, 1)) = 0
         _ShadowBorderColor ("sShadowBorderColor", Color) = (1,0.1,0,1)
         _ShadowBorderRange ("sShadowBorderRange", Range(0, 1)) = 0.08
-        _ShadowMainStrength ("sContrast", Range(0, 1)) = 0
+        _ShadowMainStrength ("sContrast", Range(0, 1)) = 0.3
         _ShadowEnvStrength ("sShadowEnvStrength", Range(0, 1)) = 0
         _ShadowMaskType ("sShadowMaskTypes", Int) = 0
         _ShadowFlatBorder ("sBorder", Range(-2, 2)) = 1
@@ -251,16 +201,16 @@ Shader "lilToonKKSSkin"
         _RimShadeFresnelPower ("sFresnelPower", Range(0.01, 50)) = 1
 
         // Reflection
-        _UseReflection ("sReflection", Int) = 1
-        _Smoothness ("Smoothness", Range(0, 1)) = 0.64
+        _UseReflection ("sReflection", Int) = 0
+        _Smoothness ("Smoothness", Range(0, 1)) = 1
         [NoScaleOffset] _SmoothnessTex ("Smoothness", 2D) = "white" {}
         [Gamma] _Metallic ("Metallic", Range(0, 1)) = 0
         [NoScaleOffset] _MetallicGlossMap ("Metallic", 2D) = "white" {}
-        [Gamma] _Reflectance ("sReflectance", Range(0, 1)) = 0.06
-        _GSAAStrength ("GSAA", Range(0, 1)) = 0.35
+        [Gamma] _Reflectance ("sReflectance", Range(0, 1)) = 0.04
+        _GSAAStrength ("GSAA", Range(0, 1)) = 0
         _ApplySpecular ("Apply Specular", Int) = 1
         _ApplySpecularFA ("sMultiLightSpecular", Int) = 1
-        _SpecularToon ("Specular Toon", Int) = 0
+        _SpecularToon ("Specular Toon", Int) = 1
         _SpecularNormalStrength ("sNormalStrength", Range(0, 1)) = 1
         _SpecularBorder ("sBorder", Range(0, 1)) = 0.5
         _SpecularBlur ("sBlur", Range(0, 1)) = 0
@@ -320,14 +270,14 @@ Shader "lilToonKKSSkin"
         _MatCap2ndBlendUV1 ("sBlendUV1", Vector) = (0,0,0,0)
 
         // Rim
-        _UseRim ("sRimLight", Int) = 0
+        _UseRim ("sRimLight", Int) = 1
         [HDR] _RimColor ("sColor", Color) = (0.66,0.5,0.48,1)
         [NoScaleOffset] _RimColorTex ("Texture", 2D) = "white" {}
         _RimMainStrength ("sMainColorPower", Range(0, 1)) = 0
         _RimNormalStrength ("sNormalStrength", Range(0, 1)) = 1
         [HDR] _RimIndirColor ("sColor", Color) = (1,1,1,1)
-        _RimBorder ("sBorder", Range(0, 1)) = 0.5
-        _RimBlur ("sBlur", Range(0, 1)) = 0.65
+        _RimBorder ("sBorder", Range(0, 1)) = 0.62
+        _RimBlur ("sBlur", Range(0, 1)) = 0.54
         _RimFresnelPower ("sFresnelPower", Range(0.01, 50)) = 3.5
         _RimShadowMask ("sShadowMask", Range(0, 1)) = 0.5
         _RimBackfaceMask ("sBackfaceMask", Int) = 1
@@ -365,8 +315,9 @@ Shader "lilToonKKSSkin"
         _GlitterVRParallaxStrength ("sVRParallaxStrength", Range(0, 1)) = 0
 
         // Emission
-        _UseEmission ("sEmission", Int) = 1
+        _UseEmission ("sEmission", Int) = 0
         [HDR] _EmissionColor ("sColor", Color) = (1,1,1,1)
+        _EmissionMap ("Texture", 2D) = "white" {}
         _EmissionMap_ScrollRotate ("sScrollRotates", Vector) = (0,0,0,0)
         _EmissionMainStrength ("sMainColorPower", Range(0, 1)) = 0
         [NoScaleOffset] _EmissionBlendMask ("Mask", 2D) = "white" {}
@@ -422,8 +373,8 @@ Shader "lilToonKKSSkin"
 
         // Outline Advanced
         _OutlineCull ("sCullModes", Int) = 1
-        _OutlineSrcBlend ("sSrcBlendRGB", Int) = 1
-        _OutlineDstBlend ("sDstBlendRGB", Int) = 0
+        _OutlineSrcBlend ("sSrcBlendRGB", Int) = 5
+        _OutlineDstBlend ("sDstBlendRGB", Int) = 10
         _OutlineSrcBlendAlpha ("sSrcBlendAlpha", Int) = 1
         _OutlineDstBlendAlpha ("sDstBlendAlpha", Int) = 10
         _OutlineBlendOp ("sBlendOpRGB", Int) = 0
@@ -437,10 +388,10 @@ Shader "lilToonKKSSkin"
         _OutlineZClip ("sZClip", Int) = 1
         _OutlineZWrite ("sZWrite", Int) = 1
         _OutlineZTest ("sZTest", Int) = 2
-        _OutlineStencilRef ("Ref", Range(0, 255)) = 0
+        _OutlineStencilRef ("Ref", Range(0, 255)) = 2
         _OutlineStencilReadMask ("ReadMask", Range(0, 255)) = 255
         _OutlineStencilWriteMask ("WriteMask", Range(0, 255)) = 255
-        _OutlineStencilComp ("Comp", Float) = 8
+        _OutlineStencilComp ("Comp", Float) = 6
         _OutlineStencilPass ("Pass", Float) = 0
         _OutlineStencilFail ("Fail", Float) = 0
         _OutlineStencilZFail ("ZFail", Float) = 0
@@ -466,7 +417,7 @@ Shader "lilToonKKSSkin"
         // Rendering
         _Cull ("sCullModes", Int) = 0
         _SrcBlend ("sSrcBlendRGB", Int) = 1
-        _DstBlend ("sDstBlendRGB", Int) = 0
+        _DstBlend ("sDstBlendRGB", Int) = 10
         _SrcBlendAlpha ("sSrcBlendAlpha", Int) = 1
         _DstBlendAlpha ("sDstBlendAlpha", Int) = 10
         _BlendOp ("sBlendOpRGB", Int) = 0
@@ -480,10 +431,10 @@ Shader "lilToonKKSSkin"
         _ZClip ("sZClip", Int) = 1
         _ZWrite ("sZWrite", Int) = 1
         _ZTest ("sZTest", Int) = 4
-        _StencilRef ("Ref", Range(0, 255)) = 0
+        _StencilRef ("Ref", Range(0, 255)) = 2
         _StencilReadMask ("ReadMask", Range(0, 255)) = 255
         _StencilWriteMask ("WriteMask", Range(0, 255)) = 255
-        _StencilComp ("Comp", Float) = 8
+        _StencilComp ("Comp", Float) = 6
         _StencilPass ("Pass", Float) = 0
         _StencilFail ("Fail", Float) = 0
         _StencilZFail ("ZFail", Float) = 0
@@ -491,74 +442,79 @@ Shader "lilToonKKSSkin"
         _OffsetUnits ("sOffsetUnits", Float) = 0
         _ColorMask ("sColorMask", Int) = 15
         _AlphaToMask ("sAlphaToMask", Int) = 0
+        [HDR] _PreColor ("Pre Color", Color) = (1,1,1,1)
+        _PreOutType ("Pre Out Type", Int) = 0
+        _PreCutoff ("Pre Cutoff", Range(-0.001, 1.001)) = 0.5
+        _PreCull ("Pre Cull Mode", Int) = 0
+        _PreSrcBlend ("Pre Src Blend RGB", Int) = 1
+        _PreDstBlend ("Pre Dst Blend RGB", Int) = 10
+        _PreSrcBlendAlpha ("Pre Src Blend Alpha", Int) = 1
+        _PreDstBlendAlpha ("Pre Dst Blend Alpha", Int) = 10
+        _PreBlendOp ("Pre BlendOp RGB", Int) = 0
+        _PreBlendOpAlpha ("Pre BlendOp Alpha", Int) = 0
+        _PreSrcBlendFA ("Pre Src Blend RGB FA", Int) = 1
+        _PreDstBlendFA ("Pre Dst Blend RGB FA", Int) = 1
+        _PreSrcBlendAlphaFA ("Pre Src Blend Alpha FA", Int) = 0
+        _PreDstBlendAlphaFA ("Pre Dst Blend Alpha FA", Int) = 1
+        _PreBlendOpFA ("Pre BlendOp RGB FA", Int) = 4
+        _PreBlendOpAlphaFA ("Pre BlendOp Alpha FA", Int) = 4
+        _PreZClip ("Pre ZClip", Int) = 1
+        _PreZWrite ("Pre ZWrite", Int) = 1
+        _PreZTest ("Pre ZTest", Int) = 4
+        _PreStencilRef ("Pre Ref", Range(0, 255)) = 2
+        _PreStencilReadMask ("Pre ReadMask", Range(0, 255)) = 255
+        _PreStencilWriteMask ("Pre WriteMask", Range(0, 255)) = 255
+        _PreStencilComp ("Pre Comp", Float) = 6
+        _PreStencilPass ("Pre Pass", Float) = 0
+        _PreStencilFail ("Pre Fail", Float) = 0
+        _PreStencilZFail ("Pre ZFail", Float) = 0
+        _PreOffsetFactor ("Pre Offset Factor", Float) = 0
+        _PreOffsetUnits ("Pre Offset Units", Float) = 0
+        _PreColorMask ("Pre ColorMask", Int) = 15
+        _PreAlphaToMask ("Pre AlphaToMask", Int) = 0
         _lilShadowCasterBias ("Shadow Caster Bias", Float) = 0
     }
 
     SubShader
     {
-        Tags { "RenderType" = "Opaque" "Queue" = "Geometry" }
+        Tags { "RenderType" = "Transparent" "Queue" = "AlphaTest+25" }
         LOD 300
 
+        // Outside the eye stencil, retain the full one-pass transparent depth strategy.
+        UsePass "lilToonOnePassTransparent/DEPTH_PREPASS"
+        UsePass "lilToonOnePassTransparent/DEPTH_ONLY"
+        UsePass "lilToonOnePassTransparent/OUTLINE"
+        UsePass "lilToonOnePassTransparent/FORWARD"
+        UsePass "lilToonTransparent/FORWARD_ADD"
+        UsePass "lilToonTransparent/FORWARD_ADD_OUTLINE"
+
+        // Inside the KKS eye stencil, render the same lilToon shading with controlled alpha
+        // and without writing depth so the eyes remain visible through front hair.
         Pass
         {
-            Name "OUTLINE"
+            Name "FORWARD_EYE"
             Tags { "LightMode" = "ForwardBase" }
 
             Stencil
             {
-                Ref [_OutlineStencilRef]
-                ReadMask [_OutlineStencilReadMask]
-                WriteMask [_OutlineStencilWriteMask]
-                Comp [_OutlineStencilComp]
-                Pass [_OutlineStencilPass]
-                Fail [_OutlineStencilFail]
-                ZFail [_OutlineStencilZFail]
-            }
-            Cull [_OutlineCull]
-            ZWrite [_OutlineZWrite]
-            ZClip [_OutlineZClip]
-            ZTest [_OutlineZTest]
-            Offset [_OutlineOffsetFactor], [_OutlineOffsetUnits]
-            ColorMask [_OutlineColorMask]
-            Blend [_OutlineSrcBlend] [_OutlineDstBlend], [_OutlineSrcBlendAlpha] [_OutlineDstBlendAlpha]
-            BlendOp [_OutlineBlendOp], [_OutlineBlendOpAlpha]
-            AlphaToMask [_OutlineAlphaToMask]
-
-            CGPROGRAM
-            #pragma target 3.0
-            #pragma vertex vert
-            #pragma fragment frag
-            #pragma multi_compile_fwdbase
-            #pragma multi_compile_fog
-            #pragma multi_compile_instancing
-            #define LTSKKS_PASS_OUTLINE 1
-            #define LTSKKS_KKS_SKIN 1
-            #include "Includes/LTSKKSOutline.cginc"
-            ENDCG
-        }
-        Pass
-        {
-            Name "FORWARD"
-            Tags { "LightMode" = "ForwardBase" }
-
-            Stencil
-            {
-                Ref [_StencilRef]
-                ReadMask [_StencilReadMask]
-                WriteMask [_StencilWriteMask]
-                Comp [_StencilComp]
-                Pass [_StencilPass]
-                Fail [_StencilFail]
-                ZFail [_StencilZFail]
+                Ref 2
+                ReadMask 255
+                WriteMask 0
+                Comp Equal
+                Pass Keep
+                Fail Keep
+                ZFail Keep
             }
             Cull [_Cull]
-            ZWrite [_ZWrite]
+            ZWrite Off
             ZClip [_ZClip]
             ZTest [_ZTest]
             Offset [_OffsetFactor], [_OffsetUnits]
             ColorMask [_ColorMask]
-            Blend [_SrcBlend] [_DstBlend], [_SrcBlendAlpha] [_DstBlendAlpha]
-            BlendOp [_BlendOp], [_BlendOpAlpha]
+            // LTSKKSForward outputs premultiplied transparent RGB. Keep this pass
+            // independent from render-state values retained by KKS materials.
+            Blend One OneMinusSrcAlpha, One OneMinusSrcAlpha
+            BlendOp Add, Add
             AlphaToMask [_AlphaToMask]
 
             CGPROGRAM
@@ -568,36 +524,38 @@ Shader "lilToonKKSSkin"
             #pragma multi_compile_fwdbase
             #pragma multi_compile_fog
             #pragma multi_compile_instancing
-            #define LTSKKS_RENDER_OPAQUE 1
+            #define LTSKKS_RENDER_ONEPASS_TRANSPARENT 1
             #define LTSKKS_PASS_FORWARD 1
-            #define LTSKKS_KKS_SKIN 1
+            #define LTSKKS_KKS_HAIR_FRONT_EYE 1
             #include "Includes/LTSKKSForward.cginc"
             ENDCG
         }
 
         Pass
         {
-            Name "FORWARD_ADD"
+            Name "FORWARD_ADD_EYE"
             Tags { "LightMode" = "ForwardAdd" }
 
             Stencil
             {
-                Ref [_StencilRef]
-                ReadMask [_StencilReadMask]
-                WriteMask [_StencilWriteMask]
-                Comp [_StencilComp]
-                Pass [_StencilPass]
-                Fail [_StencilFail]
-                ZFail [_StencilZFail]
+                Ref 2
+                ReadMask 255
+                WriteMask 0
+                Comp Equal
+                Pass Keep
+                Fail Keep
+                ZFail Keep
             }
             Cull [_Cull]
             ZWrite Off
             ZClip [_ZClip]
-            ZTest [_ZTest]
+            ZTest LEqual
             Offset [_OffsetFactor], [_OffsetUnits]
             ColorMask [_ColorMask]
-            Blend [_SrcBlendFA] [_DstBlendFA], [_SrcBlendAlphaFA] [_DstBlendAlphaFA]
-            BlendOp [_BlendOpFA], [_BlendOpAlphaFA]
+            // Match lilToon's default ForwardAdd state without inheriting stale
+            // KKS material values that can replace the eye pass with black.
+            Blend One One, Zero One
+            BlendOp Max, Max
             AlphaToMask [_AlphaToMask]
 
             CGPROGRAM
@@ -607,66 +565,18 @@ Shader "lilToonKKSSkin"
             #pragma multi_compile_fwdadd_fullshadows
             #pragma multi_compile_fog
             #pragma multi_compile_instancing
-            #define LTSKKS_RENDER_OPAQUE 1
+            #define LTSKKS_RENDER_ONEPASS_TRANSPARENT 1
             #define LTSKKS_PASS_FORWARDADD 1
-            #define LTSKKS_KKS_SKIN 1
+            #define LTSKKS_KKS_HAIR_FRONT_EYE 1
             #include "Includes/LTSKKSForward.cginc"
             ENDCG
         }
 
-        Pass
-        {
-            Name "FORWARD_ADD_OUTLINE"
-            Tags { "LightMode" = "ForwardAdd" }
-
-            Stencil
-            {
-                Ref [_OutlineStencilRef]
-                ReadMask [_OutlineStencilReadMask]
-                WriteMask [_OutlineStencilWriteMask]
-                Comp [_OutlineStencilComp]
-                Pass [_OutlineStencilPass]
-                Fail [_OutlineStencilFail]
-                ZFail [_OutlineStencilZFail]
-            }
-            Cull [_OutlineCull]
-            ZWrite Off
-            ZClip [_OutlineZClip]
-            ZTest LEqual
-            Offset [_OutlineOffsetFactor], [_OutlineOffsetUnits]
-            ColorMask [_OutlineColorMask]
-            Blend [_OutlineSrcBlendFA] [_OutlineDstBlendFA], [_OutlineSrcBlendAlphaFA] [_OutlineDstBlendAlphaFA]
-            BlendOp [_OutlineBlendOpFA], [_OutlineBlendOpAlphaFA]
-            AlphaToMask [_OutlineAlphaToMask]
-
-            CGPROGRAM
-            #pragma target 3.0
-            #pragma vertex vert
-            #pragma fragment frag
-            #pragma multi_compile_fwdadd_fullshadows
-            #pragma multi_compile_fog
-            #pragma multi_compile_instancing
-            #define LTSKKS_PASS_OUTLINE 1
-            #define LTSKKS_PASS_FORWARDADD 1
-            #define LTSKKS_KKS_SKIN 1
-            #include "Includes/LTSKKSOutline.cginc"
-            ENDCG
-        }
-
+        // Stencil only controls camera visibility; the hair casts one ordinary shadow.
         Pass
         {
             Name "SHADOW_CASTER"
             Tags { "LightMode" = "ShadowCaster" }
-            Stencil
-            {
-                Ref [_StencilRef]
-                ReadMask [_StencilReadMask]
-                WriteMask [_StencilWriteMask]
-                Comp [_StencilComp]
-                Pass [_StencilPass]
-                Fail [_StencilFail]
-                ZFail [_StencilZFail]
-            }
             Cull [_Cull]
             Offset 1, 1
 
@@ -676,8 +586,7 @@ Shader "lilToonKKSSkin"
             #pragma fragment frag
             #pragma multi_compile_shadowcaster
             #pragma multi_compile_instancing
-            #define LTSKKS_RENDER_OPAQUE 1
-            #define LTSKKS_KKS_SKIN 1
+            #define LTSKKS_RENDER_ONEPASS_TRANSPARENT 1
             #include "Includes/LTSKKSShadowCaster.cginc"
             ENDCG
         }
@@ -686,16 +595,6 @@ Shader "lilToonKKSSkin"
         {
             Name "SHADOW_CASTER_OUTLINE"
             Tags { "LightMode" = "ShadowCaster" }
-            Stencil
-            {
-                Ref [_StencilRef]
-                ReadMask [_StencilReadMask]
-                WriteMask [_StencilWriteMask]
-                Comp [_StencilComp]
-                Pass [_StencilPass]
-                Fail [_StencilFail]
-                ZFail [_StencilZFail]
-            }
             Cull [_Cull]
             Offset 1, 1
 
@@ -705,10 +604,9 @@ Shader "lilToonKKSSkin"
             #pragma fragment frag
             #pragma multi_compile_shadowcaster
             #pragma multi_compile_instancing
-            #define LTSKKS_RENDER_OPAQUE 1
+            #define LTSKKS_RENDER_ONEPASS_TRANSPARENT 1
             #define LTSKKS_PASS_OUTLINE 1
             #define LTSKKS_PASS_OUTLINE_SHADOWCASTER 1
-            #define LTSKKS_KKS_SKIN 1
             #include "Includes/LTSKKSOutline.cginc"
             ENDCG
         }

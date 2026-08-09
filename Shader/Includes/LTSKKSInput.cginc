@@ -13,6 +13,10 @@ float _MainGradationStrength;
 UNITY_DECLARE_TEX2D_NOSAMPLER(_MainGradationTex);
 UNITY_DECLARE_TEX2D_NOSAMPLER(_MainColorAdjustMask);
 
+#if defined(LTSKKS_KKS_HAIR_FRONT_EYE)
+float _KKSFrontHairOpacity;
+#endif
+
 // KKS body material compatibility. Compiled only by lilToonKKSSkin.
 #if defined(LTSKKS_KKS_SKIN)
 UNITY_DECLARE_TEX2D(_ColMask);
@@ -49,6 +53,13 @@ UNITY_DECLARE_TEX2D_NOSAMPLER(_EmissionMask);
 float4 _EmissionMask_ST;
 float _EmissionIntensity;
 float _EmissionMaskMode;
+UNITY_DECLARE_TEX2D(_KKSFaceGradeMap);
+float4 _KKSFaceGradeMap_ST;
+float _KKSFaceGradeMode;
+float _KKSFaceGradeStrength;
+float _KKSFaceGradeOffset;
+float _KKSFaceGradeInvert;
+float _KKSFaceGradeDirectionOffset;
 UNITY_DECLARE_TEX2D(_Texture2);
 UNITY_DECLARE_TEX2D_NOSAMPLER(_Texture3);
 UNITY_DECLARE_TEX2D_NOSAMPLER(_LiquidPatternTex);
