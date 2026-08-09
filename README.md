@@ -26,11 +26,15 @@ The goal is not to reproduce the entire VRChat runtime inside KKS. Instead, this
 - `lilToonTransparent`
 - `lilToonOnePassTransparent`
 - `lilToonTwoPassTransparent`
+- `lilToonTransparentFullDepth`
+- `lilToonTwoPassTransparentFullDepth`
 
 ### KKS Adaptation Series
 
-- `lilToonKKSSkin` - Opaque lilToon lighting with native KKS body texture, mask, overlay, normal, alpha, emission, and regional sweat/liquid controls
-- `lilToonKKSLiquidOverlay` - Depthless premultiplied liquid helper for stacking KKS regional liquid controls over another lilToon material, with OpenLit base/point lighting, liquid normals, GGX specular, and environment reflection
+- `lilToonKKSSkin` - Opaque lilToon lighting with native KKS body texture, mask, overlay, normal, alpha, emission, regional sweat/liquid controls, and optional directional face-grade shading
+- `lilToonKKSLiquidOverlay` - Alpha-blended KKS liquid helper with configurable depth writing and the shared OpenLit, shadow, rim shade, specular/reflection, MatCap, and rim pipelines
+- `lilToonKKSHair` - KKS hair preset built on the lilToon one-pass transparent pipeline with native hair cutoff and render ordering
+- `lilToonKKSHairFront` - Stencil-aware front-hair variant that preserves translucent hair over the KKS eye region
 
 ### Lite Series
 
@@ -74,7 +78,7 @@ All shaders are exposed directly through `manifest.xml` without `Hidden/...` nam
 | --- | --- | --- |
 | Main / Main2nd / Main3rd | High | Main color, layered textures, UV modes, decals, alpha modes, and blend masks are implemented |
 | Alpha / Cutout | High | MainTex alpha, AlphaMask, Main2nd/3rd alpha modes, Cutoff, and Dither are implemented |
-| Transparent / TwoPass | High | Continuous alpha, depth prepass, SubpassCutoff, OnePass, and front/back TwoPass rendering are implemented |
+| Transparent / TwoPass | High | Continuous alpha, dithered depth prepass, OnePass, front/back TwoPass, and non-dithered full-depth Transparent/TwoPass variants are implemented |
 | Normal Maps | High | Primary and secondary normal maps, scale masks, and Unity/KKS normal unpacking are implemented |
 | Shadows | High | 1st/2nd/3rd shadows, AO, masks, mask LOD, receive shadow, and flat shadow are implemented |
 | Specular / Reflection | Medium-high | Toon specular, GGX, metallic, smoothness, GSAA, anisotropy, and basic cubemap paths are implemented |
@@ -111,7 +115,7 @@ The common lilToon feature set used by KKS clothing materials is already broadly
 - KKS uses Unity 2019's Built-in Render Pipeline. Scene lighting, indirect light, reflection probes, and transparency sorting differ from VRChat environments.
 - MaterialEditor cannot run the lilToon custom Inspector. Users must select the appropriate shader variant and configure its properties manually.
 - Some upstream dropdown controls are exposed through numeric ranges or separate MaterialEditor categories.
-- TwoPass/depth rendering uses screen-space dither to reduce transparent self-sorting artifacts. The original 4x4 pattern may be visible at low resolutions.
+- Standard TwoPass/depth rendering uses screen-space dither to reduce transparent self-sorting artifacts. The `FullDepth` variants replace it with a hard alpha threshold for stable, resolution-independent depth at the cost of occluding transparent layers behind the nearest surface.
 - POM, Tessellation, and Fur can be expensive, especially with multiple lights, shadows, and outlines enabled.
 - Fur touch/collision is intentionally disabled. Fur randomization uses stable vertex IDs and does not change when an object moves through world space.
 

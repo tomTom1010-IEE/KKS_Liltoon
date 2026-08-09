@@ -184,7 +184,11 @@ float LTSKKS_ApplyDitherToAlpha(float alpha, float4 screenPos)
 void LTSKKS_ClipSubpassAlpha(float alpha, float4 screenPos)
 {
     #if defined(LTSKKS_RENDER_TRANSPARENT) || defined(LTSKKS_RENDER_ONEPASS_TRANSPARENT) || defined(LTSKKS_RENDER_TWOPASS_TRANSPARENT)
-        LTSKKS_ClipAlpha(LTSKKS_GetSubpassDitherAlpha(alpha, screenPos), _SubpassCutoff);
+        #if defined(LTSKKS_TRANSPARENT_FULL_DEPTH)
+            LTSKKS_ClipAlpha(alpha, _SubpassCutoff);
+        #else
+            LTSKKS_ClipAlpha(LTSKKS_GetSubpassDitherAlpha(alpha, screenPos), _SubpassCutoff);
+        #endif
     #endif
 }
 

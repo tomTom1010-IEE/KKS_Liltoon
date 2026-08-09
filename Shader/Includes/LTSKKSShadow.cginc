@@ -9,6 +9,10 @@
 #define UNITY_SAMPLE_TEX2D_SAMPLER_GRAD(texName, samplerName, coord, dx, dy) texName.SampleGrad(sampler##samplerName, coord, dx, dy)
 #endif
 
+#if defined(LTSKKS_KKS_SKIN)
+    #include "LTSKKSKKSFaceGrade.cginc"
+#endif
+
 float LTSKKS_TooningNoSaturateAAScale(float value, float border, float blur)
 {
     float borderMin = saturate(border - blur * 0.5);
@@ -143,6 +147,10 @@ void LTSKKS_ApplyShadow(inout LTSKKSFragData fd)
     lns.x = saturate(dot(fd.L, n1) * 0.5 + 0.5);
     lns.y = saturate(dot(fd.L, n2) * 0.5 + 0.5);
     lns.z = saturate(dot(fd.L, n3) * 0.5 + 0.5);
+
+    #if defined(LTSKKS_KKS_SKIN)
+        LTSKKS_ApplyKKSFaceGrade(fd, lns, shadowAAStrength);
+    #endif
 
     if(_ShadowMaskType >= 1.5 && _ShadowMaskType < 2.5)
     {

@@ -94,6 +94,10 @@ float4 frag(LTSKKSV2F i, fixed facing : VFACE) : SV_Target
     #endif
     LTSKKS_ApplyRenderAlpha(fd, i.pos);
 
+    #if defined(LTSKKS_KKS_HAIR_FRONT_EYE)
+        fd.col.a *= saturate(_KKSFrontHairOpacity);
+    #endif
+
     #if defined(LTSKKS_TRANSPARENT_PRE)
         if(_PreOutType > 0.5)
         {

@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: m_lilToonTwoPassTransparent
-  m_Shader: {fileID: 4800000, guid: 8142b5fec40e2fb408c0f89b41ec56a3, type: 3}
+  m_Name: m_lilToonKKSHairFront
+  m_Shader: {fileID: 4800000, guid: 06d40c99b97dc2a47b3e8bd16cde20ce, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -270,7 +270,7 @@ Material:
     - _Bump2ndScale: 1
     - _BumpScale: 1
     - _ColorMask: 15
-    - _Cull: 2
+    - _Cull: 0
     - _Cutoff: 0.001
     - _DissolveNoiseStrength: 0.1
     - _DistanceFadeMode: 0
@@ -315,6 +315,7 @@ Material:
     - _GlitterUVMode: 0
     - _GlitterVRParallaxStrength: 0
     - _Invisible: 0
+    - _KKSFrontHairOpacity: 0.35
     - _LightMaxLimit: 1
     - _LightMinLimit: 0.05
     - _Main2ndDissolveNoiseStrength: 0.1
@@ -355,7 +356,6 @@ Material:
     - _MatCap2ndEnableLighting: 1
     - _MatCap2ndLod: 0
     - _MatCap2ndMainStrength: 0
-    - _MatCap2ndMul: 0
     - _MatCap2ndNormalStrength: 1
     - _MatCap2ndPerspective: 1
     - _MatCap2ndShadowMask: 0
@@ -370,7 +370,6 @@ Material:
     - _MatCapEnableLighting: 1
     - _MatCapLod: 0
     - _MatCapMainStrength: 0
-    - _MatCapMul: 0
     - _MatCapNormalStrength: 1
     - _MatCapPerspective: 1
     - _MatCapShadowMask: 0
@@ -389,7 +388,7 @@ Material:
     - _OutlineCull: 1
     - _OutlineDeleteMesh: 0
     - _OutlineDisableInVR: 0
-    - _OutlineDstBlend: 0
+    - _OutlineDstBlend: 10
     - _OutlineDstBlendAlpha: 10
     - _OutlineDstBlendAlphaFA: 1
     - _OutlineDstBlendFA: 1
@@ -401,15 +400,15 @@ Material:
     - _OutlineLitShadowReceive: 0
     - _OutlineOffsetFactor: 0
     - _OutlineOffsetUnits: 0
-    - _OutlineSrcBlend: 1
+    - _OutlineSrcBlend: 5
     - _OutlineSrcBlendAlpha: 1
     - _OutlineSrcBlendAlphaFA: 0
     - _OutlineSrcBlendFA: 1
-    - _OutlineStencilComp: 8
+    - _OutlineStencilComp: 6
     - _OutlineStencilFail: 0
     - _OutlineStencilPass: 0
     - _OutlineStencilReadMask: 255
-    - _OutlineStencilRef: 0
+    - _OutlineStencilRef: 2
     - _OutlineStencilWriteMask: 255
     - _OutlineStencilZFail: 0
     - _OutlineVectorScale: 1
@@ -428,8 +427,8 @@ Material:
     - _PreBlendOpAlphaFA: 4
     - _PreBlendOpFA: 4
     - _PreColorMask: 15
-    - _PreCull: 1
-    - _PreCutoff: 0.001
+    - _PreCull: 0
+    - _PreCutoff: 0.5
     - _PreDstBlend: 10
     - _PreDstBlendAlpha: 10
     - _PreDstBlendAlphaFA: 1
@@ -441,11 +440,11 @@ Material:
     - _PreSrcBlendAlpha: 1
     - _PreSrcBlendAlphaFA: 0
     - _PreSrcBlendFA: 1
-    - _PreStencilComp: 8
+    - _PreStencilComp: 6
     - _PreStencilFail: 0
     - _PreStencilPass: 0
     - _PreStencilReadMask: 255
-    - _PreStencilRef: 0
+    - _PreStencilRef: 2
     - _PreStencilWriteMask: 255
     - _PreStencilZFail: 0
     - _PreZClip: 1
@@ -460,15 +459,14 @@ Material:
     - _RimApplyTransparency: 1
     - _RimBackfaceMask: 1
     - _RimBlendMode: 1
-    - _RimBlur: 0.65
-    - _RimBorder: 0.5
+    - _RimBlur: 0.54
+    - _RimBorder: 0.62
     - _RimDirRange: 0
     - _RimDirStrength: 0
     - _RimEnableLighting: 1
-    - _RimFresnelPower: 3
+    - _RimFresnelPower: 3.5
     - _RimIndirBlur: 0.1
     - _RimIndirBorder: 0.5
-    - _RimIndirColorStrength: 0
     - _RimIndirRange: 0
     - _RimMainStrength: 0
     - _RimNormalStrength: 1
@@ -476,7 +474,7 @@ Material:
     - _RimShadeBorder: 0.5
     - _RimShadeFresnelPower: 1
     - _RimShadeNormalStrength: 1
-    - _RimShadowMask: 0
+    - _RimShadowMask: 0.5
     - _RimVRParallaxStrength: 1
     - _Shadow2ndBlur: 0.1
     - _Shadow2ndBorder: 0.15
@@ -486,16 +484,16 @@ Material:
     - _Shadow3rdBorder: 0.25
     - _Shadow3rdNormalStrength: 1
     - _Shadow3rdReceive: 0
-    - _ShadowBlur: 0.1
+    - _ShadowBlur: 0.3
     - _ShadowBlurMaskLOD: 0
-    - _ShadowBorder: 0.5
+    - _ShadowBorder: 0.58
     - _ShadowBorderMaskLOD: 0
     - _ShadowBorderRange: 0.08
     - _ShadowColorType: 0
     - _ShadowEnvStrength: 0
     - _ShadowFlatBlur: 1
     - _ShadowFlatBorder: 1
-    - _ShadowMainStrength: 0
+    - _ShadowMainStrength: 0.3
     - _ShadowMaskType: 0
     - _ShadowNormalStrength: 1
     - _ShadowPostAO: 0
@@ -512,11 +510,11 @@ Material:
     - _SrcBlendAlpha: 1
     - _SrcBlendAlphaFA: 0
     - _SrcBlendFA: 1
-    - _StencilComp: 8
+    - _StencilComp: 6
     - _StencilFail: 0
     - _StencilPass: 0
     - _StencilReadMask: 255
-    - _StencilRef: 0
+    - _StencilRef: 2
     - _StencilWriteMask: 255
     - _StencilZFail: 0
     - _SubpassCutoff: 0.5
@@ -536,13 +534,13 @@ Material:
     - _UsePOM: 0
     - _UseParallax: 0
     - _UseReflection: 0
-    - _UseRim: 0
+    - _UseRim: 1
     - _UseRimShade: 0
-    - _UseShadow: 0
-    - _VertexLightStrength: 0
+    - _UseShadow: 1
+    - _VertexLightStrength: 1
     - _ZClip: 1
     - _ZTest: 4
-    - _ZWrite: 0
+    - _ZWrite: 1
     - _lilDirectionalLightStrength: 1
     - _lilShadowCasterBias: 0
     m_Colors:
@@ -600,8 +598,8 @@ Material:
     - _PreColor: {r: 1, g: 1, b: 1, a: 1}
     - _ReflectionColor: {r: 1, g: 1, b: 1, a: 1}
     - _ReflectionCubeColor: {r: 0, g: 0, b: 0, a: 1}
-    - _RimColor: {r: 1, g: 1, b: 1, a: 1}
-    - _RimIndirColor: {r: 0, g: 0, b: 0, a: 1}
+    - _RimColor: {r: 0.66, g: 0.5, b: 0.48, a: 1}
+    - _RimIndirColor: {r: 1, g: 1, b: 1, a: 1}
     - _RimShadeColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     - _Shadow2ndColor: {r: 0.68, g: 0.66, b: 0.79, a: 1}
     - _Shadow3rdColor: {r: 0, g: 0, b: 0, a: 0}
