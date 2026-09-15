@@ -1,10 +1,9 @@
 #ifndef LTSKKS_INPUT_INCLUDED
 #define LTSKKS_INPUT_INCLUDED
 
-#define LTSKKS_SAMPLE_MAIN_TEX(uv) UNITY_SAMPLE_TEX2D(_MainTex, uv)
-#define LTSKKS_SAMPLE_TEX(texName, uv) UNITY_SAMPLE_TEX2D_SAMPLER(texName, _MainTex, uv)
+#include "LTSKKSSampling.cginc"
 
-UNITY_DECLARE_TEX2D(_MainTex);
+UNITY_DECLARE_TEX2D_NOSAMPLER(_MainTex);
 float4 _MainTex_ST;
 float4 _MainTex_ScrollRotate;
 float4 _MainTexHSVG;
@@ -19,16 +18,16 @@ float _KKSFrontHairOpacity;
 
 // KKS body material compatibility. Compiled only by lilToonKKSSkin.
 #if defined(LTSKKS_KKS_SKIN)
-UNITY_DECLARE_TEX2D(_ColMask);
+UNITY_DECLARE_TEX2D_NOSAMPLER(_ColMask);
 float4 _ColMask_ST;
 float4 _Col0;
 float4 _Col1;
 float4 _Col2;
 float4 _Col3;
-// KKS overlay UV sets rely on each texture's own wrap mode outside its authored region.
-UNITY_DECLARE_TEX2D(_overtex1);
-UNITY_DECLARE_TEX2D(_overtex2);
-UNITY_DECLARE_TEX2D(_overtex3);
+// KKS overlays clamp outside their authored region; keep the game UV transforms.
+UNITY_DECLARE_TEX2D_NOSAMPLER(_overtex1);
+UNITY_DECLARE_TEX2D_NOSAMPLER(_overtex2);
+UNITY_DECLARE_TEX2D_NOSAMPLER(_overtex3);
 float4 _overtex1_ST;
 float4 _overtex2_ST;
 float4 _overtex3_ST;
@@ -53,14 +52,14 @@ UNITY_DECLARE_TEX2D_NOSAMPLER(_EmissionMask);
 float4 _EmissionMask_ST;
 float _EmissionIntensity;
 float _EmissionMaskMode;
-UNITY_DECLARE_TEX2D(_KKSFaceGradeMap);
+UNITY_DECLARE_TEX2D_NOSAMPLER(_KKSFaceGradeMap);
 float4 _KKSFaceGradeMap_ST;
 float _KKSFaceGradeMode;
 float _KKSFaceGradeStrength;
 float _KKSFaceGradeOffset;
 float _KKSFaceGradeInvert;
 float _KKSFaceGradeDirectionOffset;
-UNITY_DECLARE_TEX2D(_Texture2);
+UNITY_DECLARE_TEX2D_NOSAMPLER(_Texture2);
 UNITY_DECLARE_TEX2D_NOSAMPLER(_Texture3);
 UNITY_DECLARE_TEX2D_NOSAMPLER(_LiquidPatternTex);
 UNITY_DECLARE_TEX2D_NOSAMPLER(_LiquidNormalMap);
@@ -80,7 +79,6 @@ float _liquidface;
 float4 _LiquidColor;
 float _LiquidNormalScale;
 float _LiquidSmoothness;
-#define LTSKKS_SAMPLE_KKS_SKIN(texName, uv) UNITY_SAMPLE_TEX2D_SAMPLER(texName, _ColMask, uv)
 #endif
 float _UseParallax;
 float _UsePOM;
@@ -182,11 +180,7 @@ float4 _Main3rdDissolvePos;
 float4 _Main3rdDistanceFade;
 
 float _AlphaMaskMode;
-#if defined(LTSKKS_KKS_SKIN)
-UNITY_DECLARE_TEX2D(_AlphaMask);
-#else
 UNITY_DECLARE_TEX2D_NOSAMPLER(_AlphaMask);
-#endif
 float4 _AlphaMask_ST;
 float _AlphaMaskScale;
 float _AlphaMaskValue;
@@ -311,7 +305,7 @@ float _ReflectionBlendMode;
 
 float _UseMatCap;
 float4 _MatCapColor;
-sampler2D _MatCapTex;
+UNITY_DECLARE_TEX2D_NOSAMPLER(_MatCapTex);
 float4 _MatCapTex_ST;
 UNITY_DECLARE_TEX2D_NOSAMPLER(_MatCapBlendMask);
 float4 _MatCapBlendMask_ST;
@@ -335,7 +329,7 @@ float _MatCapMainStrength;
 
 float _UseMatCap2nd;
 float4 _MatCap2ndColor;
-sampler2D _MatCap2ndTex;
+UNITY_DECLARE_TEX2D_NOSAMPLER(_MatCap2ndTex);
 float4 _MatCap2ndTex_ST;
 UNITY_DECLARE_TEX2D_NOSAMPLER(_MatCap2ndBlendMask);
 float4 _MatCap2ndBlendMask_ST;
@@ -389,7 +383,7 @@ float _GlitterMainStrength;
 float _GlitterNormalStrength;
 float _GlitterScaleRandomize;
 float _GlitterApplyShape;
-sampler2D _GlitterShapeTex;
+UNITY_DECLARE_TEX2D_NOSAMPLER(_GlitterShapeTex);
 float4 _GlitterShapeTex_ST;
 float4 _GlitterAtras;
 float _GlitterAngleRandomize;
@@ -403,11 +397,11 @@ float _GlitterBackfaceMask;
 float _GlitterApplyTransparency;
 float _GlitterVRParallaxStrength;
 
-sampler2D _FurNoiseMask;
+UNITY_DECLARE_TEX2D_NOSAMPLER(_FurNoiseMask);
 float4 _FurNoiseMask_ST;
-sampler2D _FurMask;
-sampler2D _FurLengthMask;
-sampler2D _FurVectorTex;
+UNITY_DECLARE_TEX2D_NOSAMPLER(_FurMask);
+UNITY_DECLARE_TEX2D_NOSAMPLER(_FurLengthMask);
+UNITY_DECLARE_TEX2D_NOSAMPLER(_FurVectorTex);
 float _FurVectorScale;
 float4 _FurVector;
 float _VertexColor2FurVector;
@@ -511,7 +505,7 @@ float _GemVRParallaxStrength;
 
 float _UseOutline;
 float4 _OutlineColor;
-sampler2D _OutlineTex;
+UNITY_DECLARE_TEX2D_NOSAMPLER(_OutlineTex);
 float4 _OutlineTex_ST;
 float4 _OutlineTex_ScrollRotate;
 float4 _OutlineTexHSVG;
@@ -521,11 +515,11 @@ float _OutlineLitScale;
 float _OutlineLitOffset;
 float _OutlineLitShadowReceive;
 float _OutlineWidth;
-sampler2D _OutlineWidthMask;
+UNITY_DECLARE_TEX2D_NOSAMPLER(_OutlineWidthMask);
 float _OutlineFixWidth;
 float _OutlineVertexR2Width;
 float _OutlineDeleteMesh;
-sampler2D _OutlineVectorTex;
+UNITY_DECLARE_TEX2D_NOSAMPLER(_OutlineVectorTex);
 float _OutlineVectorUVMode;
 float _OutlineVectorScale;
 float _OutlineEnableLighting;
