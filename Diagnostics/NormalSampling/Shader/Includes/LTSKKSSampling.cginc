@@ -1,0 +1,94 @@
+#ifndef LTSKKS_SAMPLING_INCLUDED
+#define LTSKKS_SAMPLING_INCLUDED
+
+// Fixed addressing, independent of imported textures and ME runtime wrap modes.
+// Unity recognizes the filter/address tokens in these inline sampler names.
+SamplerState sampler_ltskks_linear_repeat;
+SamplerState sampler_ltskks_linear_clamp;
+
+#define LTSKKS_WRAP_MainTex sampler_ltskks_linear_repeat
+#define LTSKKS_WRAP_Main2ndTex sampler_ltskks_linear_repeat
+#define LTSKKS_WRAP_Main3rdTex sampler_ltskks_linear_repeat
+#define LTSKKS_WRAP_BumpMap sampler_ltskks_linear_repeat
+#define LTSKKS_WRAP_Bump2ndMap sampler_ltskks_linear_repeat
+#define LTSKKS_WRAP_ParallaxMap sampler_ltskks_linear_repeat
+#define LTSKKS_WRAP_AnisotropyTangentMap sampler_ltskks_linear_repeat
+// These masks are repeating signal/noise textures, not region masks.
+#define LTSKKS_WRAP_AnisotropyShiftNoiseMask sampler_ltskks_linear_repeat
+#define LTSKKS_WRAP_DissolveNoiseMask sampler_ltskks_linear_repeat
+#define LTSKKS_WRAP_Main2ndDissolveNoiseMask sampler_ltskks_linear_repeat
+#define LTSKKS_WRAP_Main3rdDissolveNoiseMask sampler_ltskks_linear_repeat
+#define LTSKKS_WRAP_FurNoiseMask sampler_ltskks_linear_repeat
+#define LTSKKS_WRAP_ShadowColorTex sampler_ltskks_linear_repeat
+#define LTSKKS_WRAP_Shadow2ndColorTex sampler_ltskks_linear_repeat
+#define LTSKKS_WRAP_Shadow3rdColorTex sampler_ltskks_linear_repeat
+#define LTSKKS_WRAP_BacklightColorTex sampler_ltskks_linear_repeat
+#define LTSKKS_WRAP_RimColorTex sampler_ltskks_linear_repeat
+#define LTSKKS_WRAP_SmoothnessTex sampler_ltskks_linear_repeat
+#define LTSKKS_WRAP_MetallicGlossMap sampler_ltskks_linear_repeat
+#define LTSKKS_WRAP_ReflectionColorTex sampler_ltskks_linear_repeat
+#define LTSKKS_WRAP_MatCapBumpMap sampler_ltskks_linear_repeat
+#define LTSKKS_WRAP_MatCap2ndBumpMap sampler_ltskks_linear_repeat
+#define LTSKKS_WRAP_GlitterColorTex sampler_ltskks_linear_repeat
+#define LTSKKS_WRAP_EmissionMap sampler_ltskks_linear_repeat
+#define LTSKKS_WRAP_Emission2ndMap sampler_ltskks_linear_repeat
+#define LTSKKS_WRAP_OutlineTex sampler_ltskks_linear_repeat
+#define LTSKKS_WRAP_OutlineVectorTex sampler_ltskks_linear_repeat
+#define LTSKKS_WRAP_FurVectorTex sampler_ltskks_linear_repeat
+#define LTSKKS_WRAP_NormalMap sampler_ltskks_linear_repeat
+#define LTSKKS_WRAP_NormalMapDetail sampler_ltskks_linear_repeat
+#define LTSKKS_WRAP_BaseNormalMap sampler_ltskks_linear_repeat
+#define LTSKKS_WRAP_Texture2 sampler_ltskks_linear_repeat
+#define LTSKKS_WRAP_Texture3 sampler_ltskks_linear_repeat
+#define LTSKKS_WRAP_LiquidPatternTex sampler_ltskks_linear_repeat
+#define LTSKKS_WRAP_LiquidNormalMap sampler_ltskks_linear_repeat
+#define LTSKKS_WRAP_DitherTex sampler_ltskks_linear_repeat
+
+#define LTSKKS_WRAP_MainColorAdjustMask sampler_ltskks_linear_clamp
+#define LTSKKS_WRAP_Main2ndBlendMask sampler_ltskks_linear_clamp
+#define LTSKKS_WRAP_Main3rdBlendMask sampler_ltskks_linear_clamp
+#define LTSKKS_WRAP_AlphaMask sampler_ltskks_linear_clamp
+#define LTSKKS_WRAP_Bump2ndScaleMask sampler_ltskks_linear_clamp
+#define LTSKKS_WRAP_AnisotropyScaleMask sampler_ltskks_linear_clamp
+#define LTSKKS_WRAP_ShadowStrengthMask sampler_ltskks_linear_clamp
+#define LTSKKS_WRAP_ShadowBorderMask sampler_ltskks_linear_clamp
+#define LTSKKS_WRAP_ShadowBlurMask sampler_ltskks_linear_clamp
+#define LTSKKS_WRAP_RimShadeMask sampler_ltskks_linear_clamp
+#define LTSKKS_WRAP_MatCapBlendMask sampler_ltskks_linear_clamp
+#define LTSKKS_WRAP_MatCap2ndBlendMask sampler_ltskks_linear_clamp
+#define LTSKKS_WRAP_EmissionBlendMask sampler_ltskks_linear_clamp
+#define LTSKKS_WRAP_Emission2ndBlendMask sampler_ltskks_linear_clamp
+#define LTSKKS_WRAP_DissolveMask sampler_ltskks_linear_clamp
+#define LTSKKS_WRAP_Main2ndDissolveMask sampler_ltskks_linear_clamp
+#define LTSKKS_WRAP_Main3rdDissolveMask sampler_ltskks_linear_clamp
+#define LTSKKS_WRAP_OutlineWidthMask sampler_ltskks_linear_clamp
+#define LTSKKS_WRAP_FurMask sampler_ltskks_linear_clamp
+#define LTSKKS_WRAP_FurLengthMask sampler_ltskks_linear_clamp
+#define LTSKKS_WRAP_TriMask sampler_ltskks_linear_clamp
+#define LTSKKS_WRAP_ColMask sampler_ltskks_linear_clamp
+#define LTSKKS_WRAP_overtex1 sampler_ltskks_linear_clamp
+#define LTSKKS_WRAP_overtex2 sampler_ltskks_linear_clamp
+#define LTSKKS_WRAP_overtex3 sampler_ltskks_linear_clamp
+#define LTSKKS_WRAP_DetailMask sampler_ltskks_linear_clamp
+#define LTSKKS_WRAP_EmissionMask sampler_ltskks_linear_clamp
+#define LTSKKS_WRAP_KKSFaceGradeMap sampler_ltskks_linear_clamp
+#define LTSKKS_WRAP_liquidmask sampler_ltskks_linear_clamp
+
+// Lookup textures use bounded coordinates. Emission gradients loop via frac(time).
+#define LTSKKS_WRAP_MainGradationTex sampler_ltskks_linear_clamp
+#define LTSKKS_WRAP_EmissionGradTex sampler_ltskks_linear_clamp
+#define LTSKKS_WRAP_Emission2ndGradTex sampler_ltskks_linear_clamp
+#define LTSKKS_WRAP_MatCapTex sampler_ltskks_linear_clamp
+#define LTSKKS_WRAP_MatCap2ndTex sampler_ltskks_linear_clamp
+#define LTSKKS_WRAP_GlitterShapeTex sampler_ltskks_linear_clamp
+
+#define LTSKKS_SAMPLE_TEX(tex, uv) tex.Sample(LTSKKS_WRAP##tex, uv)
+#define LTSKKS_SAMPLE_TEX_LOD(tex, uv, lod) tex.SampleLevel(LTSKKS_WRAP##tex, uv, lod)
+#define LTSKKS_SAMPLE_TEX_GRAD(tex, uv, dx, dy) tex.SampleGrad(LTSKKS_WRAP##tex, uv, dx, dy)
+#define LTSKKS_SAMPLE_TEX_LOD4(tex, coord) LTSKKS_SAMPLE_TEX_LOD(tex, (coord).xy, (coord).w)
+// Shadow color textures double as LUTs; only the LUT path must clamp.
+#define LTSKKS_SAMPLE_LUT_LOD(tex, uv, lod) tex.SampleLevel(sampler_ltskks_linear_clamp, uv, lod)
+#define LTSKKS_SAMPLE_MAIN_TEX(uv) LTSKKS_SAMPLE_TEX(_MainTex, uv)
+#define LTSKKS_SAMPLE_KKS_SKIN(tex, uv) LTSKKS_SAMPLE_TEX(tex, uv)
+
+#endif

@@ -63,7 +63,7 @@ void LTSKKS_OutlinePrepareLighting(float3 posWS, float attenuation, out float3 l
 float LTSKKS_GetOutlineWidth(float2 uv, float4 color)
 {
     float width = _OutlineWidth * 0.01;
-    width *= tex2Dlod(_OutlineWidthMask, float4(uv, 0.0, 0.0)).r;
+    width *= LTSKKS_SAMPLE_TEX_LOD4(_OutlineWidthMask, float4(uv, 0.0, 0.0)).r;
     width *= (_OutlineVertexR2Width > 0.5 && _OutlineVertexR2Width < 1.5) ? color.r : 1.0;
     width *= (_OutlineVertexR2Width >= 1.5 && _OutlineVertexR2Width < 2.5) ? color.a : 1.0;
     return width;
@@ -81,7 +81,7 @@ float3 LTSKKS_GetOutlineVectorOS(LTSKKSOutlineAppData v, float2 uv)
     vectorUV = (_OutlineVectorUVMode >= 1.5 && _OutlineVectorUVMode < 2.5) ? v.texcoord2.xy : vectorUV;
     vectorUV = (_OutlineVectorUVMode >= 2.5 && _OutlineVectorUVMode < 3.5) ? v.texcoord3.xy : vectorUV;
 
-    float3 normalTS = LTSKKS_UnpackNormalScale(tex2Dlod(_OutlineVectorTex, float4(vectorUV, 0.0, 0.0)), _OutlineVectorScale);
+    float3 normalTS = LTSKKS_UnpackNormalScale(LTSKKS_SAMPLE_TEX_LOD4(_OutlineVectorTex, float4(vectorUV, 0.0, 0.0)), _OutlineVectorScale);
     float3 outlineOS = normalize(mul(normalTS, tbnOS));
     outlineOS = (_OutlineVertexR2Width >= 1.5 && _OutlineVertexR2Width < 2.5) ? normalize(mul(v.color.rgb * 2.0 - 1.0, tbnOS)) : outlineOS;
     return outlineOS;
@@ -224,7 +224,7 @@ float4 frag(LTSKKSOutlineV2F i, fixed facing : VFACE) : SV_Target
         #endif
     #endif
 
-    float4 col = tex2D(_OutlineTex, i.uv);
+    float4 col = LTSKKS_SAMPLE_TEX(_OutlineTex, i.uv);
     col.rgb = LTSKKS_ToneCorrection(col.rgb, _OutlineTexHSVG);
 
     UNITY_LIGHT_ATTENUATION(attenuation, i, i.posWS);
