@@ -3,9 +3,11 @@ $root = Split-Path $PSScriptRoot -Parent
 $includes = Join-Path $root 'Shader/Includes'
 $policy = Get-Content (Join-Path $includes 'LTSKKSSampling.cginc') -Raw
 $wrap = @{}
-foreach ($m in [regex]::Matches($policy, '(?m)^#define LTSKKS_WRAP(_\w+) sampler_ltskks_linear_(repeat|clamp)$')) {
+$samplers = @{}
+foreach ($m in [regex]::Matches($policy, '(?m)^#define LTSKKS_WRAP(_\w+) (sampler_ltskks_(?:linear|trilinear)_(repeat|clamp)(?:_aniso8)?)\r?$')) {
     if ($wrap.ContainsKey($m.Groups[1].Value)) { throw "Duplicate policy: $($m.Groups[1].Value)" }
-    $wrap[$m.Groups[1].Value] = $m.Groups[2].Value
+    $wrap[$m.Groups[1].Value] = $m.Groups[3].Value
+    $samplers[$m.Groups[1].Value] = $m.Groups[2].Value
 }
 $declarations = @{}
 foreach ($file in Get-ChildItem $includes -Filter '*.cginc') {
@@ -33,6 +35,21 @@ foreach ($tex in @('_MainTex', '_BumpMap', '_Bump2ndMap', '_ParallaxMap', '_Anis
 }
 foreach ($tex in @('_AlphaMask', '_Bump2ndScaleMask', '_AnisotropyScaleMask', '_ShadowStrengthMask', '_liquidmask', '_overtex3', '_MatCapTex', '_MainGradationTex', '_TriMask')) {
     if ($wrap[$tex] -ne 'clamp') { throw "$tex must clamp" }
+}
+$normalTextures = @('_BumpMap', '_Bump2ndMap', '_MatCapBumpMap', '_MatCap2ndBumpMap', '_NormalMap', '_NormalMapDetail', '_BaseNormalMap', '_Texture3', '_LiquidNormalMap')
+foreach ($tex in $normalTextures) {
+    if ($samplers[$tex] -ne 'sampler_ltskks_trilinear_repeat_aniso8') { throw "$tex must use filtered normal Repeat sampler" }
+}
+foreach ($tex in $samplers.Keys) {
+    if ($tex -notin $normalTextures -and $samplers[$tex] -ne ('sampler_ltskks_linear_' + $wrap[$tex])) { throw "Unexpected filter change outside normal textures: $tex" }
+}
+if ([regex]::Matches($policy, '(?m)^SamplerState ').Count -ne 3) { throw 'Expected exactly three shared inline samplers' }
+if ($policy -match '(?m)^#define LTSKKS_SAMPLE_.*\bfrac\(') { throw 'Do not introduce UV derivative discontinuities through frac' }
+$snapshot = Get-Content (Join-Path $root 'Diagnostics/NormalSampling/Shader/Includes/LTSKKSSampling.cginc') -Raw
+$prior = [regex]::Matches($snapshot, '(?m)^#define LTSKKS_WRAP(_\w+) sampler_ltskks_linear_(repeat|clamp)\r?$')
+if ($prior.Count -ne $wrap.Count) { throw 'Texture slot count changed from the diagnostic checkpoint' }
+foreach ($m in $prior) {
+    if ($wrap[$m.Groups[1].Value] -ne $m.Groups[2].Value) { throw ('Addressing changed from checkpoint: ' + $m.Groups[1].Value) }
 }
 $shadow = Get-Content (Join-Path $includes 'LTSKKSShadow.cginc') -Raw
 if ([regex]::Matches($shadow, 'LTSKKS_SAMPLE_LUT_LOD\(').Count -ne 6) { throw 'All shadow LUT samples must clamp' }

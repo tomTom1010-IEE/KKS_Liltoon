@@ -5,12 +5,15 @@
 // Unity recognizes the filter/address tokens in these inline sampler names.
 SamplerState sampler_ltskks_linear_repeat;
 SamplerState sampler_ltskks_linear_clamp;
+// Normal detail needs continuous mip filtering and an elongated sampling footprint.
+// Keep hardware Repeat even when ME supplies a Clamp texture. Do not wrap UVs with frac.
+SamplerState sampler_ltskks_trilinear_repeat_aniso8;
 
 #define LTSKKS_WRAP_MainTex sampler_ltskks_linear_repeat
 #define LTSKKS_WRAP_Main2ndTex sampler_ltskks_linear_repeat
 #define LTSKKS_WRAP_Main3rdTex sampler_ltskks_linear_repeat
-#define LTSKKS_WRAP_BumpMap sampler_ltskks_linear_repeat
-#define LTSKKS_WRAP_Bump2ndMap sampler_ltskks_linear_repeat
+#define LTSKKS_WRAP_BumpMap sampler_ltskks_trilinear_repeat_aniso8
+#define LTSKKS_WRAP_Bump2ndMap sampler_ltskks_trilinear_repeat_aniso8
 #define LTSKKS_WRAP_ParallaxMap sampler_ltskks_linear_repeat
 #define LTSKKS_WRAP_AnisotropyTangentMap sampler_ltskks_linear_repeat
 // These masks are repeating signal/noise textures, not region masks.
@@ -27,21 +30,21 @@ SamplerState sampler_ltskks_linear_clamp;
 #define LTSKKS_WRAP_SmoothnessTex sampler_ltskks_linear_repeat
 #define LTSKKS_WRAP_MetallicGlossMap sampler_ltskks_linear_repeat
 #define LTSKKS_WRAP_ReflectionColorTex sampler_ltskks_linear_repeat
-#define LTSKKS_WRAP_MatCapBumpMap sampler_ltskks_linear_repeat
-#define LTSKKS_WRAP_MatCap2ndBumpMap sampler_ltskks_linear_repeat
+#define LTSKKS_WRAP_MatCapBumpMap sampler_ltskks_trilinear_repeat_aniso8
+#define LTSKKS_WRAP_MatCap2ndBumpMap sampler_ltskks_trilinear_repeat_aniso8
 #define LTSKKS_WRAP_GlitterColorTex sampler_ltskks_linear_repeat
 #define LTSKKS_WRAP_EmissionMap sampler_ltskks_linear_repeat
 #define LTSKKS_WRAP_Emission2ndMap sampler_ltskks_linear_repeat
 #define LTSKKS_WRAP_OutlineTex sampler_ltskks_linear_repeat
 #define LTSKKS_WRAP_OutlineVectorTex sampler_ltskks_linear_repeat
 #define LTSKKS_WRAP_FurVectorTex sampler_ltskks_linear_repeat
-#define LTSKKS_WRAP_NormalMap sampler_ltskks_linear_repeat
-#define LTSKKS_WRAP_NormalMapDetail sampler_ltskks_linear_repeat
-#define LTSKKS_WRAP_BaseNormalMap sampler_ltskks_linear_repeat
+#define LTSKKS_WRAP_NormalMap sampler_ltskks_trilinear_repeat_aniso8
+#define LTSKKS_WRAP_NormalMapDetail sampler_ltskks_trilinear_repeat_aniso8
+#define LTSKKS_WRAP_BaseNormalMap sampler_ltskks_trilinear_repeat_aniso8
 #define LTSKKS_WRAP_Texture2 sampler_ltskks_linear_repeat
-#define LTSKKS_WRAP_Texture3 sampler_ltskks_linear_repeat
+#define LTSKKS_WRAP_Texture3 sampler_ltskks_trilinear_repeat_aniso8
 #define LTSKKS_WRAP_LiquidPatternTex sampler_ltskks_linear_repeat
-#define LTSKKS_WRAP_LiquidNormalMap sampler_ltskks_linear_repeat
+#define LTSKKS_WRAP_LiquidNormalMap sampler_ltskks_trilinear_repeat_aniso8
 #define LTSKKS_WRAP_DitherTex sampler_ltskks_linear_repeat
 
 #define LTSKKS_WRAP_MainColorAdjustMask sampler_ltskks_linear_clamp
