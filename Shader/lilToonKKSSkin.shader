@@ -214,6 +214,7 @@ Shader "lilToonKKSSkin"
         _ShadowAOShift ("1st Scale|1st Offset|2nd Scale|2nd Offset", Vector) = (1,0,1,0)
         _ShadowAOShift2 ("3rd Scale|3rd Offset", Vector) = (1,0,1,0)
         _ShadowPostAO ("sIgnoreBorderProperties", Int) = 0
+        [Toggle] _UseDetailMaskForShadowPost ("Use DetailMask For ShadowPost", Float) = 0
         _ShadowColorType ("sShadowColorTypes", Int) = 0
         _ShadowColor ("Shadow Color", Color) = (0.82,0.76,0.85,1)
         [NoScaleOffset] _ShadowColorTex ("Shadow Color", 2D) = "black" {}

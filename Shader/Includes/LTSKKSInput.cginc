@@ -48,6 +48,7 @@ float _NormalMapScale;
 float _DetailNormalMapScale;
 UNITY_DECLARE_TEX2D_NOSAMPLER(_DetailMask);
 float4 _DetailMask_ST;
+float _UseDetailMaskForShadowPost;
 UNITY_DECLARE_TEX2D_NOSAMPLER(_EmissionMask);
 float4 _EmissionMask_ST;
 float _EmissionIntensity;

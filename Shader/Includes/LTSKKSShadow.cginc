@@ -168,6 +168,16 @@ void LTSKKS_ApplyShadow(inout LTSKKSFragData fd)
     lns.y *= lerp(1.0, calculatedShadow, saturate(_Shadow2ndReceive));
     lns.z *= lerp(1.0, calculatedShadow, saturate(_Shadow3rdReceive));
 
+    #if defined(LTSKKS_KKS_SKIN)
+        // Replace only the post-AO source; preserve the original pre-AO path.
+        if(_ShadowPostAO > 0.5 && _UseDetailMaskForShadowPost > 0.5)
+        {
+            float2 detailUV = LTSKKS_CalcUV(fd.uv0, _DetailMask_ST);
+            float detailAO = 1.0 - LTSKKS_SAMPLE_KKS_SKIN(_DetailMask, detailUV).g;
+            borderMask.rgb = float3(detailAO, detailAO, detailAO);
+        }
+    #endif
+
     borderMask.r = saturate(borderMask.r * _ShadowAOShift.x + _ShadowAOShift.y);
     borderMask.g = saturate(borderMask.g * _ShadowAOShift.z + _ShadowAOShift.w);
     borderMask.b = saturate(borderMask.b * _ShadowAOShift2.x + _ShadowAOShift2.y);

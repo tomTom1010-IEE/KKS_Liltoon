@@ -2,7 +2,7 @@
 <manifest schema-ver="1">
   <guid>tom.lilToon.KKS</guid>
   <name>lilToon KKS</name>
-  <version>1.0.3</version>
+  <version>1.0.4</version>
   <author>tomTom</author>
   <description>lilToon-compatible shaders for Koikatsu Sunshine MaterialEditor.</description>
   <website>https://github.com/tomTom1010-IEE/KKS_Liltoon</website>
@@ -10095,7 +10095,8 @@
       <Property Name="AlphaMask" Category="Alpha Mask" Type="Texture" />
       <Property Name="NormalMap" Category="KKS Skin" Type="Texture" />
       <Property Name="NormalMapDetail" Category="KKS Skin" Type="Texture" />
-      <Property Name="DetailMask" Category="KKS Skin" Type="Texture" />
+      <Property Name="DetailMask" Category="Shadow" Type="Texture" />
+      <Property Name="UseDetailMaskForShadowPost" Category="Shadow" Type="Float" Range="0,1" />
       <Property Name="liquidmask" Category="KKS Skin / Liquid" Type="Texture" />
       <Property Name="Texture2" Category="KKS Skin / Liquid" Type="Texture" />
       <Property Name="Texture3" Category="KKS Skin / Liquid" Type="Texture" />
